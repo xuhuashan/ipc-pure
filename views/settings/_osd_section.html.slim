@@ -1,0 +1,36 @@
+.col-sm-4
+  .panel.panel-default
+    .panel-heading
+      strong = title
+    .panel-body
+      .form-group
+        label.col-sm-4.control-label for="#{osd_type}_isshow" 显示
+        .col-sm-6
+          input id="#{osd_type}_isshow" ng-bswitch='' type='checkbox' ng-model="#{osd_type}.isshow"
+
+      .form-group
+        label.col-sm-4.control-label for="#{osd_type}_size" 字号
+        .col-sm-6
+          input.form-control.input-sm id="#{osd_type}_size" type='number' min='1' max='100' ng-model="#{osd_type}.size"
+
+      .form-group
+        label.col-sm-4.control-label for="#{osd_type}_left" 左边距
+        .col-sm-6
+          .input-group
+            input.form-control.input-sm id="#{osd_type}_left" type='text' min="0" max="100" ng-model="#{osd_type}.left"
+            .input-group-addon %
+
+      .form-group
+        label.col-sm-4.control-label for="#{osd_type}_top" 上边距
+        .col-sm-6
+          .input-group
+            input.form-control.input-sm id="#{osd_type}_top" type='text' min="0" max="100" ng-model="#{osd_type}.top"
+            .input-group-addon %
+
+      .form-group
+        label.col-sm-4.control-label 颜色
+        .col-sm-6
+          .input-group
+            input.form-control.input-sm.color-text type='text' readonly='readonly'
+            .input-group-addon ng-color='' ng-model='#{osd_type}.color'
+              .color-block

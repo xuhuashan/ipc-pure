@@ -1,0 +1,24 @@
+h3
+  span class='headicon headicon-day-night-mode'
+  | 日夜模式
+= render 'setting_breadcrumb', menu: '视频管理', sub_menu: '日夜模式'
+
+form.form-horizontal.form-ipc.clearfix role='form'
+  .form-group
+    label.col-sm-3.control-label 切换阈值
+    .col-sm-5
+      #night_mode_threshold_slider ng-slider='' ng-model='night_mode_threshold' min='1' max='100'
+    .col-sm-4
+      p.form-control-static
+        span ng-bind='night_mode_threshold'
+        | &nbsp;%
+  .form-group
+    label.col-sm-3.control-label 红外强度
+    .col-sm-5
+      #ir_intensity_slider ng-slider='' ng-model='ir_intensity' min='1' max='100'
+    .col-sm-4
+      p.form-control-static
+        span ng-bind='ir_intensity'
+        | &nbsp;%
+form.form-horizontal.form-ipc-footer role='form'
+  = render 'save_button'

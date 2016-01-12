@@ -1,0 +1,116 @@
+.home-wrap ng-controller='HomeController'
+  .home-content#home_content ng-class='ptz_position'
+    #collapse_block.collapse-block ng-class='"ptz-" + ptz_status' ng-click='toggle_device_control()' ng-if="role=='administrator'||role=='operator'"
+      i.fa ng-class='"fa-caret-" + (ptz_status == "show" ? ptz_position : (ptz_position == "right" ? "left" : "right"))'
+    #home_sidebar.home-sidebar ng-if="role=='administrator'||role=='operator'"
+      .device-control
+        .direction-control
+          .direction-regional
+            .top-left
+              .hotspot ng-mousedown='start_direction("top-left")' ng-mouseup='stop_direction()'
+                .arrow
+            .top
+              .hotspot ng-mousedown='start_direction("top")' ng-mouseup='stop_direction()'
+                .arrow
+            .top-right
+              .hotspot ng-mousedown='start_direction("top-right")' ng-mouseup='stop_direction()'
+                .arrow
+            .middle-left
+              .hotspot ng-mousedown='start_direction("middle-left")' ng-mouseup='stop_direction()'
+                .arrow
+            .middle
+            .middle-right
+              .hotspot ng-mousedown='start_direction("middle-right")' ng-mouseup='stop_direction()'
+                .arrow
+            .bottom-left
+              .hotspot ng-mousedown='start_direction("bottom-left")' ng-mouseup='stop_direction()'
+                .arrow
+            .bottom
+              .hotspot ng-mousedown='start_direction("bottom")' ng-mouseup='stop_direction()'
+                .arrow
+            .bottom-right
+              .hotspot ng-mousedown='start_direction("bottom-right")' ng-mouseup='stop_direction()'
+                .arrow
+        .parameter-control
+          ul.list-unstyled
+            li
+              span 速度
+              .slide-wrap.speed-slide-wrap
+                .speed-slide ng-slider='' ng-model='speed' min='1' max='64'
+              span ng-bind='speed'
+            li
+              span 光圈
+              .slide-wrap
+                i.icon.icon-aperture-min
+                .special ng-slider='' ng-model='aperture_val' min='-10' max='10'
+                i.icon.icon-aperture-max
+            li
+              span 焦距
+              .slide-wrap
+                i.icon.icon-focal-distance-min
+                .special ng-slider='' ng-model='distance_val' min='-10' max='10'
+                i.icon.icon-focal-distance-max
+            li
+              span 变焦
+              .slide-wrap
+                i.icon.icon-zoom-min
+                .special ng-slider='' ng-model='zoom_val' min='-10' max='10'
+                i.icon.icon-zoom-max
+            li
+              span.light 灯光
+              input#light type='checkbox' ng-bswitch='' name='light' ng-model='light' onText='&nbsp;' offText='&nbsp;'
+              span.wiper 雨刷
+              input#wiper type='checkbox' ng-bswitch='' name='wiper' ng-model='wiper' onText='&nbsp;' offText='&nbsp;'
+      .device-manager
+        = render 'device_manager'
+    #screen_wrap.screen-wrap ng-style="{left: (role=='user'?'0px':'300px')}"
+      object classid='clsid:9BE31822-FDAD-461B-AD51-BE1D1C159928' width='100%' height='100%' id='vlc' events='True' ng-error='playVlc()' codebase='/Project1.cab#version=1,0,0,0'
+  .home-footer
+    .stream-control.pull-left
+      .btn-group
+        button.btn.btn-stream ng-class="{active: current_stream == 'main_profile'}" type='button' ng-click='change_stream("main_profile")' 主码流
+        button.btn.btn-stream ng-class="{active: current_stream == 'sub_profile'}" type='button' ng-click='change_stream("sub_profile")' 次码流
+    .screen-control.pull-right
+      / i.fa.fa-list href='javascript:;' title='报警信息' ng-click='show_device_operation_infos()'
+      / i.fa.fa-video-camera href='javascript:;' title='开启/关闭录屏'
+      / i.fa.fa-search-plus href='javascript:;' title='放大'
+      / i.fa.fa-arrows-alt href='javascript:;' title='全屏'
+      / i.fa.fa-camera href='javascript:;' title='抓拍'
+      .ptz-position ng-click='change_ptz_position()' title='切换云台位置' ng-if="role=='administrator'||role=='operator'"
+        .bg-origin
+          .handle ng-class='ptz_position'
+    .play-control
+      .microphone-wrap
+        i.fa ng-class='off_microphone ? "fa-microphone-slash" : "fa-microphone"' ng-click='toggle_microphone()'
+        .microphone-slider
+          div ng-slider='' ng-model='microphone' min='0' max='100'
+      button.btn.btn-play type='button' ng-click='play_or_pause()'
+        i.fa.fa-play ng-if='play_status=="stop"'
+        i.fa.fa-stop ng-if='play_status=="play"'
+      .volume-wrap
+        i.fa ng-class='mute ? "fa-volume-off" : (volume < 50 ? "fa-volume-down" : "fa-volume-up")' ng-click='toggle_volume()'
+        .volume-slider
+          div ng-slider='' ng-model='volume' min='0' max='100'
+
+  #device_operation_infos.modal.fade role='dialog' aria-hidden='true'
+    .modal-dialog.modal-lg
+      .modal-content
+        .modal-header
+          button.close type='button' data-dismiss='modal'
+            span aria-hidden='true' &times;
+            span.sr-only Close
+          .modal-title 设备运行信息
+        .modal-body
+          table.table.table-striped.table-hover
+            thead
+              tr
+                th First Name
+                th Last Name
+                th Username
+            tbody
+              tr
+                td Tian
+                td Xing
+                td TianXing
+        .modal-footer
+          button.btn.btn-default type='button' data-dismiss='modal' 关 闭

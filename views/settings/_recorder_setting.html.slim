@@ -1,0 +1,63 @@
+h3
+  span class='headicon headicon-recorder-setting'
+  | Recorder Setting
+= render 'setting_breadcrumb', menu: 'Recorder', sub_menu: 'Recorder Setting'
+
+.row
+  .col-sm-12
+    h4 Schedule
+  .col-sm-12
+    #region1_schedules.timegantt-wrapper ng-timegantt='' ng-model='schedules'
+  .col-sm-12
+    hr
+    h4 Strategy
+    form.form-horizontal.form-ipc role='form'
+      .form-group
+        .col-sm-1
+        .col-sm-11
+          label.form-control-static Limite normal record with:
+      .form-group
+        .col-sm-1
+        label.col-sm-3.form-control-static style="width: 145px;"
+            input type='radio' id='limit_normal1' name='limit_normal' value='size' ng-model='limit_normal' ng-icheck=''
+            label.icheck-label for='limit_normal1' size
+        .col-sm-3
+            .input-group
+              input.form-control.input-sm type='text' min="0" max="100" ng-model="limit_normal_value"
+              .input-group-addon 1 - 100 MB
+      .form-group
+        .col-sm-1
+        label.col-sm-3.form-control-static style="width: 145px;"
+          input type='radio' id='limit_normal2' name='limit_normal' value='period' ng-model='limit_normal' ng-icheck=''
+          label.icheck-label for='limit_normal2' period
+        .col-sm-3
+          .input-group
+            input.form-control.input-sm type='text' min="0" max="100" ng-model="limit_normal_value"
+            .input-group-addon 1 - 15 Mins
+      .form-group
+        .col-sm-1
+        .col-sm-11
+          label.form-control-static Limite event record with:
+      .form-group
+        .col-sm-1
+        .col-sm-3 style="width: 145px;"
+        .col-sm-3
+          .input-group
+            input.form-control.input-sm type='text' min="0" max="100" ng-model="limit_event"
+            .input-group-addon 10 - 60 Secs
+      .form-group
+        .col-sm-1
+        .col-sm-11
+          label.form-control-static When there is no enough space:
+      .form-group
+        .col-sm-1
+        .col-sm-3 style="width: 145px;"
+        .col-sm-8
+          p.form-control-static
+            input type='radio' id='no_enough_space1' name='no_enough_space' value='stop' ng-model='no_enough_space' ng-icheck=''
+            label.icheck-label for='no_enough_space1' stop record
+            input type='radio' id='no_enough_space2' name='no_enough_space' value='override' ng-model='no_enough_space' ng-icheck=''
+            label.icheck-label for='no_enough_space2' override old file
+
+form.form-horizontal.form-ipc-footer role='form'
+  = render 'save_button'

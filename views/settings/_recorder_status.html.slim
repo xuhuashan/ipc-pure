@@ -1,0 +1,42 @@
+h3
+  span class='headicon headicon-recorder-status'
+  | Recorder Status
+= render 'setting_breadcrumb', menu: 'Recorder', sub_menu: 'Recorder Status'
+
+.row
+  .col-sm-12
+    h4 Storage Status
+  .col-sm-12
+    table.table.table-striped.table-hover
+      thead
+        tr
+          th capacity(MB)
+          th filesystem
+          th used(MB)
+          th free(MB)
+          th health
+      tbody
+        tr
+          td 16000
+          td ext4
+          td 7300
+          td 8700
+          td pass
+  .col-sm-12
+    form.form-horizontal.form-ipc role='form'
+      .form-group
+        label.col-sm-3.control-label record status
+        .col-sm-9
+          p.form-control-static recording
+      .form-group
+        label.col-sm-3.control-label record type
+        .col-sm-9
+          p.form-control-static manual
+      .form-group
+        label.col-sm-3.control-label start time
+        .col-sm-9
+          p.form-control-static 09/17/2014 21:50:32
+      .form-group
+        label.col-sm-3.control-label last record time
+        .col-sm-9
+          p.form-control-static 09/17/2014 21:50:32

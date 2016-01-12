@@ -1,0 +1,51 @@
+h3
+  span class='headicon headicon-motion-detect'
+  | 移动侦测
+= render 'setting_breadcrumb', menu: '事件管理', sub_menu: '移动侦测'
+
+.form-ipc-bg.clearfix
+  .clearfix
+    .vlc-wrap.pull-left
+      .shelter ng-show='current_region=="region1"&&region1.enable' ng-shelter='' ng-model='region1_rect' minwidth='50' minheight='50'
+      .shelter ng-show='current_region=="region2"&&region2.enable' ng-shelter='' ng-model='region2_rect' minwidth='50' minheight='50'
+      object classid='clsid:9BE31822-FDAD-461B-AD51-BE1D1C159928' width='100%' height='100%' id='vlc' events='True' ng-error='playVlc()' codebase='/Project1.cab#version=1,0,0,0'
+    .sensitivity-wrap.clearfix
+      .form-horizontal.col-sm-12
+        .form-group ng-show='current_region=="region1"'
+          .col-lg-4
+            p.form-control-static 灵敏度
+          .col-lg-8
+            p.form-control-static
+              span ng-bind='region1.sensitivity'
+              | &nbsp;(1 - 100)%
+          .col-lg-12
+            #region1_sensitivity ng-slider='' ng-model='region1.sensitivity' min='1' max='100'
+        .form-group ng-show='current_region=="region2"'
+          .col-lg-4
+            p.form-control-static 灵敏度
+          .col-lg-8
+            p.form-control-static
+              span ng-bind='region2.sensitivity'
+              | &nbsp;(1 - 100)%
+          .col-lg-12
+            #region2_sensitivity ng-slider='' ng-model='region2.sensitivity' min='1' max='100'
+        .form-group.nbm
+          .col-lg-12
+            select.form-control.input-sm.sel-region ng-model='current_region'
+              option value='region1' region1
+              option value='region2' region2
+            span ng-show='current_region=="region1"'
+              input#region1_switch ng-bswitch='' type='checkbox' name='region1_switch' ng-model='region1.enable'
+            span ng-show='current_region=="region2"'
+              input#region2_switch ng-bswitch='' type='checkbox' name='region2_switch' ng-model='region2.enable'
+  hr
+  .row
+    .col-sm-12
+      h4 布防时间
+    .col-sm-12 ng-show='current_region=="region1"'
+      #region1_schedules.timegantt-wrapper ng-timegantt='' ng-model='region1.schedules'
+    .col-sm-12 ng-show='current_region=="region2"'
+      #region2_schedules.timegantt-wrapper ng-timegantt='' ng-model='region2.schedules'
+
+form.form-horizontal.form-ipc-footer role='form'
+  = render 'save_button'

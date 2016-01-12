@@ -1,0 +1,87 @@
+h3
+  span class='headicon headicon-stream'
+  | 视频流
+= render 'setting_breadcrumb', menu: '视频管理', sub_menu: '视频流'
+
+form.form-horizontal.form-ipc.clearfix role='form'
+  div.form-inline
+    label.control-label for='profile' 编码等级
+    select.form-control.input-sm#profile ng-model='profile'
+      option value='main' Main
+      option value='baseline' Baseline
+      option value='high' High
+    label.control-label for='flip' 翻转
+    input.switch#flip ng-bswitch='' type='checkbox' name='flip' ng-model='flip'
+    label.control-label for='mirror' 镜像
+    input.switch#mirror ng-bswitch='' type='checkbox' name='mirror' ng-model='mirror'
+  hr
+  .col-sm-6
+    .panel.panel-default
+      .panel-heading
+        strong 主码流
+      .panel-body
+        .form-group
+          label.col-sm-3.control-label for='master_resolution' 分辨率
+          .col-sm-8
+            select.form-control#master_resolution ng-model='main_profile.resolution'
+              option value='UXGA' UXGA
+              option value='1080P' 1080P
+              option value='960H' 960H
+              option value='720P' 720P
+              option value='D1' D1
+        .form-group
+          label.col-sm-3.control-label for='master_frame_rate' 帧率
+          .col-sm-8
+            .input-group
+              input.form-control#master_frame_rate type='number' min='1' max='30' ng-model='main_profile.frame_rate'
+              span.input-group-addon 
+                | (1-30) fps
+        .form-group
+          label.col-sm-3.control-label for='master_bit_rate_ctrl' 码率控制
+          .col-sm-8
+            select.form-control#master_bit_rate_ctrl ng-model='main_profile.bit_rate'
+              option value='CBR' CBR
+              option value='VBR' VBR
+        .form-group
+          label.col-sm-3.control-label for='master_bit_rate' 码率
+          .col-sm-8
+            .input-group
+              input.form-control#master_bit_rate type='number' ng-model='main_profile.bit_rate_value'
+              span.input-group-addon
+                | (128 - 10240) Kbps
+  .col-sm-6
+    .panel.panel-default
+      .panel-heading
+        strong 次码流
+      .panel-body
+        .form-group
+          label.col-sm-3.control-label for='slave_resolution' 分辨率
+          .col-sm-8
+            select.form-control#slave_resolution ng-model='sub_profile.resolution'
+              option value='D1' D1
+              option value='CIF' CIF
+        .form-group
+          label.col-sm-3.control-label for='slave_frame_rate' 帧率
+          .col-sm-8
+            .input-group
+              input.form-control#slave_frame_rate type='number' min='1' max='30' ng-model='sub_profile.frame_rate'
+              span.input-group-addon
+                | (1-30) fps
+        .form-group
+          label.col-sm-3.control-label for='slave_bit_rate_ctrl' 码率控制
+          .col-sm-8
+            select.form-control#slave_bit_rate_ctrl ng-model='sub_profile.bit_rate'
+              option value='CBR' CBR
+              option value='VBR' VBR
+        .form-group
+          label.col-sm-3.control-label for='slave_bit_rate' 码率
+          .col-sm-8
+            .input-group
+              input.form-control#slave_bit_rate type='number' ng-model='sub_profile.bit_rate_value'
+              span.input-group-addon
+                | (128 - 10240) Kbps
+  .col-sm-12
+    p.text-danger ng-bind='valid_msg'
+
+form.form-horizontal.form-ipc-footer role='form'
+  = render 'save_button'

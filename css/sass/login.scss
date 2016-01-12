@@ -1,0 +1,48 @@
+.login-body {
+    background: url(../images/bg_login.jpg) top center;
+}
+
+.login-wrap {
+    width: 360px;
+    margin: 100px auto;
+    .login-header {
+        margin-bottom: 30px;
+        .logo {
+            width: 80px;
+            height: 80px;
+            float: left;
+            margin-left: 45px;
+        }
+        h3 {
+            float: left;
+            margin-top: 28px;
+            margin-left: 10px;
+            color: #666666;
+        }
+    }
+    form {
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 30px #BDBDBD;
+    }
+    .language {
+        display: block;
+        width: 100%;
+        text-align: left;
+        .caret {
+            float: right;
+            margin-top: 9px;
+        }
+    }
+    .dropdown-menu {
+        width: 100%;
+        a {
+            padding: 3px 12px;
+        }
+    }
+    .national-flag {
+        height: 18px;
+        margin-right: 10px;
+    }
+}

@@ -1,0 +1,13 @@
+- disabled = if defined?(disabled) then disabled else 'false' end
+- group_ng = if defined?(group_ng) and group_ng.present? then group_ng else {disabled: false} end
+- type = if defined?(type) then type else 'text' end
+
+.form-group ng-class="#{id}_msg != '' ? 'has-error' : ''" *group_ng
+  label.col-sm-3.control-label for=id = label_text
+  .col-sm-5
+    - if defined?(input_ng)
+      input.form-control type=type id=id ng-model=id *input_ng
+    - else
+      input.form-control type=type id=id ng-model=id disabled=disabled
+  .col-sm-4
+    p.form-control-static.text-danger ng-bind="#{id}_msg"

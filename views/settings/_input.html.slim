@@ -1,0 +1,17 @@
+h3
+  span class='headicon headicon-input'
+  | 报警输入
+= render 'setting_breadcrumb', menu: '事件管理', sub_menu: '报警输入'
+
+form.form-horizontal.form-ipc.clearfix role='form'
+  .form-inline.col-sm-12
+    select.form-control.input-sm#input_name ng-model='current_input'
+      option value='input1' input1
+    input#input1_enable ng-bswitch='' type='checkbox' name='input1_enable' ng-model='input1.enable'
+  .col-sm-12
+    h4 布防时间
+  .col-sm-12
+    #input1_schedules.timegantt-wrapper ng-timegantt='' ng-model='input1.schedules'
+
+form.form-horizontal.form-ipc-footer role='form'
+  = render 'save_button'

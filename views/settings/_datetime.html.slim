@@ -1,0 +1,40 @@
+h3
+  span class='headicon headicon-datetime'
+  | 日期时间
+= render 'setting_breadcrumb', menu: '系统管理', sub_menu: '日期时间'
+
+form.form-horizontal.form-ipc role='form'
+  .form-group
+    label.col-sm-3.control-label for='timezone' 时区
+    .col-sm-5
+      select.form-control ng-model="timezone" ng-options="item.value as item.text for item in timezone_list"
+  br
+  .row
+    .col-sm-offset-2
+      input type='radio' id='manual' name="datetime_type" value='1' ng-model='datetime_type' ng-icheck=''
+      label.icheck-label for='manual' 手动设置
+  br    
+  .form-group
+    label.col-sm-3.control-label for='datetime' 日期时间
+    .col-sm-5
+      .input-group
+        input.form-control id='datetime' type='text' ng-model='datetime' ng-datetime='' data-date-format="YYYY-MM-DD HH:mm:ss"
+        span.input-group-addon
+          = fa_icon 'calendar lg'
+    .col-sm-4
+      p.form-control-static.text-danger ng-bind="datetime_msg"
+  br
+  .row
+    .col-sm-offset-2
+      input type='radio' id='user_ntp' name="datetime_type" value='2' ng-model='datetime_type' ng-icheck=''
+      label.icheck-label for='user_ntp' 自动同步
+  br
+  .form-group    
+    label.col-sm-3.control-label for='ntp_server' NTP服务器
+    .col-sm-5
+        input.form-control id='ntp_server' type='text' ng-model='ntp_server'
+    .col-sm-4
+      p.form-control-static.text-danger ng-bind="ntp_server_msg"
+
+form.form-horizontal.form-ipc-footer role='form'
+  = render 'save_button'

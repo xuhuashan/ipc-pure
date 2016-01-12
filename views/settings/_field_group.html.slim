@@ -1,0 +1,15 @@
+- cls = if defined?(cls) then cls else '' end
+- min = if defined?(min) then min else '' end
+- max = if defined?(max) then max else '' end
+
+.form-group ng-class="#{id}_msg != '' ? 'has-error' : ''"
+  label.col-sm-3.control-label for=id = label_text
+  .col-sm-5
+    .input-group
+      -if defined?(type) and type == 'number'
+        input.form-control class=cls type=type id=id min=min max=max ng-model=id
+      -else
+        input.form-control class=cls type='text' id=id ng-model=id
+      .input-group-addon = addon_text
+  .col-sm-4
+    p.form-control-static.text-danger ng-bind="#{id}_msg"

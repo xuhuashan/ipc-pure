@@ -1,0 +1,117 @@
+$navbar-ipc-bg: #008DEF;
+$navbar-ipc-hover-bg: #0883D7;
+$navbar-ipc-color: #fff;
+$sidebar-bg: #253C4C;
+$sidebar-color: #A0B3C0;
+$sidebar-active-color: #fff;
+$sidebar-collapse-bg: #3F5666;
+$sidebar-collapse-color: #A0B3C0;
+$sidebar-collapse-active-color: #fff;
+$home-footer-btn-color: #0e8be1;
+$form-bg: #f5f5f5;
+@mixin sidebar-control {
+    background-color: $sidebar-bg;
+    margin-bottom: 0;
+    color: $sidebar-color;
+    .panel {
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        .panel-heading {
+            background: transparent;
+            color: $sidebar-color;
+            cursor: pointer;
+            border-radius: 0;
+            .panel-title {
+                color: $sidebar-active-color;
+                .fa-caret-right,
+                .fa-plus {
+                    display: none;
+                }
+                .fa-caret-down,
+                .fa-minus {
+                    display: block;
+                }
+            }
+            &.collapsed {
+                color: $sidebar-color;
+                .fa-caret-right,
+                .fa-plus {
+                    display: block;
+                }
+                .fa-caret-down,
+                .fa-minus {
+                    display: none;
+                }
+            }
+        }
+        .panel-collapse {
+            background: $sidebar-collapse-bg;
+            .panel-body {
+                border: 0;
+            }
+            .nav-pills {
+                margin: 0px;
+                li {
+                    a {
+                        color: $sidebar-color;
+                    }
+                    a:hover {
+                        background: transparent;
+                        color: $sidebar-collapse-active-color;
+                        font-weight: bold;
+                    }
+                    &.active {
+                        color: #fff;
+                        font-weight: bold;
+                        a,
+                        a:hover,
+                        a:focus {
+                            color: $sidebar-collapse-active-color;
+                            background: transparent;
+                            font-weight: bold;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@mixin slide-control {
+    .noUi-horizontal {
+        height: 10px;
+        border: 0;
+        border-radius: 5px;
+        background: $home-footer-btn-color;
+        .noUi-origin {
+            background: #000;
+            box-shadow: none;
+            border: 0;
+            border-radius: 5px;
+        }
+        .noUi-handle {
+            width: 20px;
+            height: 20px;
+            top: -6px;
+            left: -10px;
+            border-radius: 10px;
+            box-shadow: none;
+        }
+    }
+}
+
+@mixin inline-block {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+
+// User select
+// For selecting text on the page
+@mixin user-select($select) {
+    -webkit-user-select: $select;
+    -moz-user-select: $select;
+    -ms-user-select: $select; // IE10+
+    user-select: $select;
+}
