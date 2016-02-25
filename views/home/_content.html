@@ -1,0 +1,194 @@
+<div class="home-wrap" ng-controller="HomeController">
+    <div class="home-content" id="home_content" ng-class="ptz_position">
+        <div class="collapse-block" id="collapse_block" ng-class="'ptz-' + ptz_status" ng-click="toggle_device_control()" ng-if="role=='administrator'||role=='operator'">
+            <i class="fa" ng-class="'fa-caret-' + (ptz_status == 'show' ? ptz_position : (ptz_position == 'right' ? 'left' : 'right'))"></i>
+        </div>
+        <div class="home-sidebar" id="home_sidebar" ng-if="role=='administrator'||role=='operator'">
+            <div class="device-control">
+                <div class="direction-control">
+                    <div class="direction-regional">
+                        <div class="top-left">
+                            <div class="hotspot" ng-mousedown="start_direction('top-left')" ng-mouseup="stop_direction()">
+                                <div class="arrow"></div>
+                            </div>
+                        </div>
+                        <div class="top">
+                            <div class="hotspot" ng-mousedown="start_direction('top')" ng-mouseup="stop_direction()">
+                                <div class="arrow"></div>
+                            </div>
+                        </div>
+                        <div class="top-right">
+                            <div class="hotspot" ng-mousedown="start_direction('top-right')" ng-mouseup="stop_direction()">
+                                <div class="arrow"></div>
+                            </div>
+                        </div>
+                        <div class="middle-left">
+                            <div class="hotspot" ng-mousedown="start_direction('middle-left')" ng-mouseup="stop_direction()">
+                                <div class="arrow"></div>
+                            </div>
+                        </div>
+                        <div class="middle"></div>
+                        <div class="middle-right">
+                            <div class="hotspot" ng-mousedown="start_direction('middle-right')" ng-mouseup="stop_direction()">
+                                <div class="arrow"></div>
+                            </div>
+                        </div>
+                        <div class="bottom-left">
+                            <div class="hotspot" ng-mousedown="start_direction('bottom-left')" ng-mouseup="stop_direction()">
+                                <div class="arrow"></div>
+                            </div>
+                        </div>
+                        <div class="bottom">
+                            <div class="hotspot" ng-mousedown="start_direction('bottom')" ng-mouseup="stop_direction()">
+                                <div class="arrow"></div>
+                            </div>
+                        </div>
+                        <div class="bottom-right">
+                            <div class="hotspot" ng-mousedown="start_direction('bottom-right')" ng-mouseup="stop_direction()">
+                                <div class="arrow"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="parameter-control">
+                    <ul class="list-unstyled">
+                        <li>
+                            <span>速度</span>
+                            <div class="slide-wrap speed-slide-wrap">
+                                <div class="speed-slide" max="64" min="1" ng-model="speed" ng-slider=""></div>
+                            </div>
+                            <span ng-bind="speed"></span>
+                        </li>
+                        <li>
+                            <span>光圈</span>
+                            <div class="slide-wrap">
+                                <i class="icon icon-aperture-min"></i>
+                                <div class="special" max="10" min="-10" ng-model="aperture_val" ng-slider=""></div>
+                                <i class="icon icon-aperture-max"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <span>焦距</span>
+                            <div class="slide-wrap">
+                                <i class="icon icon-focal-distance-min"></i>
+                                <div class="special" max="10" min="-10" ng-model="distance_val" ng-slider=""></div>
+                                <i class="icon icon-focal-distance-max"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <span>变焦</span>
+                            <div class="slide-wrap">
+                                <i class="icon icon-zoom-min"></i>
+                                <div class="special" max="10" min="-10" ng-model="zoom_val" ng-slider=""></div>
+                                <i class="icon icon-zoom-max"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="light">灯光</span><input id="light" name="light" ng-bswitch="" ng-model="light" offText="&amp;nbsp;" onText="&amp;nbsp;" type="checkbox" /><span class="wiper">雨刷</span><input id="wiper" name="wiper" ng-bswitch="" ng-model="wiper" offText="&amp;nbsp;" onText="&amp;nbsp;" type="checkbox" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="device-manager">
+                <div class="panel-group" id="device_manager">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" data-parent="#device_manager" data-target="#preset_position" data-toggle="collapse">
+                            <h4 class="panel-title">
+                                预置位
+                                <i class="fa fa-plus pull-right"></i>
+                                <i class="fa fa-minus pull-right"></i>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse in" id="preset_position">
+                            <div class="panel-body"></div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading collapsed" data-parent="#device_manager" data-target="#guard_position" data-toggle="collapse">
+                            <h4 class="panel-title">
+                                看守位
+                                <i class="fa fa-plus pull-right"></i>
+                                <i class="fa fa-minus pull-right"></i>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse" id="guard_position">
+                            <div class="panel-body"></div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading collapsed" data-parent="#device_manager" data-target="#left_right_scan" data-toggle="collapse">
+                            <h4 class="panel-title">
+                                水平扫描
+                                <i class="fa fa-plus pull-right"></i>
+                                <i class="fa fa-minus pull-right"></i>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse" id="left_right_scan">
+                            <div class="panel-body"></div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading collapsed" data-parent="#device_manager" data-target="#cruise_scan" data-toggle="collapse">
+                            <h4 class="panel-title">
+                                巡航扫描
+                                <i class="fa fa-plus pull-right"></i>
+                                <i class="fa fa-minus pull-right"></i>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse" id="cruise_scan">
+                            <div class="panel-body"></div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading collapsed" data-parent="#device_manager" data-target="#variety_scan" data-toggle="collapse">
+                            <h4 class="panel-title">
+                                花样扫描
+                                <i class="fa fa-plus pull-right"></i>
+                                <i class="fa fa-minus pull-right"></i>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse" id="variety_scan">
+                            <div class="panel-body"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="screen-wrap" id="screen_wrap" ng-style="{left: (role=='user'?'0px':'300px')}">
+            <object classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159928" codebase="/Project1.cab#version=1,0,0,0" events="True" height="100%" id="vlc" ng-error="playVlc()" width="100%"></object>
+        </div>
+    </div>
+    <div class="home-footer">
+        <div class="stream-control pull-left">
+            <div class="btn-group">
+                <button class="btn btn-stream" ng-class="{active: current_stream == 'main_profile'}" ng-click="change_stream('main_profile')" type="button">主码流</button>
+                <button class="btn btn-stream" ng-class="{active: current_stream == 'sub_profile'}" ng-click="change_stream('sub_profile')" type="button">次码流</button>
+            </div>
+        </div>
+        <div class="screen-control pull-right">
+            <div class="ptz-position" ng-click="change_ptz_position()" ng-if="role=='administrator'||role=='operator'" title="切换云台位置">
+                <div class="bg-origin">
+                    <div class="handle" ng-class="ptz_position"></div>
+                </div>
+            </div>
+        </div>
+        <div class="play-control">
+            <div class="microphone-wrap">
+                <i class="fa" ng-class="off_microphone ? 'fa-microphone-slash' : 'fa-microphone'" ng-click="toggle_microphone()"></i>
+                <div class="microphone-slider">
+                    <div max="100" min="0" ng-model="microphone" ng-slider=""></div>
+                </div>
+            </div>
+            <button class="btn btn-play" ng-click="play_or_pause()" type="button">
+                <i class="fa fa-play" ng-if="play_status=='stop'"></i>
+                <i class="fa fa-stop" ng-if="play_status=='play'"></i>
+            </button>
+            <div class="volume-wrap">
+                <i class="fa" ng-class="mute ? 'fa-volume-off' : (volume < 50 ? 'fa-volume-down' : 'fa-volume-up')" ng-click="toggle_volume()"></i>
+                <div class="volume-slider">
+                    <div max="100" min="0" ng-model="volume" ng-slider=""></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

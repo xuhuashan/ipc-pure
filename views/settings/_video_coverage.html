@@ -1,0 +1,80 @@
+<h3>
+    <span class="headicon headicon-video-coverage"></span>视频遮挡
+</h3>
+<ol class="breadcrumb">
+    <li><i class="fa fa-home fa-lg"></i>&nbsp;<span>参数设置</span></li>
+    <li class="action">事件管理</li>
+    <li class="active">视频遮挡</li>
+</ol>
+<div class="form-ipc-bg clearfix">
+    <div class="clearfix">
+        <div class="vlc-wrap pull-left">
+            <div class="shelter" minheight="50" minwidth="50" ng-model="region1_rect" ng-shelter="" ng-show="current_region=='region1'&&region1.enable"></div>
+            <div class="shelter" minheight="50" minwidth="50" ng-model="region2_rect" ng-shelter="" ng-show="current_region=='region2'&&region2.enable"></div>
+            <object classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159928" codebase="/Project1.cab#version=1,0,0,0" events="True" height="100%" id="vlc" ng-error="playVlc()" width="100%"></object>
+        </div>
+        <div class="sensitivity-wrap clearfix">
+            <div class="form-horizontal col-sm-12">
+                <div class="form-group" ng-show="current_region=='region1'">
+                    <div class="col-lg-4">
+                        <p class="form-control-static">灵敏度</p>
+                    </div>
+                    <div class="col-lg-8">
+                        <p class="form-control-static">
+                            <span ng-bind="region1.sensitivity"></span>&nbsp;(1 - 100)%
+                        </p>
+                    </div>
+                    <div class="col-lg-12">
+                        <div id="region1_sensitivity" max="100" min="1" ng-model="region1.sensitivity" ng-slider=""></div>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="current_region=='region2'">
+                    <div class="col-lg-4">
+                        <p class="form-control-static">灵敏度</p>
+                    </div>
+                    <div class="col-lg-8">
+                        <p class="form-control-static">
+                            <span ng-bind="region2.sensitivity"></span>&nbsp;(1 - 100)%
+                        </p>
+                    </div>
+                    <div class="col-lg-12">
+                        <div id="region2_sensitivity" max="100" min="1" ng-model="region2.sensitivity" ng-slider=""></div>
+                    </div>
+                </div>
+                <div class="form-group nbm">
+                    <div class="col-lg-12">
+                        <select class="form-control input-sm sel-region" ng-model="current_region">
+                            <option value="region1">region1</option>
+                            <option value="region2">region2</option>
+                        </select>
+                        <span ng-show="current_region=='region1'">
+                            <input id="region1_switch" name="region1_switch" ng-bswitch="" ng-model="region1.enable" type="checkbox" />
+                        </span>
+                        <span ng-show="current_region=='region2'">
+                            <input id="region2_switch" name="region2_switch" ng-bswitch="" ng-model="region2.enable" type="checkbox" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-12">
+            <h4>布防时间</h4>
+        </div>
+        <div class="col-sm-12" ng-show="current_region=='region1'">
+            <div class="timegantt-wrapper" id="region1_schedules" ng-model="region1.schedules" ng-timegantt=""></div>
+        </div>
+        <div class="col-sm-12" ng-show="current_region=='region2'">
+            <div class="timegantt-wrapper" id="region2_schedules" ng-model="region2.schedules" ng-timegantt=""></div>
+        </div>
+    </div>
+</div>
+<form class="form-horizontal form-ipc-footer" role="form">
+    <div class="form-group clearfix">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button class="btn btn-primary" data-loading-text="保存中..." ng-click="save($event)" type="button">保 存</button>
+        </div>
+    </div>
+</form>

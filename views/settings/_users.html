@@ -1,0 +1,113 @@
+<h3>
+    <span class="headicon headicon-user"></span>用户管理
+</h3>
+<ol class="breadcrumb">
+    <li><i class="fa fa-home fa-lg"></i>&nbsp;<span>参数设置</span></li>
+    <li class="action">系统管理</li>
+    <li class="active">用户管理</li>
+</ol>
+<form class="form-horizontal form-ipc" role="form">
+    <div class="form-group">
+        <div class="col-sm-12">
+            <label class="switch-label">视频访问认证</label>
+            <input id="authentication_switch" name="rtsp_auth" ng-bswitch="" ng-model="rtsp_auth" type="checkbox" />
+            <button class="btn btn-sm btn-success new-user" data-target=".add-user-modal" ng-click="show_add_modal()">
+                <i class="fa fa-user"></i><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;添加
+            </button>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <div class="users-wrap">
+                <table class="table table-hover table-striped users">
+                    <thead>
+                        <tr>
+                            <th>用户名</th>
+                            <th>角色</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in items">
+                            <td ng-bind="item.username"></td>
+                            <td ng-bind="item.role"></td>
+                            <td class="operation">
+                                <a class="fa fa-edit fa-lg" href="javascript:;" ng-click="show_edit_modal(item)" title="Edit"></a>
+                                <a class="fa fa-trash-o fa-lg" href="javascript:;" ng-click="show_delete_modal(item)" title="Delete"></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+<form class="form-horizontal form-ipc-footer" role="form">
+    <div class="form-group clearfix">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button class="btn btn-primary" data-loading-text="保存中..." ng-click="save($event)" type="button">保 存</button>
+        </div>
+    </div>
+</form>
+<div class="modal fade" id="user_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" ng-bind="add_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="user_name">用户名</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="user_name" ng-disabled="operate_type == &quot;edit&quot;" ng-model="add_user_name" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="password">密 码</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="password" ng-model="add_password" type="password" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="role">角 色</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="role" ng-model="add_role">
+                                <option value="administrator">administrator</option>
+                                <option value="operator">operator</option>
+                                <option value="user">user</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="text-danger pull-left" ng-bind="add_user_msg"></span>
+                <button class="btn btn-default" data-dismiss="modal" type="button">取 消</button>
+                <button class="btn btn-primary" data-loading-text="操作中..." ng-click="add_or_edit_user($event)" type="button">确 定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="confirm_modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">确认</h4>
+            </div>
+            <div class="modal-body">确定要删除该用户吗？</div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" type="button">取 消</button>
+                <button class="btn btn-primary" data-loading-text="删除中..." ng-click="delete_user($event)" type="button">确 定</button>
+            </div>
+        </div>
+    </div>
+</div>

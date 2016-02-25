@@ -137,17 +137,6 @@ ipcApp.controller 'HomeController', [
       else
         $scope.ptz_position = 'left'
 
-    $scope.show_device_operation_infos = ->
-      $http.get "#{window.apiUrl}/events",
-        params:
-          v: new Date().getTime()
-      .success (data) ->
-        $('#device_operation_infos').modal()
-        return
-      .error (response, status, headers, config) ->
-        if status == 401
-          location.href = '/login'
-
     resolution_mapping = {
       '1080P':
         width: 1920

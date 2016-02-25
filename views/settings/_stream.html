@@ -1,0 +1,126 @@
+<h3>
+    <span class="headicon headicon-stream"></span>视频流
+</h3>
+<ol class="breadcrumb">
+    <li><i class="fa fa-home fa-lg"></i>&nbsp;<span>参数设置</span></li>
+    <li class="action">视频管理</li>
+    <li class="active">视频流</li>
+</ol>
+<form class="form-horizontal form-ipc clearfix" role="form">
+    <div class="form-inline">
+        <label class="control-label" for="profile">编码等级</label>
+        <select class="form-control input-sm" id="profile" ng-model="profile">
+            <option value="main">Main</option>
+            <option value="baseline">Baseline</option>
+            <option value="high">High</option>
+        </select>
+        <label class="control-label" for="flip">翻转</label>
+        <input class="switch" id="flip" name="flip" ng-bswitch="" ng-model="flip" type="checkbox" />
+        <label class="control-label" for="mirror">镜像</label>
+        <input class="switch" id="mirror" name="mirror" ng-bswitch="" ng-model="mirror" type="checkbox" />
+    </div>
+    <hr />
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>主码流</strong>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="master_resolution">分辨率</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" id="master_resolution" ng-model="main_profile.resolution">
+                            <option value="UXGA">UXGA</option>
+                            <option value="1080P">1080P</option>
+                            <option value="960H">960H</option>
+                            <option value="720P">720P</option>
+                            <option value="D1">D1</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="master_frame_rate">帧率</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input class="form-control" id="master_frame_rate" max="30" min="1" ng-model="main_profile.frame_rate" type="number" />
+                            <span class="input-group-addon">(1-30) fps</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="master_bit_rate_ctrl">码率控制</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" id="master_bit_rate_ctrl" ng-model="main_profile.bit_rate">
+                            <option value="CBR">CBR</option>
+                            <option value="VBR">VBR</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="master_bit_rate">码率</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input class="form-control" id="master_bit_rate" ng-model="main_profile.bit_rate_value" type="number" />
+                            <span class="input-group-addon">(128 - 10240) Kbps</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>次码流</strong>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="slave_resolution">分辨率</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" id="slave_resolution" ng-model="sub_profile.resolution">
+                            <option value="D1">D1</option>
+                            <option value="CIF">CIF</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="slave_frame_rate">帧率</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input class="form-control" id="slave_frame_rate" max="30" min="1" ng-model="sub_profile.frame_rate" type="number" />
+                            <span class="input-group-addon">(1-30) fps</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="slave_bit_rate_ctrl">码率控制</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" id="slave_bit_rate_ctrl" ng-model="sub_profile.bit_rate">
+                            <option value="CBR">CBR</option>
+                            <option value="VBR">VBR</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="slave_bit_rate">码率</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input class="form-control" id="slave_bit_rate" ng-model="sub_profile.bit_rate_value" type="number" />
+                            <span class="input-group-addon">(128 - 10240) Kbps</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <p class="text-danger" ng-bind="valid_msg"></p>
+    </div>
+</form>
+<form class="form-horizontal form-ipc-footer" role="form">
+    <div class="form-group clearfix">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button class="btn btn-primary" data-loading-text="保存中..." ng-click="save($event)" type="button">保 存</button>
+        </div>
+    </div>
+</form>

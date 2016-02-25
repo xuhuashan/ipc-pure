@@ -1,0 +1,41 @@
+<h3>
+    <span class="headicon headicon-output"></span>报警输出
+</h3>
+<ol class="breadcrumb">
+    <li><i class="fa fa-home fa-lg"></i>&nbsp;<span>参数设置</span></li>
+    <li class="action">事件管理</li>
+    <li class="active">报警输出</li>
+</ol>
+<form class="form-horizontal form-ipc" role="form">
+    <div class="form-group">
+        <label class="col-sm-3 control-label" for="output1_normal">正常状态</label>
+        <div class="col-sm-5">
+            <input id="output1_normal" name="output1_normal" ng-bswitch="" ng-model="output1_normal" offtext="闭路" ontext="开路" type="checkbox" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label" for="output1_trigger">触发状态</label>
+        <div class="col-sm-5">
+            <input id="output1_trigger" name="output1_trigger" ng-bswitch="" ng-model="output1_trigger" offtext="闭路" ontext="开路" type="checkbox" />
+        </div>
+    </div>
+    <div class="form-group" ng-class="output1_period_msg != '' ? 'has-error' : ''">
+        <label class="col-sm-3 control-label" for="output1_period">保持时间</label>
+        <div class="col-sm-5">
+            <div class="input-group">
+                <input class="form-control input-sm" id="output1_period" ng-model="output1_period" type="text" />
+                <div class="input-group-addon">(1 - 3600) 秒</div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static text-danger" ng-bind="output1_period_msg"></p>
+        </div>
+    </div>
+</form>
+<form class="form-horizontal form-ipc-footer" role="form">
+    <div class="form-group clearfix">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button class="btn btn-primary" data-loading-text="保存中..." ng-click="save($event)" type="button">保 存</button>
+        </div>
+    </div>
+</form>

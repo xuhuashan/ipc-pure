@@ -1,0 +1,29 @@
+<h3>
+    <span class="headicon headicon-input"></span>报警输入
+</h3>
+<ol class="breadcrumb">
+    <li><i class="fa fa-home fa-lg"></i>&nbsp;<span>参数设置</span></li>
+    <li class="action">事件管理</li>
+    <li class="active">报警输入</li>
+</ol>
+<form class="form-horizontal form-ipc clearfix" role="form">
+    <div class="form-inline col-sm-12">
+        <select class="form-control input-sm" id="input_name" ng-model="current_input">
+            <option value="input1">input1</option>
+        </select>
+        <input id="input1_enable" name="input1_enable" ng-bswitch="" ng-model="input1.enable" type="checkbox" />
+    </div>
+    <div class="col-sm-12">
+        <h4>布防时间</h4>
+    </div>
+    <div class="col-sm-12">
+        <div class="timegantt-wrapper" id="input1_schedules" ng-model="input1.schedules" ng-timegantt=""></div>
+    </div>
+</form>
+<form class="form-horizontal form-ipc-footer" role="form">
+    <div class="form-group clearfix">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button class="btn btn-primary" data-loading-text="保存中..." ng-click="save($event)" type="button">保 存</button>
+        </div>
+    </div>
+</form>

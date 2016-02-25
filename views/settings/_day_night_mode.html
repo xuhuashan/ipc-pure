@@ -1,0 +1,39 @@
+<h3>
+    <span class="headicon headicon-day-night-mode"></span>日夜模式
+</h3>
+<ol class="breadcrumb">
+    <li><i class="fa fa-home fa-lg"></i>&nbsp;<span>参数设置</span></li>
+    <li class="action">视频管理</li>
+    <li class="active">日夜模式</li>
+</ol>
+<form class="form-horizontal form-ipc clearfix" role="form">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">切换阈值</label>
+        <div class="col-sm-5">
+            <div id="night_mode_threshold_slider" max="100" min="1" ng-model="night_mode_threshold" ng-slider=""></div>
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static">
+                <span ng-bind="night_mode_threshold"></span>&nbsp;%
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">红外强度</label>
+        <div class="col-sm-5">
+            <div id="ir_intensity_slider" max="100" min="1" ng-model="ir_intensity" ng-slider=""></div>
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static">
+                <span ng-bind="ir_intensity"></span>&nbsp;%
+            </p>
+        </div>
+    </div>
+</form>
+<form class="form-horizontal form-ipc-footer" role="form">
+    <div class="form-group clearfix">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button class="btn btn-primary" data-loading-text="保存中..." ng-click="save($event)" type="button">保 存</button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" lang="zh-cn" id="ng-app" ng-app='ipcApp'>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>高清网络摄像机</title>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <!--[if lt IE 9]>
+    <%= javascript_include_tag 'respond.min.js' %>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <%= stylesheet_link_tag 'bootstrap-ie7.css', media: 'all' %>
+    <%= stylesheet_link_tag 'font-awesome-ie7.min.css', media: 'all' %>
+    <%= javascript_include_tag 'json3.min.js' %>
+    <![endif]-->
+    <%= javascript_include_tag 'application' %>
+</head>
+<body>
+    <div class="navbar navbar-ipc" role="navigation" ng-controller="navbarController">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/home">
+                    <img alt="logo" src="/images/logo.png">
+                </a>
+                <p class="navbar-text">高清网络摄像机</p>
+            </div>
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="/home"><i class="fa fa-video-camera"></i> 实时预览</a>
+                </li>
+                <li class="active" ng-if="role=='administrator'">
+                    <a href="/settings"><i class="fa fa-cog"></i> 参数设置</a>
+                </li>
+                <li ng-if="role=='administrator'||role=='operator'">
+                    <a href="/system/information"><i class="fa fa-info-circle"></i> 系统信息</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="navbar-text">
+                    <span ng-bind="username"></span>，<span ng-bind="userrole"></span>
+                </li>
+                <li>
+                    <a href="javascript:;" ng-click="logout()"><i class="fa fa-sign-out"></i> 退出</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <%= include '_content.html' %>
+    </div>
+</body>
+</html>

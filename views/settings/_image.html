@@ -1,0 +1,78 @@
+<h3>
+    <span class="headicon headicon-image"></span>图像设置
+</h3>
+<ol class="breadcrumb">
+    <li><i class="fa fa-home fa-lg"></i>&nbsp;<span>参数设置</span></li>
+    <li class="action">视频管理</li>
+    <li class="active">图像设置</li>
+</ol>
+<form class="form-horizontal form-ipc clearfix" role="form">
+    <div class="form-inline">
+        <label class="control-label" for="watermark">数字水印</label>
+        <input class="switch" id="watermark" name="watermark" ng-bswitch="" ng-model="watermark" type="checkbox" />
+        <label class="control-label" for="dnr">3D降噪</label>
+        <input class="switch" id="dnr" name="dnr" ng-bswitch="" ng-model="dnr" type="checkbox" />
+    </div>
+    <div class="vlc-wrap" style="margin: 10px auto;">
+        <object classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159928" codebase="/Project1.cab#version=1,0,0,0" events="True" height="100%" id="vlc" ng-error="playVlc()" width="100%"></object>
+    </div>
+    <hr />
+    <div class="form-group">
+        <label class="col-sm-3 control-label">亮度</label>
+        <div class="col-sm-5">
+            <div id="brightness_slider" max="255" min="0" ng-model="brightness" ng-slider=""></div>
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static">
+                <span ng-bind="brightness"></span>&nbsp;(0 - 255)
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">色度</label>
+        <div class="col-sm-5">
+            <div id="chrominance_slider" max="255" min="0" ng-model="chrominance" ng-slider=""></div>
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static">
+                <span ng-bind="chrominance"></span>&nbsp;(0 - 255)
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">对比度</label>
+        <div class="col-sm-5">
+            <div id="contrast_slider" max="255" min="0" ng-model="contrast" ng-slider=""></div>
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static">
+                <span ng-bind="contrast"></span>&nbsp;(0 - 255)
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">饱和度</label>
+        <div class="col-sm-5">
+            <div id="saturation_slider" max="255" min="0" ng-model="saturation" ng-slider=""></div>
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static">
+                <span ng-bind="saturation"></span>&nbsp;(0 - 255)
+            </p>
+        </div>
+    </div>
+    <hr />
+    <div class="form-group">
+        <label class="col-sm-3 control-label">场景</label>
+        <div class="col-sm-9">
+            <p class="form-control-static">
+                <input id="scenario1" name="scenario" ng-icheck="" ng-model="scenario" type="radio" value="50Hz" />
+                <label class="icheck-label" for="scenario1">50Hz</label>
+                <input id="scenario2" name="scenario" ng-icheck="" ng-model="scenario" type="radio" value="60Hz" />
+                <label class="icheck-label" for="scenario2">60Hz</label>
+                <input id="scenario3" name="scenario" ng-icheck="" ng-model="scenario" type="radio" value="composite" />
+                <label class="icheck-label" for="scenario3">混合</label>
+            </p>
+        </div>
+    </div>
+</form>

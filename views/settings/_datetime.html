@@ -1,0 +1,57 @@
+<h3>
+    <span class="headicon headicon-datetime"></span>日期时间
+</h3>
+<ol class="breadcrumb">
+    <li><i class="fa fa-home fa-lg"></i>&nbsp;<span>参数设置</span></li>
+    <li class="action">系统管理</li>
+    <li class="active">日期时间</li>
+</ol>
+<form class="form-horizontal form-ipc" role="form">
+    <div class="form-group">
+        <label class="col-sm-3 control-label" for="timezone">时区</label>
+        <div class="col-sm-5">
+            <select class="form-control" ng-model="timezone" ng-options="item.value as item.text for item in timezone_list"></select>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-offset-2">
+            <input id="manual" name="datetime_type" ng-icheck="" ng-model="datetime_type" type="radio" value="1" /><label class="icheck-label" for="manual">手动设置</label>
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label class="col-sm-3 control-label" for="datetime">日期时间</label>
+        <div class="col-sm-5">
+            <div class="input-group">
+                <input class="form-control" data-date-format="YYYY-MM-DD HH:mm:ss" id="datetime" ng-datetime="" ng-model="datetime" type="text" /><span class="input-group-addon"><i class="fa fa-calendar fa-lg"></i></span>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static text-danger" ng-bind="datetime_msg"></p>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-offset-2">
+            <input id="user_ntp" name="datetime_type" ng-icheck="" ng-model="datetime_type" type="radio" value="2" /><label class="icheck-label" for="user_ntp">自动同步</label>
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label class="col-sm-3 control-label" for="ntp_server">NTP服务器</label>
+        <div class="col-sm-5">
+            <input class="form-control" id="ntp_server" ng-model="ntp_server" type="text" />
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static text-danger" ng-bind="ntp_server_msg"></p>
+        </div>
+    </div>
+</form>
+<form class="form-horizontal form-ipc-footer" role="form">
+    <div class="form-group clearfix">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button class="btn btn-primary" data-loading-text="保存中..." ng-click="save($event)" type="button">保 存</button>
+        </div>
+    </div>
+</form>

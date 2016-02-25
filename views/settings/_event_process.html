@@ -1,0 +1,85 @@
+<h3>
+    <span class="headicon headicon-event-process"></span>事件联动
+</h3>
+<ol class="breadcrumb">
+    <li><i class="fa fa-home fa-lg"></i>&nbsp;<span>参数设置</span></li>
+    <li class="action">事件管理</li>
+    <li class="active">事件联动</li>
+</ol>
+<div class="form-ipc-bg clearfix">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>报警输入</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <p>
+                                <input id="record_input1" ng-icheck="" ng-model="input1.record" type="checkbox" value="true" /><label class="icheck-label" for="record_input1">录像</label>
+                            </p>
+                            <p>
+                                <input id="sound_input1" ng-icheck="" ng-model="input1.sound" type="checkbox" value="true" /><label class="icheck-label" for="sound_input1">播放声音</label>
+                            </p>
+                            <p>
+                                <input id="output1_input1" ng-icheck="" ng-model="input1.output1" type="checkbox" value="true" /><label class="icheck-label" for="output1_input1">报警输出</label>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>移动侦测</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <p>
+                                <input id="record_motion" ng-icheck="" ng-model="motion.record" type="checkbox" value="true" /><label class="icheck-label" for="record_motion">录像</label>
+                            </p>
+                            <p>
+                                <input id="sound_motion" ng-icheck="" ng-model="motion.sound" type="checkbox" value="true" /><label class="icheck-label" for="sound_motion">播放声音</label>
+                            </p>
+                            <p>
+                                <input id="output1_motion" ng-icheck="" ng-model="motion.output1" type="checkbox" value="true" /><label class="icheck-label" for="output1_motion">报警输出</label>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>视频遮挡</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <p>
+                                <input id="record_cover" ng-icheck="" ng-model="cover.record" type="checkbox" value="true" /><label class="icheck-label" for="record_cover">录像</label>
+                            </p>
+                            <p>
+                                <input id="sound_cover" ng-icheck="" ng-model="cover.sound" type="checkbox" value="true" /><label class="icheck-label" for="sound_cover">播放声音</label>
+                            </p>
+                            <p>
+                                <input id="output1_cover" ng-icheck="" ng-model="cover.output1" type="checkbox" value="true" /><label class="icheck-label" for="output1_cover">报警输出</label>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<form class="form-horizontal form-ipc-footer" role="form">
+    <div class="form-group clearfix">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button class="btn btn-primary" data-loading-text="保存中..." ng-click="save($event)" type="button">保 存</button>
+        </div>
+    </div>
+</form>

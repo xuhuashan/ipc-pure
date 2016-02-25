@@ -1,0 +1,91 @@
+<h3>
+    <span class="headicon headicon-interface"></span>接口设置
+</h3>
+<ol class="breadcrumb">
+    <li><i class="fa fa-home fa-lg"></i>&nbsp;<span>参数设置</span></li>
+    <li class="action">网络管理</li>
+    <li class="active">接口设置</li>
+</ol>
+<form class="form-horizontal form-ipc" role="form">
+    <div class="form-group">
+        <label class="col-sm-3 control-label" for="network_method">接入方式</label>
+        <div class="col-sm-5">
+            <select class="form-control" ng-model="method">
+                <option value="static">Static</option>
+                <option value="dhcp">DHCP</option>
+                <option value="pppoe">PPPOE</option>
+            </select>
+        </div>
+    </div>
+    <hr />
+    <div class="form-group" ng-class="network_username_msg != '' ? 'has-error' : ''" ng-show="canShow()">
+        <label class="col-sm-3 control-label" for="network_username">用户名</label>
+        <div class="col-sm-5">
+            <input class="form-control" id="network_username" ng-model="network_username" type="text" />
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static text-danger" ng-bind="network_username_msg"></p>
+        </div>
+    </div>
+    <div class="form-group" ng-class="network_password_msg != '' ? 'has-error' : ''" ng-show="canShow()">
+        <label class="col-sm-3 control-label" for="network_password">密码</label>
+        <div class="col-sm-5">
+            <input class="form-control" id="network_password" ng-model="network_password" type="password" />
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static text-danger" ng-bind="network_password_msg"></p>
+        </div>
+    </div>
+    <div class="form-group" ng-class="network_address_msg != '' ? 'has-error' : ''">
+        <label class="col-sm-3 control-label" for="network_address">IP地址</label>
+        <div class="col-sm-5">
+            <input class="form-control" id="network_address" ng-disabled="canEdit()" ng-model="network_address" type="text" />
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static text-danger" ng-bind="network_address_msg"></p>
+        </div>
+    </div>
+    <div class="form-group" ng-class="network_netmask_msg != '' ? 'has-error' : ''">
+        <label class="col-sm-3 control-label" for="network_netmask">子网掩码</label>
+        <div class="col-sm-5">
+            <input class="form-control" id="network_netmask" ng-disabled="canEdit()" ng-model="network_netmask" type="text" />
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static text-danger" ng-bind="network_netmask_msg"></p>
+        </div>
+    </div>
+    <div class="form-group" ng-class="network_gateway_msg != '' ? 'has-error' : ''">
+        <label class="col-sm-3 control-label" for="network_gateway">网关地址</label>
+        <div class="col-sm-5">
+            <input class="form-control" id="network_gateway" ng-disabled="canEdit()" ng-model="network_gateway" type="text" />
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static text-danger" ng-bind="network_gateway_msg"></p>
+        </div>
+    </div>
+    <div class="form-group" ng-class="network_primary_dns_msg != '' ? 'has-error' : ''">
+        <label class="col-sm-3 control-label" for="network_primary_dns">主DNS</label>
+        <div class="col-sm-5">
+            <input class="form-control" id="network_primary_dns" ng-disabled="canEdit()" ng-model="network_primary_dns" type="text" />
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static text-danger" ng-bind="network_primary_dns_msg"></p>
+        </div>
+    </div>
+    <div class="form-group" ng-class="network_second_dns_msg != '' ? 'has-error' : ''">
+        <label class="col-sm-3 control-label" for="network_second_dns">次DNS</label>
+        <div class="col-sm-5">
+            <input class="form-control" id="network_second_dns" ng-disabled="canEdit()" ng-model="network_second_dns" type="text" />
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static text-danger" ng-bind="network_second_dns_msg"></p>
+        </div>
+    </div>
+</form>
+<form class="form-horizontal form-ipc-footer" role="form">
+    <div class="form-group clearfix">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button class="btn btn-primary" data-loading-text="保存中..." ng-click="save($event)" type="button">保 存</button>
+        </div>
+    </div>
+</form>

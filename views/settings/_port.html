@@ -1,0 +1,49 @@
+<h3>
+    <span class="headicon headicon-port"></span>端口设置
+</h3>
+<ol class="breadcrumb">
+    <li><i class="fa fa-home fa-lg"></i>&nbsp;<span>参数设置</span></li>
+    <li class="action">网络设置</li>
+    <li class="active">端口设置</li>
+</ol>
+<form class="form-horizontal form-ipc" role="form">
+    <div class="form-group" ng-class="http_port_msg != '' ? 'has-error' : ''">
+        <label class="col-sm-3 control-label" for="http_port">HTTP</label>
+        <div class="col-sm-5">
+            <input class="form-control" id="http_port" ng-model="http_port" type="number" />
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static text-danger" ng-bind="http_port_msg"></p>
+        </div>
+    </div>
+    <div class="form-group" ng-class="ftp_port_msg != '' ? 'has-error' : ''">
+        <label class="col-sm-3 control-label" for="ftp_port">FTP</label>
+        <div class="col-sm-5">
+            <input class="form-control" id="ftp_port" ng-model="ftp_port" type="number" />
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static text-danger" ng-bind="ftp_port_msg"></p>
+        </div>
+    </div>
+    <div class="form-group" ng-class="rtsp_port_msg != '' ? 'has-error' : ''">
+        <label class="col-sm-3 control-label" for="rtsp_port">RTSP</label>
+        <div class="col-sm-5">
+            <input class="form-control" id="rtsp_port" ng-model="rtsp_port" type="number" />
+        </div>
+        <div class="col-sm-4">
+            <p class="form-control-static text-danger" ng-bind="rtsp_port_msg"></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+            <p class="text-danger" ng-bind="common_msg"></p>
+        </div>
+    </div>
+</form>
+<form class="form-horizontal form-ipc-footer" role="form">
+    <div class="form-group clearfix">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button class="btn btn-primary" data-loading-text="保存中..." ng-click="save($event)" type="button">保 存</button>
+        </div>
+    </div>
+</form>

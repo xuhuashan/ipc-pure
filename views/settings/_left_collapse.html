@@ -1,0 +1,128 @@
+<div class="panel-group sidebar" id="setting_group">
+    <div class="panel panel-default">
+        <div class="panel-heading" data-parent="#setting_group" data-target="#system" data-toggle="collapse">
+            <h4 class="panel-title">
+                <div class="sidebaricon sidebaricon-system"></div> 系统管理
+                <i class="fa fa-caret-right pull-right"></i>
+                <i class="fa fa-caret-down pull-right"></i>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse in" id="system">
+            <div class="panel-body">
+                <ul class="nav nav-pills nav-stacked" role="tablist">
+                    <li ng-class="{active: type=='base_info'}">
+                        <a href="javascript:;" ng-click="changeType('base_info')">基本信息</a>
+                    </li>
+                    <li ng-class="{active: type=='users'}">
+                        <a href="javascript:;" ng-click="changeType('users')">用户管理</a>
+                    </li>
+                    <li ng-class="{active: type=='datetime'}">
+                        <a href="javascript:;" ng-click="changeType('datetime')">日期时间</a>
+                    </li>
+                    <li ng-class="{active: type=='maintenance'}">
+                        <a href="javascript:;" ng-click="changeType('maintenance')">系统维护</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading collapsed" data-parent="#setting_group" data-target="#video" data-toggle="collapse">
+            <h4 class="panel-title">
+                <div class="sidebaricon sidebaricon-video"></div> 视频管理
+                <i class="fa fa-caret-right pull-right"></i>
+                <i class="fa fa-caret-down pull-right"></i>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse" id="video">
+            <div class="panel-body">
+                <ul class="nav nav-pills nav-stacked" role="tablist">
+                    <li ng-class="{active: type=='stream'}">
+                        <a href="javascript:;" ng-click="changeType('stream')">视频流</a>
+                    </li>
+                    <li ng-class="{active: type=='image'}">
+                        <a href="javascript:;" ng-click="changeType('image')">图像设置</a>
+                    </li>
+                    <li ng-class="{active: type=='privacy_block'}">
+                        <a href="javascript:;" ng-click="changeType('privacy_block')">隐私遮盖</a>
+                    </li>
+                    <li ng-class="{active: type=='day_night_mode'}">
+                        <a href="javascript:;" ng-click="changeType('day_night_mode')">日夜模式</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading collapsed" data-parent="#setting_group" data-target="#osd" data-toggle="collapse">
+            <h4 class="panel-title">
+                <div class="sidebaricon sidebaricon-osd"></div> OSD
+                <i class="fa fa-caret-right pull-right"></i>
+                <i class="fa fa-caret-down pull-right"></i>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse" id="osd">
+            <div class="panel-body">
+                <ul class="nav nav-pills nav-stacked" role="tablist">
+                    <li ng-class="{active: type=='osd'}">
+                        <a href="javascript:;" ng-click="changeType('osd')">OSD</a>
+                    </li>
+                    <li ng-class="{active: type=='szyc'}">
+                        <a href="javascript:;" ng-click="changeType('szyc')">SZYC</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading collapsed" data-parent="#setting_group" data-target="#network" data-toggle="collapse">
+            <h4 class="panel-title">
+                <div class="sidebaricon sidebaricon-network"></div> 网络管理
+                <i class="fa fa-caret-right pull-right"></i>
+                <i class="fa fa-caret-down pull-right"></i>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse" id="network">
+            <div class="panel-body">
+                <ul class="nav nav-pills nav-stacked" role="tablist">
+                    <li ng-class="{active: type=='interface'}">
+                        <a href="javascript:;" ng-click="changeType('interface')">接口设置</a>
+                    </li>
+                    <li ng-class="{active: type=='port'}">
+                        <a href="javascript:;" ng-click="changeType('port')">端口设置</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading collapsed" data-parent="#setting_group" data-target="#event" data-toggle="collapse">
+            <h4 class="panel-title">
+                <div class="sidebaricon sidebaricon-event"></div> 事件管理
+                <i class="fa fa-caret-right pull-right"></i>
+                <i class="fa fa-caret-down pull-right"></i>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse" id="event">
+            <div class="panel-body">
+                <ul class="nav nav-pills nav-stacked" role="tablist">
+                    <li ng-class="{active: type=='input'}">
+                        <a href="javascript:;" ng-click="changeType('input')">报警输入</a>
+                    </li>
+                    <li ng-class="{active: type=='output'}">
+                        <a href="javascript:;" ng-click="changeType('output')">报警输出</a>
+                    </li>
+                    <li ng-class="{active: type=='motion_detect'}">
+                        <a href="javascript:;" ng-click="changeType('motion_detect')">移动侦测</a>
+                    </li>
+                    <li ng-class="{active: type=='video_coverage'}">
+                        <a href="javascript:;" ng-click="changeType('video_coverage')">视频遮挡</a>
+                    </li>
+                    <li ng-class="{active: type=='event_process'}">
+                        <a href="javascript:;" ng-click="changeType('event_process')">事件联动</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

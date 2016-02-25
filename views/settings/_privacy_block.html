@@ -1,0 +1,52 @@
+<h3>
+    <span class="headicon headicon-privacy-block"></span>隐私遮盖
+</h3>
+<ol class="breadcrumb">
+    <li><i class="fa fa-home fa-lg"></i>&nbsp;<span>参数设置</span></li>
+    <li class="action">视频管理</li>
+    <li class="active">隐私遮盖</li>
+</ol>
+<form class="form-ipc-bg clearfix">
+    <div class="vlc-wrap pull-left">
+        <div class="shelter" minheight="50" minwidth="50" ng-model="region1_rect" ng-shelter="" ng-show="current_region=='region1'&&region1.enable" ng-style="{background: region1_color_hex}"></div>
+        <div class="shelter" minheight="50" minwidth="50" ng-model="region2_rect" ng-shelter="" ng-show="current_region=='region2'&&region2.enable" ng-style="{background: region2_color_hex}"></div>
+        <object classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159928" codebase="/Project1.cab#version=1,0,0,0" events="True" height="100%" id="vlc" ng-error="playVlc()" width="100%"></object>
+    </div>
+    <div class="privacy-setting-wrap clearfix">
+        <div class="form-inline col-sm-12">
+            <div class="form-group">
+                <select class="form-control input-sm" ng-model="current_region">
+                    <option value="region1">region1</option>
+                    <option value="region2">region2</option>
+                </select>
+            </div>
+            <div class="form-group" ng-show="current_region=='region1'">
+                <input id="region1_switch" name="region1_switch" ng-bswitch="" ng-model="region1.enable" type="checkbox" />
+            </div>
+            <div class="form-group" ng-show="current_region=='region2'">
+                <input id="region2_switch" name="region2_switch" ng-bswitch="" ng-model="region2.enable" type="checkbox" />
+            </div>
+            <div class="form-group">
+                <div class="input-group" ng-show="current_region=='region1'">
+                    <input class="form-control input-sm color-text" readonly="readonly" type="text" />
+                    <div class="input-group-addon" ng-color="" ng-model="region1.color">
+                        <div class="color-block"></div>
+                    </div>
+                </div>
+                <div class="input-group" ng-show="current_region=='region2'">
+                    <input class="form-control input-sm color-text" readonly="readonly" type="text" />
+                    <div class="input-group-addon" ng-color="" ng-model="region2.color">
+                        <div class="color-block"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<form class="form-horizontal form-ipc-footer" role="form">
+    <div class="form-group clearfix">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button class="btn btn-primary" data-loading-text="保存中..." ng-click="save($event)" type="button">保 存</button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,71 @@
+<h3>
+    <span class="headicon headicon-baseinfo"></span>基本信息
+</h3>
+<ol class="breadcrumb">
+    <li><i class="fa fa-home fa-lg"></i>&nbsp;<span>参数设置</span></li>
+    <li class="action">系统管理</li>
+    <li class="active">基本信息</li>
+</ol>
+<form class="form-horizontal form-ipc" role="form">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">序列号</label>
+        <div class="col-sm-5">
+            <p class="form-control-static" id="serial" ng-bind="serial"></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">MAC地址</label>
+        <div class="col-sm-5">
+            <p class="form-control-static" id="mac" ng-bind="mac"></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">制造商</label>
+        <div class="col-sm-5">
+            <p class="form-control-static" id="manufacturer" ng-bind="manufacturer"></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">型号</label>
+        <div class="col-sm-5">
+            <p class="form-control-static" id="model" ng-bind="model"></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">固件</label>
+        <div class="col-sm-5">
+            <p class="form-control-static" id="firmware" ng-bind="firmware"></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">硬件</label>
+        <div class="col-sm-5">
+            <p class="form-control-static" id="hardware" ng-bind="hardware"></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">设备名称</label>
+        <div class="col-sm-5">
+            <p class="form-control-static" id="device_name" ng-bind="device_name"></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">设备说明</label>
+        <div class="col-sm-5">
+            <p class="form-control-static" id="comment" ng-bind="comment"></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">设备位置</label>
+        <div class="col-sm-5">
+            <p class="form-control-static" id="location" ng-bind="location"></p>
+        </div>
+    </div>
+</form>
+<form class="form-horizontal form-ipc-footer" role="form">
+    <div class="form-group clearfix">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button class="btn btn-primary" data-loading-text="保存中..." ng-click="save($event)" type="button">保 存</button>
+        </div>
+    </div>
+</form>

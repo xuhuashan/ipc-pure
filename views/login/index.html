@@ -1,37 +1,23 @@
-<div class="login-wrap" ng-controller="loginController">
-    <div class="login-header clearfix">
-        <img alt="logo" class="logo" src="/images/logo.png">
-        <h3>高清网络摄像机</h3>
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" lang="zh-cn" id="ng-app" ng-app='ipcApp'>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>高清网络摄像机</title>
+    <link rel="stylesheet" href="/js/components/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/js/components/angular/angular-csp.css">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <script src="/js/components/jquery/jquery.min.js"></script>
+    <script src="/js/components/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/components/crypto-js/core.min.js"></script>
+    <script src="/js/components/crypto-js/sha1.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="/js/components/respond/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="login-body">
+    <div class="container-fluid">
+        <%= include '_content.html' %>
     </div>
-    <form role="form">
-        <div class="form-group" ng-class="{'has-error': username_msg!=''}">
-            <label for="userName">用户名</label>
-            <input autofocus="" class="form-control" id="user_name" name="userName" ng-blur="valid_username()" ng-keydown="user_keydown($event)" ng-model="username" type="text">
-            <div class="help-block" ng-bind="username_msg"></div>
-        </div>
-        <div class="form-group" ng-class="{'has-error': password_msg!=''}">
-            <label for="password">密 码</label>
-            <input class="form-control" name="password" ng-blur="valid_password()" ng-keydown="user_keydown($event)" ng-model="password" type="password">
-            <div class="help-block" ng-bind="password_msg"></div>
-        </div>
-        <div class="form-group">
-            <label for="password">语 言</label>
-            <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle language" data-toggle="dropdown" type="button">
-                    <img class="national-flag" ng-if="language == '简体中文'" src="/images/china.png">
-                    <span ng-bind="language"></span>
-                    <span class="caret"></span>
-                </button>
-                <ul aria-labelledby="language" class="dropdown-menu" role="menu">
-                    <li ng-click="change_language('简体中文')" role="presentation">
-                        <a href="javascript:;"><img class="national-flag" src="/images/china.png">简体中文</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="form-group" ng-class="{'has-error': login_fail_msg!=''}">
-            <div class="help-block" ng-bind="login_fail_msg"></div>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" data-loading-text="登录中..." id="btn_login" ng-click="login($event)" type="button">登 录</button>
-    </form>
-</div>
+</body>
+</html>
