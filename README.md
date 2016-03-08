@@ -1,2 +1,2 @@
 # IP HD network camera
-ipc pure
+高清网络摄像机
