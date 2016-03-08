@@ -1,0 +1,515 @@
+.home-wrap {
+    .home-content {
+        position: absolute;
+        top: 52px;
+        bottom: 64px;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+        .collapse-block {
+            display: none;
+        }
+        .home-sidebar {
+            display: none;
+        }
+        .screen-wrap {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: #000;
+            z-index: 10;
+            text-align: center;
+        }
+        @media screen and (min-width: 768px) {
+            .collapse-block {
+                display: block;
+                height: 80px;
+                width: 10px;
+                position: absolute;
+                top: 45%;
+                background: @sidebar-bg;
+                cursor: pointer;
+                text-align: center;
+                z-index: 12;
+                &:hover {
+                    background: #324959;
+                }
+                .fa {
+                    color: #fff;
+                    font-size: 18px;
+                    margin-top: 31px;
+                }
+            }
+            .home-sidebar {
+                display: block;
+                width: 300px;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                background: @sidebar-bg;
+                overflow: hidden;
+                overflow-y: auto;
+                z-index: 11;
+                color: #fff;
+                .device-control {
+                    height: 400px;
+                    .direction-control {
+                        .direction-regional {
+                            width: 240px;
+                            height: 230px;
+                            background: url(../images/direction.png);
+                            margin: 0px auto;
+                            -moz-user-select: none;
+                            -webkit-user-select: none;
+                            -ms-user-select: none;
+                            user-select: none;
+                            & > div {
+                                float: left;
+                                position: relative;
+                                .hotspot {
+                                    cursor: pointer;
+                                    position: absolute;
+                                    border-radius: 25px;
+                                }
+                                .arrow {
+                                    position: absolute;
+                                    width: 20px;
+                                    height: 20px;
+                                    background: url(../images/direction_arrow.png);
+                                }
+                                &.top {
+                                    .hotspot {
+                                        width: 54px;
+                                        height: 50px;
+                                        left: -10px;
+                                        top: 14px;
+                                        &:hover .arrow {
+                                            background-position: 0 -20px;
+                                        }
+                                    }
+                                    .arrow {
+                                        background-position: 0 0;
+                                        top: 17px;
+                                        left: 16px;
+                                    }
+                                }
+                                &.top-right {
+                                    .hotspot {
+                                        width: 50px;
+                                        height: 50px;
+                                        top: 35px;
+                                        left: 8px;
+                                        &:hover .arrow {
+                                            background-position: -20px -20px;
+                                        }
+                                    }
+                                    .arrow {
+                                        background-position: -20px 0;
+                                        top: 16px;
+                                        left: 13px;
+                                    }
+                                }
+                                &.middle-right {
+                                    .hotspot {
+                                        width: 50px;
+                                        height: 52px;
+                                        top: -6px;
+                                        left: 29px;
+                                        &:hover .arrow {
+                                            background-position: -40px -20px;
+                                        }
+                                    }
+                                    .arrow {
+                                        background-position: -40px 0;
+                                        top: 16px;
+                                        left: 17px;
+                                    }
+                                }
+                                &.bottom-right {
+                                    .hotspot {
+                                        width: 50px;
+                                        height: 50px;
+                                        top: 12px;
+                                        left: 9px;
+                                        &:hover .arrow {
+                                            background-position: -60px -20px;
+                                        }
+                                    }
+                                    .arrow {
+                                        background-position: -60px 0;
+                                        top: 14px;
+                                        left: 14px;
+                                    }
+                                }
+                                &.bottom {
+                                    .hotspot {
+                                        width: 53px;
+                                        height: 50px;
+                                        top: 34px;
+                                        left: -9px;
+                                        &:hover .arrow {
+                                            background-position: -80px -20px;
+                                        }
+                                    }
+                                    .arrow {
+                                        background-position: -80px 0;
+                                        top: 18px;
+                                        left: 16px;
+                                    }
+                                }
+                                &.bottom-left {
+                                    .hotspot {
+                                        width: 52px;
+                                        height: 50px;
+                                        top: 13px;
+                                        left: 40px;
+                                        &:hover .arrow {
+                                            background-position: -100px -20px;
+                                        }
+                                    }
+                                    .arrow {
+                                        background-position: -100px 0;
+                                        top: 13px;
+                                        left: 16px;
+                                    }
+                                }
+                                &.middle-left {
+                                    .hotspot {
+                                        width: 51px;
+                                        height: 53px;
+                                        top: -6px;
+                                        left: 20px;
+                                        &:hover .arrow {
+                                            background-position: -120px -20px;
+                                        }
+                                    }
+                                    .arrow {
+                                        background-position: -120px 0;
+                                        top: 16px;
+                                        left: 14px;
+                                    }
+                                }
+                                &.top-left {
+                                    .hotspot {
+                                        width: 50px;
+                                        height: 50px;
+                                        left: 42px;
+                                        top: 34px;
+                                        &:hover .arrow {
+                                            background-position: -140px -20px;
+                                        }
+                                    }
+                                    .arrow {
+                                        top: 16px;
+                                        left: 17px;
+                                        background-position: -140px 0;
+                                    }
+                                }
+                            }
+                            .top-left,
+                            .top,
+                            .top-right {
+                                height: 90px;
+                            }
+                            .middle-left,
+                            .middle,
+                            .middle-right {
+                                height: 34px;
+                            }
+                            .bottom-left,
+                            .bottom,
+                            .bottom-right {
+                                height: 106px;
+                            }
+                            .top-left,
+                            .middle-left,
+                            .bottom-left {
+                                width: 101px;
+                            }
+                            .top,
+                            .middle,
+                            .bottom {
+                                width: 34px;
+                            }
+                            .top-right,
+                            .middle-right,
+                            .bottom-right {
+                                width: 105px;
+                            }
+                        }
+                    }
+                    .parameter-control {
+                        .slide-control();
+                        ul {
+                            li {
+                                padding: 5px 0 5px 20px;
+                                .slide-wrap {
+                                    .inline-block();
+                                    width: 197px;
+                                    margin: 0 10px;
+                                    text-align: center;
+                                    .icon-aperture-min {
+                                        background-position: 0 0;
+                                    }
+                                    .icon-aperture-max {
+                                        background-position: -20px 0;
+                                    }
+                                    .icon-focal-distance-min {
+                                        background-position: -40px 0;
+                                    }
+                                    .icon-focal-distance-max {
+                                        background-position: -60px 0;
+                                    }
+                                    .icon-zoom-min {
+                                        background-position: -80px 0;
+                                    }
+                                    .icon-zoom-max {
+                                        background-position: -100px 0;
+                                    }
+                                    .special {
+                                        .inline-block();
+                                        width: 60px;
+                                        margin: 0 10px;
+                                        background: #000 !important;
+                                        .noUi-handle {
+                                            &:before,
+                                            &:after {
+                                                content: "";
+                                                display: block;
+                                                position: absolute;
+                                                height: 12px;
+                                                width: 1px;
+                                                background: #C4C4C4;
+                                                left: 7px;
+                                                top: 3px;
+                                            }
+                                            &:after {
+                                                left: 10px;
+                                            }
+                                        }
+                                    }
+                                }
+                                .speed-slide-wrap {
+                                    width: 150px;
+                                    margin-left: 35px;
+                                }
+                                .light,
+                                .wiper {
+                                    margin-right: 28px;
+                                }
+                                .wiper {
+                                    margin-left: 30px;
+                                }
+                                .bootstrap-switch {
+                                    border-radius: 15px;
+                                    background: #000;
+                                    border: 0;
+                                    width: 48px;
+                                    min-width: 48px;
+                                    height: 24px;
+                                    .bootstrap-switch-container {
+                                        &,
+                                        .bootstrap-switch-handle-on,
+                                        .bootstrap-switch-label,
+                                        .bootstrap-switch-handle-off {
+                                            border-radius: 12px;
+                                            height: 24px;
+                                            background: none;
+                                        }
+                                    }
+                                    &.bootstrap-switch-off {
+                                        .bootstrap-switch-label {
+                                            background: #fff;
+                                        }
+                                    }
+                                    &.bootstrap-switch-on {
+                                        .bootstrap-switch-label {
+                                            background: @navbar-ipc-bg;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .device-manager {
+                    .sidebar-control();
+                    position: absolute;
+                    top: 400px;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    overflow: hidden;
+                    overflow-y: auto;
+                    .panel-group {
+                        margin-bottom: 0;
+                        .panel {
+                            margin-top: 1px;
+                        }
+                        .panel-heading {
+                            background: #0d90eb;
+                            &.collapsed {
+                                background: #2a516c;
+                            }
+                            .panel-title {
+                                text-align: center;
+                            }
+                        }
+                    }
+                }
+            }
+            &.left {
+                .home-sidebar {
+                    left: 0;
+                }
+                .collapse-block {
+                    left: 300px;
+                }
+                .screen-wrap {
+                    left: 300px;
+                }
+            }
+            &.right {
+                .home-sidebar {
+                    right: 0;
+                }
+                .collapse-block {
+                    right: 300px;
+                }
+                .screen-wrap {
+                    right: 300px;
+                }
+            }
+        }
+    }
+    .home-footer {
+        background: #1c252b;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 64px;
+        .stream-control {
+            margin-top: 15px;
+            margin-left: 50px;
+            .btn-stream {
+                color: #fff;
+                background: #0c0f11;
+                &:hover {
+                    background: #28A1E7;
+                }
+                &.active {
+                    background: @home-footer-btn-color;
+                }
+            }
+        }
+        .play-control {
+            color: #fff;
+            height: 64px;
+            text-align: center;
+            overflow: hidden;
+            .microphone-wrap,
+            .volume-wrap {
+                .inline-block();
+                vertical-align: top;
+                width: 240px;
+                height: 64px;
+                margin-right: 100px;
+                .fa {
+                    font-size: 28px;
+                    margin-right: 15px;
+                    margin-top: 20px;
+                    cursor: pointer;
+                    width: 30px;
+                    text-align: left;
+                }
+                .fa-microphone-slash,
+                .fa-volume-off {
+                    color: #5f5f5f;
+                }
+                .microphone-slider,
+                .volume-slider {
+                    width: 195px;
+                    margin-bottom: 6px;
+                    .inline-block();
+                    .slide-control();
+                }
+            }
+            .volume-wrap {
+                margin-bottom: 7px;
+                .fa {
+                    font-size: 32px;
+                    margin-top: 16px;
+                }
+                .fa-volume-down {
+                    font-size: 32px;
+                }
+            }
+            .btn-play {
+                .inline-block();
+                width: 150px;
+                height: 64px;
+                background: #0e8be1;
+                color: #fff;
+                border-radius: 0;
+                font-size: 28px;
+                &:hover {
+                    background: #1E97EB;
+                }
+                &:focus,
+                &:active:focus,
+                &.active:focus {
+                    outline: none;
+                }
+            }
+            .volume-wrap {
+                margin-left: 100px;
+                margin-right: 0;
+            }
+        }
+        .screen-control {
+            margin-top: 23px;
+            margin-right: 20px;
+            i {
+                margin-right: 10px;
+                color: #d5d5d5;
+                font-size: 19px;
+                cursor: pointer;
+                &:hover {
+                    text-decoration: none;
+                    color: #fff;
+                }
+            }
+            .ptz-position {
+                .inline-block();
+                position: relative;
+                cursor: pointer;
+                .bg-origin {
+                    width: 20px;
+                    height: 12px;
+                    background: @home-footer-btn-color;
+                    margin-bottom: 2px;
+                    .handle {
+                        width: 10px;
+                        height: 17px;
+                        background: #d5d5d5;
+                        position: absolute;
+                        top: -2px;
+                        cursor: pointer;
+                        &:hover {
+                            background: #fff;
+                        }
+                        &.left {
+                            left: 0;
+                        }
+                        &.right {
+                            right: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
