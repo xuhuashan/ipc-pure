@@ -16,46 +16,46 @@ ipcApp.controller('SettingController', [
         $scope.changeType = function (type) {
             stopVlc();
             $('#vlc').remove();
-            return $scope.type = type;
+            $scope.type = type;
         };
         $scope.get_error = function (response, status, headers, config) {
             if (status === 401) {
                 delCookie('username');
                 delCookie('userrole');
                 delCookie('token');
-                return setTimeout(function () {
-                    return location.href = '/login';
+                setTimeout(function () {
+                    location.href = '/login';
                 }, 200);
             } else {
-                return $scope.show_msg('alert-danger', '获取信息失败');
+                $scope.show_msg('alert-danger', '获取信息失败');
             }
         };
         $scope.success = function (message) {
-            return $scope.show_msg('alert-success', '保存成功');
+            $scope.show_msg('alert-success', '保存成功');
         };
         $scope.error = function (response, status, headers, config) {
             if (status === 401) {
                 delCookie('username');
                 delCookie('userrole');
                 delCookie('token');
-                return setTimeout(function () {
-                    return location.href = '/login';
+                setTimeout(function () {
+                    location.href = '/login';
                 }, 200);
             } else if (status === 403) {
-                return location.href = '/login';
+                location.href = '/login';
             } else {
-                return $scope.show_msg('alert-danger', '保存失败');
+                $scope.show_msg('alert-danger', '保存失败');
             }
         };
-        return $scope.show_msg = function (type, msg) {
+        $scope.show_msg = function (type, msg) {
             $scope.ajax_msg = {
                 type: type,
                 content: msg
             };
             $('#msg_modal').modal();
             $timeout.cancel(timer);
-            return timer = $timeout(function () {
-                return $('#msg_modal').modal('hide');
+            timer = $timeout(function () {
+                $('#msg_modal').modal('hide');
             }, 2000);
         };
     }
@@ -79,46 +79,46 @@ ipcApp.controller('BaseInfoController', [
             $scope.hardware = data.items.hardware;
             $scope.device_name = data.items.device_name;
             $scope.comment = data.items.comment;
-            return $scope.location = data.items.location;
+            $scope.location = data.items.location;
         }).error(function (response, status, headers, config) {
             $scope.$parent.get_error(response, status, headers, config);
-            return add_watch();
+            add_watch();
         });
         $scope.device_name_msg = '';
         $scope.comment_msg = '';
         $scope.location_msg = '';
         valid = function (msg_name, value, msg) {
             if (value && value.length > 32) {
-                return $scope[msg_name] = '长度不能超过32个字符';
+                $scope[msg_name] = '长度不能超过32个字符';
             } else {
-                return $scope[msg_name] = '';
+                $scope[msg_name] = '';
             }
         };
         add_watch = function () {
             $scope.$watch('device_name', function (newValue) {
                 if (!newValue) {
-                    return $scope.device_name_msg = '设备名称不能为空';
+                    $scope.device_name_msg = '设备名称不能为空';
                 } else if (newValue.length > 32) {
-                    return $scope.device_name_msg = '长度不能超过32个字符';
+                    $scope.device_name_msg = '长度不能超过32个字符';
                 } else {
-                    return $scope.device_name_msg = '';
+                    $scope.device_name_msg = '';
                 }
             });
             $scope.$watch('comment', function (newValue) {
-                return valid('comment_msg', newValue);
+                valid('comment_msg', newValue);
             });
-            return $scope.$watch('location', function (newValue) {
-                return valid('location_msg', newValue);
+            $scope.$watch('location', function (newValue) {
+                valid('location_msg', newValue);
             });
         };
-        return $scope.save = function (e) {
+        $scope.save = function (e) {
             var $btn;
             if ($scope.device_name_msg || $scope.comment_msg || $scope.location_msg) {
                 return;
             }
             $btn = $(e.target);
             $btn.button('loading');
-            return $http.put("" + $scope.$parent.url + "/base_info.json", {
+            $http.put("" + $scope.$parent.url + "/base_info.json", {
                 items: {
                     device_name: $scope.device_name,
                     comment: $scope.comment,
@@ -126,10 +126,10 @@ ipcApp.controller('BaseInfoController', [
                 }
             }).success(function () {
                 $btn.button('reset');
-                return $scope.$parent.success('保存成功');
+                $scope.$parent.success('保存成功');
             }).error(function (response, status, headers, config) {
                 $btn.button('reset');
-                return $scope.$parent.error(response, status, headers, config);
+                $scope.$parent.error(response, status, headers, config);
             });
         };
     }
@@ -147,27 +147,27 @@ ipcApp.controller('UsersController', [
         $scope.add_user_msg = '';
         $scope.current_user = '';
         get_video_access_authentication = function () {
-            return $http.get("" + $scope.$parent.url + "/misc.json", {
+            $http.get("" + $scope.$parent.url + "/misc.json", {
                 params: {
                     'items[]': ['rtsp_auth'],
                     v: new Date().getTime()
                 }
             }).success(function (data) {
-                return $scope.rtsp_auth = data.items.rtsp_auth;
+                $scope.rtsp_auth = data.items.rtsp_auth;
             }).error(function (response, status, headers, config) {
-                return $scope.$parent.get_error(response, status, headers, config);
+                $scope.$parent.get_error(response, status, headers, config);
             });
         };
         get_user_list = function () {
-            return $http.get("" + $scope.$parent.url + "/users.json", {
+            $http.get("" + $scope.$parent.url + "/users.json", {
                 params: {
                     'items[]': ['role'],
                     v: new Date().getTime()
                 }
             }).success(function (data) {
-                return $scope.items = data.items;
+                $scope.items = data.items;
             }).error(function (response, status, headers, config) {
-                return $scope.$parent.get_error(response, status, headers, config);
+                $scope.$parent.get_error(response, status, headers, config);
             });
         };
         get_video_access_authentication();
@@ -199,19 +199,19 @@ ipcApp.controller('UsersController', [
             var $btn, http_type, postData, reg;
             reg = /^\w-+|$/;
             if ($scope.add_user_name === '') {
-                return $scope.add_user_msg = '请输入用户名';
+                $scope.add_user_msg = '请输入用户名';
             } else if ($scope.add_user_name.length > 16 || !reg.test($scope.add_user_name)) {
-                return $scope.add_user_msg = '用户名格式错误';
+                $scope.add_user_msg = '用户名格式错误';
             }
             if ($scope.operate_type === 'add') {
                 if ($scope.add_password === '') {
-                    return $scope.add_user_msg = '请输入密码';
+                    $scope.add_user_msg = '请输入密码';
                 } else if ($scope.add_password.length > 16) {
-                    return $scope.add_user_msg = '密码长度不能超过16个字符';
+                    $scope.add_user_msg = '密码长度不能超过16个字符';
                 }
             }
             if ($scope.add_role === '') {
-                return $scope.add_user_msg = '请选择角色';
+                $scope.add_user_msg = '请选择角色';
             }
             if ($scope.operate_type === 'add') {
                 http_type = 'post';
@@ -232,25 +232,25 @@ ipcApp.controller('UsersController', [
             }
             $btn = $(e.target);
             $btn.button('loading');
-            return $http[http_type]("" + $scope.$parent.url + "/users.json", {
+            $http[http_type]("" + $scope.$parent.url + "/users.json", {
                 items: [postData]
             }).success(function (result) {
                 $btn.button('reset');
                 if (result.items && result.items.length !== 0) {
                     $('#user_modal').modal('hide');
                     $scope.$parent.show_msg('alert-success', '操作成功');
-                    return get_user_list();
+                    get_user_list();
                 } else {
                     $('#user_modal').modal('hide');
-                    return $scope.$parent.show_msg('alert-danger', '操作失败');
+                    $scope.$parent.show_msg('alert-danger', '操作失败');
                 }
             }).error(function (response, status, headers, config) {
                 $btn.button('reset');
                 if (status === 401) {
-                    return location.href = '/login';
+                    location.href = '/login';
                 } else {
                     $('#user_modal').modal('hide');
-                    return $scope.$parent.show_msg('alert-danger', '操作失败');
+                    $scope.$parent.show_msg('alert-danger', '操作失败');
                 }
             });
         };
@@ -258,7 +258,7 @@ ipcApp.controller('UsersController', [
             var $btn;
             $btn = $(e.target);
             $btn.button('loading');
-            return $.ajax({
+            $.ajax({
                 url: "" + $scope.$parent.url + "/users.json",
                 type: 'DELETE',
                 data: JSON.stringify({
@@ -273,33 +273,33 @@ ipcApp.controller('UsersController', [
                     $btn.button('reset');
                     $('#confirm_modal').modal('hide');
                     $scope.$parent.show_msg('alert-success', '删除成功');
-                    return get_user_list();
+                    get_user_list();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     $btn.button('reset');
                     if (jqXHR.status === 401) {
-                        return location.href = '/login';
+                        location.href = '/login';
                     } else {
                         $('#confirm_modal').modal('hide');
-                        return $scope.$parent.show_msg('alert-danger', '删除失败');
+                        $scope.$parent.show_msg('alert-danger', '删除失败');
                     }
                 }
             });
         };
-        return $scope.save = function (e) {
+        $scope.save = function (e) {
             var $btn;
             $btn = $(e.target);
             $btn.button('loading');
-            return $http.put("" + $scope.$parent.url + "/misc.json", {
+            $http.put("" + $scope.$parent.url + "/misc.json", {
                 items: {
                     rtsp_auth: $scope.rtsp_auth
                 }
             }).success(function () {
                 $btn.button('reset');
-                return $scope.$parent.success('保存成功');
+                $scope.$parent.success('保存成功');
             }).error(function (response, status, headers, config) {
                 $btn.button('reset');
-                return $scope.$parent.error(response, status, headers, config);
+                $scope.$parent.error(response, status, headers, config);
             });
         };
     }
@@ -618,43 +618,43 @@ ipcApp.controller('DateTimeController', [
             $scope.datetime = dateFormat(local_date, 'yyyy-MM-dd hh:mm:ss');
             $scope.ntp_server = data.items.ntp_server;
             $('[name=datetime_type][value=' + $scope.datetime_type + ']').iCheck('check');
-            return add_watch();
+            add_watch();
         }).error(function (response, status, headers, config) {
-            return $scope.$parent.get_error(response, status, headers, config);
+            $scope.$parent.get_error(response, status, headers, config);
         });
         $scope.datetime_msg = '';
         $scope.ntp_server_msg = '';
         valid = function (msg_name, value, name) {
             if (!value) {
-                return $scope[msg_name] = name + '不能为空';
+                $scope[msg_name] = name + '不能为空';
             } else if (value.length > 32) {
-                return $scope[msg_name] = name + '长度不能超过32个字符';
+                $scope[msg_name] = name + '长度不能超过32个字符';
             } else {
-                return $scope[msg_name] = '';
+                $scope[msg_name] = '';
             }
         };
         add_watch = function () {
             $scope.$watch('datetime_type', function (newValue) {
                 if ($scope.datetime_type === '1') {
                     valid('datetime_msg', $scope.datetime, '日期时间');
-                    return $scope.ntp_server_msg = '';
+                    $scope.ntp_server_msg = '';
                 } else if ($scope.datetime_type === '2') {
                     valid('ntp_server_msg', $scope.ntp_server, 'NTP服务器');
-                    return $scope.datetime_msg = '';
+                    $scope.datetime_msg = '';
                 }
             });
             $scope.$watch('datetime', function (newValue) {
                 if ($scope.datetime_type === '1') {
-                    return valid('datetime_msg', newValue, '日期时间');
+                    valid('datetime_msg', newValue, '日期时间');
                 }
             });
-            return $scope.$watch('ntp_server', function (newValue) {
+            $scope.$watch('ntp_server', function (newValue) {
                 if ($scope.datetime_type === '2') {
-                    return valid('ntp_server_msg', newValue, 'NTP服务器');
+                    valid('ntp_server_msg', newValue, 'NTP服务器');
                 }
             });
         };
-        return $scope.save = function (e) {
+        $scope.save = function (e) {
             var $btn, d, date, hours, minutes, month, postData, seconds, use_ntp, year;
             if ($scope.datetime_msg || $scope.ntp_server_msg) {
                 return;
@@ -683,14 +683,14 @@ ipcApp.controller('DateTimeController', [
             }
             $btn = $(e.target);
             $btn.button('loading');
-            return $http.put("" + $scope.$parent.url + "/datetime.json", {
+            $http.put("" + $scope.$parent.url + "/datetime.json", {
                 items: postData
             }).success(function () {
                 $btn.button('reset');
-                return $scope.$parent.success('保存成功');
+                $scope.$parent.success('保存成功');
             }).error(function (response, status, headers, config) {
                 $btn.button('reset');
-                return $scope.$parent.error(response, status, headers, config);
+                $scope.$parent.error(response, status, headers, config);
             });
         };
     }
@@ -721,42 +721,42 @@ ipcApp.controller('MaintenanceController', [
         $scope.soft_reset = function () {
             $scope.operate_type = 'soft_reset';
             $scope.confirm_content = '确定进行软复位吗？';
-            return show_confirm();
+            show_confirm();
         };
         $scope.hard_reset = function () {
             $scope.operate_type = 'hard_reset';
             $scope.confirm_content = '确定进行硬复位吗？';
-            return show_confirm();
+            show_confirm();
         };
         $scope.reboot = function () {
             $scope.operate_type = 'reboot';
             $scope.confirm_content = '确定重启设备吗？';
-            return show_confirm();
+            show_confirm();
         };
         $scope.reset_or_reboot = function (e) {
             var $btn;
             $btn = $(e.target);
             $btn.button('loading');
-            return $http.post("" + $scope.$parent.url + "/system.json", {
+            $http.post("" + $scope.$parent.url + "/system.json", {
                 action: $scope.operate_type
             }).success(function (msg) {
                 $btn.button('reset');
                 hide_confirm();
                 reboot_animation();
                 $scope.is_reboot = true;
-                return $timeout(function () {
+                $timeout(function () {
                     $scope.reboot_step = 2;
-                    return location.href = '/login';
+                    location.href = '/login';
                 }, 30000);
             }).error(function (response, status, headers, config) {
                 $btn.button('reset');
                 hide_confirm();
-                return $scope.$parent.error(response, status, headers, config);
+                $scope.$parent.error(response, status, headers, config);
             });
         };
         reboot_animation = function () {
             $timeout.cancel(reboot_timeout);
-            return reboot_timeout = $timeout(function () {
+            reboot_timeout = $timeout(function () {
                 if ($scope.step === 0) {
                     return;
                 }
@@ -764,12 +764,12 @@ ipcApp.controller('MaintenanceController', [
                 if ($scope.reboot_active_index > 3) {
                     $scope.reboot_active_index = 1;
                 }
-                return reboot_animation();
+                reboot_animation();
             }, 1000);
         };
         upgrade_animation = function () {
             $timeout.cancel(anim_timeout);
-            return anim_timeout = $timeout(function () {
+            anim_timeout = $timeout(function () {
                 if ($scope.step === 0) {
                     return;
                 }
@@ -777,13 +777,13 @@ ipcApp.controller('MaintenanceController', [
                 if ($scope.activeIndex > 3) {
                     $scope.activeIndex = 1;
                 }
-                return upgrade_animation();
+                upgrade_animation();
             }, 1000);
         };
         get_upgrade = function () {
             $timeout.cancel(upgrade_timeout);
-            return upgrade_timeout = $timeout(function () {
-                return $http.get("" + $scope.$parent.url + "/upgrade.json", {
+            upgrade_timeout = $timeout(function () {
+                $http.get("" + $scope.$parent.url + "/upgrade.json", {
                     params: {
                         v: new Date().getTime()
                     }
@@ -797,18 +797,18 @@ ipcApp.controller('MaintenanceController', [
                         return;
                     }
                     $scope.step = data.status;
-                    return get_upgrade();
+                    get_upgrade();
                 }).error(function (response, status, headers, config) {
                     window.onbeforeunload = null;
                     $scope.step = 4;
-                    return $timeout(function () {
+                    $timeout(function () {
                         $scope.step = 5;
-                        return location.href = '/login';
+                        location.href = '/login';
                     }, 30000);
                 });
             }, 1000);
         };
-        return $scope.upload_file = function () {
+        $scope.upload_file = function () {
             $scope.upload_msg = '';
             if ($('#file_path').val() === '') {
                 $scope.upload_msg = '请选择更新文件';
@@ -818,17 +818,17 @@ ipcApp.controller('MaintenanceController', [
             upgrade_animation();
             window.onbeforeunload = function () {
                 var returnValue;
-                return returnValue = '系统正在进行升级，请等待升级完成后再进行操作！';
+                returnValue = '系统正在进行升级，请等待升级完成后再进行操作！';
             };
-            return $.ajaxFileUpload({
+            $.ajaxFileUpload({
                 url: "" + window.uploadUrl + "/upload.fcgi",
                 secureuri: false,
                 fileElementId: 'file_path',
                 success: function (data, status) {
-                    return get_upgrade();
+                    get_upgrade();
                 },
                 error: function (data, status, e) {
-                    return alert(e);
+                    alert(e);
                 }
             });
         };
@@ -850,9 +850,9 @@ ipcApp.controller('StreamController', [
             $scope.mirror = data.items.mirror;
             $scope.main_profile = data.items.main_profile;
             $scope.sub_profile = data.items.sub_profile;
-            return add_watch();
+            add_watch();
         }).error(function (response, status, headers, config) {
-            return $scope.$parent.get_error(response, status, headers, config);
+            $scope.$parent.get_error(response, status, headers, config);
         });
         $scope.valid_msg = '';
         valid = function (name, value, min, max, msg) {
@@ -872,16 +872,16 @@ ipcApp.controller('StreamController', [
         };
         add_watch = function () {
             $scope.$watch('main_profile.frame_rate', function (newValue) {
-                return valid('主码流帧率', newValue, 1, 30);
+                valid('主码流帧率', newValue, 1, 30);
             });
             $scope.$watch('main_profile.bit_rate_value', function (newValue) {
-                return valid('主码流码率', newValue, 128, 10240);
+                valid('主码流码率', newValue, 128, 10240);
             });
             $scope.$watch('sub_profile.frame_rate', function (newValue) {
-                return valid('次码流帧率', newValue, 1, 30);
+                valid('次码流帧率', newValue, 1, 30);
             });
-            return $scope.$watch('sub_profile.bit_rate_value', function (newValue) {
-                return valid('次码流码率', newValue, 128, 10240);
+            $scope.$watch('sub_profile.bit_rate_value', function (newValue) {
+                valid('次码流码率', newValue, 128, 10240);
             });
         };
         isValid = function () {
@@ -891,14 +891,14 @@ ipcApp.controller('StreamController', [
                 return false;
             }
         };
-        return $scope.save = function (e) {
+        $scope.save = function (e) {
             var $btn;
             if (!isValid()) {
                 return;
             }
             $btn = $(e.target);
             $btn.button('loading');
-            return $http.put("" + $scope.$parent.url + "/video.json", {
+            $http.put("" + $scope.$parent.url + "/video.json", {
                 items: {
                     profile: $scope.profile,
                     flip: $scope.flip,
@@ -918,10 +918,10 @@ ipcApp.controller('StreamController', [
                 }
             }).success(function () {
                 $btn.button('reset');
-                return $scope.$parent.success('保存成功');
+                $scope.$parent.success('保存成功');
             }).error(function (response, status, headers, config) {
                 $btn.button('reset');
-                return $scope.$parent.error(response, status, headers, config);
+                $scope.$parent.error(response, status, headers, config);
             });
         };
     }
@@ -949,78 +949,78 @@ ipcApp.controller('ImageController', [
             $('#contrast_slider').val($scope.contrast);
             $('#saturation_slider').val($scope.saturation);
             $('[name=scenario][value=' + $scope.scenario + ']').iCheck('check');
-            return add_watch();
+            add_watch();
         }).error(function (response, status, headers, config) {
-            return $scope.$parent.get_error(response, status, headers, config);
+            $scope.$parent.get_error(response, status, headers, config);
         });
         playVlc();
-        return add_watch = function () {
+        add_watch = function () {
             $scope.$watch('watermark', function (newValue, oldValue) {
                 if (newValue !== oldValue) {
-                    return $http.put("" + $scope.$parent.url + "/image.json", {
+                    $http.put("" + $scope.$parent.url + "/image.json", {
                         items: {
                             watermark: $scope.watermark
                         }
                     }).error(function (response, status, headers, config) {
-                        return $scope.$parent.error(response, status, headers, config);
+                        $scope.$parent.error(response, status, headers, config);
                     });
                 }
             });
             $scope.$watch('dnr', function (newValue, oldValue) {
                 if (newValue !== oldValue) {
-                    return $http.put("" + $scope.$parent.url + "/image.json", {
+                    $http.put("" + $scope.$parent.url + "/image.json", {
                         items: {
                             '3ddnr': $scope.dnr
                         }
                     }).error(function (response, status, headers, config) {
-                        return $scope.$parent.error(response, status, headers, config);
+                        $scope.$parent.error(response, status, headers, config);
                     });
                 }
             });
             $('#brightness_slider').on('change', function () {
-                return $http.put("" + $scope.$parent.url + "/image.json", {
+                $http.put("" + $scope.$parent.url + "/image.json", {
                     items: {
                         brightness: $scope.brightness
                     }
                 }).error(function (response, status, headers, config) {
-                    return $scope.$parent.error(response, status, headers, config);
+                    $scope.$parent.error(response, status, headers, config);
                 });
             });
             $('#chrominance_slider').on('change', function () {
-                return $http.put("" + $scope.$parent.url + "/image.json", {
+                $http.put("" + $scope.$parent.url + "/image.json", {
                     items: {
                         chrominance: $scope.chrominance
                     }
                 }).error(function (response, status, headers, config) {
-                    return $scope.$parent.error(response, status, headers, config);
+                    $scope.$parent.error(response, status, headers, config);
                 });
             });
             $('#contrast_slider').on('change', function () {
-                return $http.put("" + $scope.$parent.url + "/image.json", {
+                $http.put("" + $scope.$parent.url + "/image.json", {
                     items: {
                         contrast: $scope.contrast
                     }
                 }).error(function (response, status, headers, config) {
-                    return $scope.$parent.error(response, status, headers, config);
+                    $scope.$parent.error(response, status, headers, config);
                 });
             });
             $('#saturation_slider').on('change', function () {
-                return $http.put("" + $scope.$parent.url + "/image.json", {
+                $http.put("" + $scope.$parent.url + "/image.json", {
                     items: {
                         saturation: $scope.saturation
                     }
                 }).error(function (response, status, headers, config) {
-                    return $scope.$parent.error(response, status, headers, config);
+                    $scope.$parent.error(response, status, headers, config);
                 });
             });
-            return $scope.$watch('scenario', function (newValue, oldValue) {
+            $scope.$watch('scenario', function (newValue, oldValue) {
                 if (newValue !== oldValue) {
-                    return $http.put("" + $scope.$parent.url + "/image.json", {
+                    $http.put("" + $scope.$parent.url + "/image.json", {
                         items: {
                             scenario: $scope.scenario
                         }
                     }).error(function (response, status, headers, config) {
-                        return $scope.$parent.error(response, status, headers, config);
+                        $scope.$parent.error(response, status, headers, config);
                     });
                 }
             });
@@ -1053,9 +1053,9 @@ ipcApp.controller('PrivacyBlockController', [
                 height: Math.round($scope.region2.rect.height / 1000 * VIDEO_HEIGHT)
             };
             $scope.current_region = 'region1';
-            return add_watch();
+            add_watch();
         }).error(function (response, status, headers, config) {
-            return $scope.$parent.get_error(response, status, headers, config);
+            $scope.$parent.get_error(response, status, headers, config);
         });
         playVlc();
         add_watch = function () {
@@ -1063,18 +1063,18 @@ ipcApp.controller('PrivacyBlockController', [
                 var hex;
                 if (newValue) {
                     hex = '#' + ((1 << 24) | (parseInt(newValue.red) << 16) | (parseInt(newValue.green) << 8) | parseInt(newValue.blue)).toString(16).substr(1);
-                    return $scope.region1_color_hex = hex.toUpperCase();
+                    $scope.region1_color_hex = hex.toUpperCase();
                 }
             });
-            return $scope.$watch('region2.color', function (newValue) {
+            $scope.$watch('region2.color', function (newValue) {
                 var hex;
                 if (newValue) {
                     hex = '#' + ((1 << 24) | (parseInt(newValue.red) << 16) | (parseInt(newValue.green) << 8) | parseInt(newValue.blue)).toString(16).substr(1);
-                    return $scope.region2_color_hex = hex.toUpperCase();
+                    $scope.region2_color_hex = hex.toUpperCase();
                 }
             });
         };
-        return $scope.save = function (e) {
+        $scope.save = function (e) {
             var $btn;
             $scope.region1.rect = {
                 left: Math.round($scope.region1_rect.left / VIDEO_WIDTH * 1000),
@@ -1090,17 +1090,17 @@ ipcApp.controller('PrivacyBlockController', [
             };
             $btn = $(e.target);
             $btn.button('loading');
-            return $http.put("" + $scope.$parent.url + "/privacy_block.json", {
+            $http.put("" + $scope.$parent.url + "/privacy_block.json", {
                 items: {
                     region1: $scope.region1,
                     region2: $scope.region2
                 }
             }).success(function () {
                 $btn.button('reset');
-                return $scope.$parent.success('保存成功');
+                $scope.$parent.success('保存成功');
             }).error(function (response, status, headers, config) {
                 $btn.button('reset');
-                return $scope.$parent.error(response, status, headers, config);
+                $scope.$parent.error(response, status, headers, config);
             });
         };
     }
@@ -1118,25 +1118,25 @@ ipcApp.controller('DayNightModeController', [
             $scope.night_mode_threshold = data.items.night_mode_threshold;
             $scope.ir_intensity = data.items.ir_intensity;
             $('#night_mode_threshold_slider').val($scope.night_mode_threshold);
-            return $('#ir_intensity_slider').val($scope.ir_intensity);
+            $('#ir_intensity_slider').val($scope.ir_intensity);
         }).error(function (response, status, headers, config) {
-            return $scope.$parent.get_error(response, status, headers, config);
+            $scope.$parent.get_error(response, status, headers, config);
         });
-        return $scope.save = function (e) {
+        $scope.save = function (e) {
             var $btn;
             $btn = $(e.target);
             $btn.button('loading');
-            return $http.put("" + $scope.$parent.url + "/day_night_mode.json", {
+            $http.put("" + $scope.$parent.url + "/day_night_mode.json", {
                 items: {
                     night_mode_threshold: $scope.night_mode_threshold,
                     ir_intensity: $scope.ir_intensity
                 }
             }).success(function () {
                 $btn.button('reset');
-                return $scope.$parent.success('保存成功');
+                $scope.$parent.success('保存成功');
             }).error(function (response, status, headers, config) {
                 $btn.button('reset');
-                return $scope.$parent.error(response, status, headers, config);
+                $scope.$parent.error(response, status, headers, config);
             });
         };
     }
@@ -1147,7 +1147,7 @@ ipcApp.controller('OsdController', [
     function ($scope, $http) {
         var add_watch, getOsdInfo, isValid, master_params, obj, slave_params, valid_font_size, valid_left_or_top;
         getOsdInfo = function (name, params) {
-            return $.ajax({
+            $.ajax({
                 url: "" + $scope.$parent.url + "/osd.json",
                 data: {
                     items: params
@@ -1172,7 +1172,7 @@ ipcApp.controller('OsdController', [
                     $scope.datetime.left = ($scope.datetime.left / 10).toFixed(1);
                     $scope.datetime.top = ($scope.datetime.top / 10).toFixed(1);
                     add_watch();
-                    return $scope.$apply();
+                    $scope.$apply();
                 }
             });
         };
@@ -1188,9 +1188,9 @@ ipcApp.controller('OsdController', [
         $scope.changeOsd = function (type) {
             $scope.osd_type = type;
             if (type === 0) {
-                return getOsdInfo('master', master_params);
+                getOsdInfo('master', master_params);
             } else {
-                return getOsdInfo('slave', slave_params);
+                getOsdInfo('slave', slave_params);
             }
         };
         obj = {
@@ -1201,20 +1201,18 @@ ipcApp.controller('OsdController', [
             'datetime': '【日期时间】'
         };
         add_watch = function () {
-            var name, _results;
-            _results = [];
+            var name;
             for (name in obj) {
                 $scope.$watch("" + name + ".size", function (newValue) {
-                    return valid_font_size(obj[this.exp.split('.size')[0]], '字号', newValue);
+                    valid_font_size(obj[this.exp.split('.size')[0]], '字号', newValue);
                 });
                 $scope.$watch("" + name + ".left", function (newValue) {
-                    return valid_left_or_top(obj[this.exp.split('.left')[0]], '左边距', newValue);
+                    valid_left_or_top(obj[this.exp.split('.left')[0]], '左边距', newValue);
                 });
-                _results.push($scope.$watch("" + name + ".top", function (newValue) {
-                    return valid_left_or_top(obj[this.exp.split('.top')[0]], '上边距', newValue);
-                }));
+                $scope.$watch("" + name + ".top", function (newValue) {
+                    valid_left_or_top(obj[this.exp.split('.top')[0]], '上边距', newValue);
+                });
             }
-            return _results;
         };
         valid_font_size = function (name, field, value) {
             if (value === null) {
@@ -1259,7 +1257,7 @@ ipcApp.controller('OsdController', [
             }
             return true;
         };
-        return $scope.save = function (e) {
+        $scope.save = function (e) {
             var $btn, data, postData;
             if (!isValid()) {
                 return;
@@ -1292,14 +1290,14 @@ ipcApp.controller('OsdController', [
             }
             $btn = $(e.target);
             $btn.button('loading');
-            return $http.put("" + $scope.$parent.url + "/osd.json", {
+            $http.put("" + $scope.$parent.url + "/osd.json", {
                 items: data
             }).success(function () {
                 $btn.button('reset');
-                return $scope.$parent.success('保存成功');
+                $scope.$parent.success('保存成功');
             }).error(function (response, status, headers, config) {
                 $btn.button('reset');
-                return $scope.$parent.error(response, status, headers, config);
+                $scope.$parent.error(response, status, headers, config);
             });
         };
     }
@@ -1317,9 +1315,9 @@ ipcApp.controller('SzycController', [
         }).success(function (data) {
             $scope.train_num = data.items.train_num;
             $scope.position_num = data.items.position_num;
-            return add_watch();
+            add_watch();
         }).error(function (response, status, headers, config) {
-            return $scope.$parent.get_error(response, status, headers, config);
+            $scope.$parent.get_error(response, status, headers, config);
         });
         $scope.train_num_msg = '';
         $scope.position_num_msg = '';
@@ -1347,20 +1345,20 @@ ipcApp.controller('SzycController', [
         };
         add_watch = function () {
             $scope.$watch('train_num', function (newValue) {
-                return valid.train_num(newValue);
+                valid.train_num(newValue);
             });
-            return $scope.$watch('position_num', function (newValue) {
-                return valid.position_num(newValue);
+            $scope.$watch('position_num', function (newValue) {
+                valid.position_num(newValue);
             });
         };
-        return $scope.save = function (e) {
+        $scope.save = function (e) {
             var $btn;
             if (!valid.train_num($scope.train_num) || !valid.position_num($scope.position_num)) {
                 return;
             }
             $btn = $(e.target);
             $btn.button('loading');
-            return $http.put("" + $scope.$parent.url + "/szyc.json", {
+            $http.put("" + $scope.$parent.url + "/szyc.json", {
                 items: {
                     train_num: $scope.train_num,
                     position_num: $scope.position_num
@@ -1370,10 +1368,10 @@ ipcApp.controller('SzycController', [
                 $btn.button('reset');
                 $scope.$parent.success('保存成功');
                 ipAddr = location.hostname;
-                return window.location = "//192.168." + (ipAddr.split('.')[2]) + "." + (parseInt($scope.position_num) + 70) + "/login";
+                window.location = "//192.168." + (ipAddr.split('.')[2]) + "." + (parseInt($scope.position_num) + 70) + "/login";
             }).error(function (response, status, headers, config) {
                 $btn.button('reset');
-                return $scope.$parent.error(response, status, headers, config);
+                $scope.$parent.error(response, status, headers, config);
             });
         };
     }
@@ -1398,9 +1396,9 @@ ipcApp.controller('InterfaceController', [
             $scope.network_primary_dns = data.items.address.dns1;
             $scope.network_second_dns = data.items.address.dns2;
             $scope.http_port = data.items.port.http;
-            return add_watch();
+            add_watch();
         }).error(function (response, status, headers, config) {
-            return $scope.$parent.get_error(response, status, headers, config);
+            $scope.$parent.get_error(response, status, headers, config);
         });
         $scope.network_username_msg = '';
         $scope.network_password_msg = '';
@@ -1471,28 +1469,28 @@ ipcApp.controller('InterfaceController', [
                 $scope.network_netmask_msg = '';
                 $scope.network_gateway_msg = '';
                 $scope.network_primary_dns_msg = '';
-                return $scope.network_second_dns_msg = '';
+                $scope.network_second_dns_msg = '';
             });
             $scope.$watch('network_username', function (newValue) {
-                return valid.network_username(newValue);
+                valid.network_username(newValue);
             });
             $scope.$watch('network_password', function (newValue) {
-                return valid.network_password(newValue);
+                valid.network_password(newValue);
             });
             $scope.$watch('network_address', function (newValue) {
-                return valid.network_address(newValue);
+                valid.network_address(newValue);
             });
             $scope.$watch('network_netmask', function (newValue) {
-                return valid.network_netmask(newValue);
+                valid.network_netmask(newValue);
             });
             $scope.$watch('network_gateway', function (newValue) {
-                return valid.network_gateway(newValue);
+                valid.network_gateway(newValue);
             });
             $scope.$watch('network_primary_dns', function (newValue) {
-                return valid.network_primary_dns(newValue);
+                valid.network_primary_dns(newValue);
             });
-            return $scope.$watch('network_second_dns', function (newValue) {
-                return valid.network_second_dns(newValue);
+            $scope.$watch('network_second_dns', function (newValue) {
+                valid.network_second_dns(newValue);
             });
         };
         isValid = function () {
@@ -1517,7 +1515,7 @@ ipcApp.controller('InterfaceController', [
         $scope.canEdit = function () {
             return $scope.method !== 'static';
         };
-        return $scope.save = function (e) {
+        $scope.save = function (e) {
             var $btn, postData;
             if (!isValid()) {
                 return;
@@ -1541,17 +1539,17 @@ ipcApp.controller('InterfaceController', [
             }
             $btn = $(e.target);
             $btn.button('loading');
-            return $http.put("" + $scope.$parent.url + "/network.json", {
+            $http.put("" + $scope.$parent.url + "/network.json", {
                 items: postData
             }).success(function () {
                 $btn.button('reset');
                 $scope.$parent.success('保存成功');
                 if (postData.method === 'static') {
-                    return location.href = 'http://' + postData.address.ipaddr + ($scope.http_port === 80 ? '' : ':' + $scope.http_port);
+                    location.href = 'http://' + postData.address.ipaddr + ($scope.http_port === 80 ? '' : ':' + $scope.http_port);
                 }
             }).error(function (response, status, headers, config) {
                 $btn.button('reset');
-                return $scope.$parent.error(response, status, headers, config);
+                $scope.$parent.error(response, status, headers, config);
             });
         };
     }
@@ -1570,9 +1568,9 @@ ipcApp.controller('PortController', [
             $scope.http_port = data.items.port.http;
             $scope.ftp_port = data.items.port.ftp;
             $scope.rtsp_port = data.items.port.rtsp;
-            return add_watch();
+            add_watch();
         }).error(function (response, status, headers, config) {
-            return $scope.$parent.get_error(response, status, headers, config);
+            $scope.$parent.get_error(response, status, headers, config);
         });
         $scope.http_port_msg = '';
         $scope.ftp_port_msg = '';
@@ -1604,13 +1602,13 @@ ipcApp.controller('PortController', [
         };
         add_watch = function () {
             $scope.$watch('http_port', function (newValue) {
-                return valid.http_port(newValue);
+                valid.http_port(newValue);
             });
             $scope.$watch('ftp_port', function (newValue) {
-                return valid.ftp_port(newValue);
+                valid.ftp_port(newValue);
             });
-            return $scope.$watch('rtsp_port', function (newValue) {
-                return valid.rtsp_port(newValue);
+            $scope.$watch('rtsp_port', function (newValue) {
+                valid.rtsp_port(newValue);
             });
         };
         isValid = function () {
@@ -1624,14 +1622,14 @@ ipcApp.controller('PortController', [
             $scope.common_msg = '';
             return true;
         };
-        return $scope.save = function (e) {
+        $scope.save = function (e) {
             var $btn;
             if (!isValid()) {
                 return;
             }
             $btn = $(e.target);
             $btn.button('loading');
-            return $http.put("" + $scope.$parent.url + "/network.json", {
+            $http.put("" + $scope.$parent.url + "/network.json", {
                 items: {
                     port: {
                         http: parseInt($scope.http_port, 10),
@@ -1641,10 +1639,10 @@ ipcApp.controller('PortController', [
                 }
             }).success(function () {
                 $btn.button('reset');
-                return $scope.$parent.success('保存成功');
+                $scope.$parent.success('保存成功');
             }).error(function (response, status, headers, config) {
                 $btn.button('reset');
-                return $scope.$parent.error(response, status, headers, config);
+                $scope.$parent.error(response, status, headers, config);
             });
         };
     }
@@ -1661,21 +1659,21 @@ ipcApp.controller('InputController', [
         }).success(function (data) {
             $scope.input1 = data.items.input1;
             $scope.current_input = 'input1';
-            return $('#input1_schedules').timegantt('setSelected', $scope.input1.schedules);
+            $('#input1_schedules').timegantt('setSelected', $scope.input1.schedules);
         }).error(function (response, status, headers, config) {
-            return $scope.$parent.get_error(response, status, headers, config);
+            $scope.$parent.get_error(response, status, headers, config);
         });
-        return $scope.save = function (e) {
+        $scope.save = function (e) {
             var $btn;
             $btn = $(e.target);
             $btn.button('loading');
-            return $http.put("" + $scope.$parent.url + "/event_input.json", {
+            $http.put("" + $scope.$parent.url + "/event_input.json", {
                 items: {
                     input1: $scope.input1
                 }
             }).success(function () {
                 $btn.button('reset');
-                return $scope.$parent.success('保存成功');
+                $scope.$parent.success('保存成功');
             });
         };
     }
@@ -1694,9 +1692,9 @@ ipcApp.controller('OutputController', [
             $scope.output1_normal = data.items.output1.normal === 'open' ? true : false;
             $scope.output1_trigger = data.items.output1.normal === 'close' ? false : true;
             $scope.output1_period = data.items.output1.period;
-            return add_watch();
+            add_watch();
         }).error(function (response, status, headers, config) {
-            return $scope.$parent.get_error(response, status, headers, config);
+            $scope.$parent.get_error(response, status, headers, config);
         });
         $scope.output1_period_msg = '';
         number_reg = /^[0-9]*$/;
@@ -1719,13 +1717,13 @@ ipcApp.controller('OutputController', [
         };
         add_watch = function () {
             $scope.$watch('output1_normal', function (newValue) {
-                return $scope.output1_trigger = !newValue;
+                $scope.output1_trigger = !newValue;
             });
             $scope.$watch('output1_trigger', function (newValue) {
-                return $scope.output1_normal = !newValue;
+                $scope.output1_normal = !newValue;
             });
-            return $scope.$watch('output1_period', function (newValue) {
-                return valid.output1_period(newValue);
+            $scope.$watch('output1_period', function (newValue) {
+                valid.output1_period(newValue);
             });
         };
         isValid = function () {
@@ -1734,14 +1732,14 @@ ipcApp.controller('OutputController', [
             }
             return true;
         };
-        return $scope.save = function (e) {
+        $scope.save = function (e) {
             var $btn;
             if (!isValid()) {
                 return;
             }
             $btn = $(e.target);
             $btn.button('loading');
-            return $http.put("" + $scope.$parent.url + "/event_output.json", {
+            $http.put("" + $scope.$parent.url + "/event_output.json", {
                 items: {
                     output1: {
                         normal: $scope.output1_normal === true ? 'open' : 'close',
@@ -1750,10 +1748,10 @@ ipcApp.controller('OutputController', [
                 }
             }).success(function () {
                 $btn.button('reset');
-                return $scope.$parent.success('保存成功');
+                $scope.$parent.success('保存成功');
             }).error(function (response, status, headers, config) {
                 $btn.button('reset');
-                return $scope.$parent.error(response, status, headers, config);
+                $scope.$parent.error(response, status, headers, config);
             });
         };
     }
@@ -1787,11 +1785,11 @@ ipcApp.controller('MotionDetectController', [
             $('#region1_sensitivity').val($scope.region1.sensitivity);
             $('#region2_sensitivity').val($scope.region2.sensitivity);
             $('#region1_schedules').timegantt('setSelected', $scope.region1.schedules);
-            return $('#region2_schedules').timegantt('setSelected', $scope.region2.schedules);
+            $('#region2_schedules').timegantt('setSelected', $scope.region2.schedules);
         }).error(function (response, status, headers, config) {
-            return $scope.$parent.get_error(response, status, headers, config);
+            $scope.$parent.get_error(response, status, headers, config);
         });
-        return $scope.save = function (e) {
+        $scope.save = function (e) {
             var $btn;
             $scope.region1.rect = {
                 left: Math.round($scope.region1_rect.left / VIDEO_WIDTH * 1000),
@@ -1807,17 +1805,17 @@ ipcApp.controller('MotionDetectController', [
             };
             $btn = $(e.target);
             $btn.button('loading');
-            return $http.put("" + $scope.$parent.url + "/event_motion.json", {
+            $http.put("" + $scope.$parent.url + "/event_motion.json", {
                 items: {
                     region1: $scope.region1,
                     region2: $scope.region2
                 }
             }).success(function () {
                 $btn.button('reset');
-                return $scope.$parent.success('保存成功');
+                $scope.$parent.success('保存成功');
             }).error(function (response, status, headers, config) {
                 $btn.button('reset');
-                return $scope.$parent.error(response, status, headers, config);
+                $scope.$parent.error(response, status, headers, config);
             });
         };
     }
@@ -1851,11 +1849,11 @@ ipcApp.controller('VideoCoverageController', [
             $('#region1_sensitivity').val($scope.region1.sensitivity);
             $('#region2_sensitivity').val($scope.region2.sensitivity);
             $('#region1_schedules').timegantt('setSelected', $scope.region1.schedules);
-            return $('#region2_schedules').timegantt('setSelected', $scope.region2.schedules);
+            $('#region2_schedules').timegantt('setSelected', $scope.region2.schedules);
         }).error(function (response, status, headers, config) {
-            return $scope.$parent.get_error(response, status, headers, config);
+            $scope.$parent.get_error(response, status, headers, config);
         });
-        return $scope.save = function (e) {
+        $scope.save = function (e) {
             var $btn;
             $scope.region1.rect = {
                 left: Math.round($scope.region1_rect.left / VIDEO_WIDTH * 1000),
@@ -1871,17 +1869,17 @@ ipcApp.controller('VideoCoverageController', [
             };
             $btn = $(e.target);
             $btn.button('loading');
-            return $http.put("" + $scope.$parent.url + "/event_cover.json", {
+            $http.put("" + $scope.$parent.url + "/event_cover.json", {
                 items: {
                     region1: $scope.region1,
                     region2: $scope.region2
                 }
             }).success(function () {
                 $btn.button('reset');
-                return $scope.$parent.success('保存成功');
+                $scope.$parent.success('保存成功');
             }).error(function (response, status, headers, config) {
                 $btn.button('reset');
-                return $scope.$parent.error(response, status, headers, config);
+                $scope.$parent.error(response, status, headers, config);
             });
         };
     }
@@ -1898,15 +1896,15 @@ ipcApp.controller('EventProcessController', [
         }).success(function (data) {
             $scope.input1 = data.items.input1;
             $scope.motion = data.items.motion;
-            return $scope.cover = data.items.cover;
+            $scope.cover = data.items.cover;
         }).error(function (response, status, headers, config) {
-            return $scope.$parent.get_error(response, status, headers, config);
+            $scope.$parent.get_error(response, status, headers, config);
         });
-        return $scope.save = function (e) {
+        $scope.save = function (e) {
             var $btn;
             $btn = $(e.target);
             $btn.button('loading');
-            return $http.put("" + $scope.$parent.url + "/event_proc.json", {
+            $http.put("" + $scope.$parent.url + "/event_proc.json", {
                 items: {
                     input1: $scope.input1,
                     motion: $scope.motion,
@@ -1914,10 +1912,10 @@ ipcApp.controller('EventProcessController', [
                 }
             }).success(function () {
                 $btn.button('reset');
-                return $scope.$parent.success('保存成功');
+                $scope.$parent.success('保存成功');
             }).error(function (response, status, headers, config) {
                 $btn.button('reset');
-                return $scope.$parent.error(response, status, headers, config);
+                $scope.$parent.error(response, status, headers, config);
             });
         };
     }

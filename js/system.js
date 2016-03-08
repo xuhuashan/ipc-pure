@@ -30,21 +30,19 @@ ipcApp.controller('SystemInfoController', [
             }
 
             DrawChart.prototype.init = function () {
-                var $parent, i, _i, _results;
+                var $parent, i, _i;
                 $parent = this.$el.parent();
                 this.$el[0].width = $parent.width();
                 this.$el[0].height = $parent.height();
-                _results = [];
                 for (i = _i = 60; _i > -1; i = _i += -5) {
                     this.labels.push(i + 's');
-                    _results.push(this.data.push(0));
+                    this.data.push(0);
                 }
-                return _results;
             };
 
             DrawChart.prototype.getLineChartData = function () {
                 var lineChartData;
-                return lineChartData = {
+                lineChartData = {
                     labels: this.labels,
                     datasets: [{
                         label: 'Chart',
@@ -56,13 +54,13 @@ ipcApp.controller('SystemInfoController', [
             };
 
             DrawChart.prototype.draw = function () {
-                return new Chart(this.ctx).Line(this.getLineChartData(), this.chart_options);
+                new Chart(this.ctx).Line(this.getLineChartData(), this.chart_options);
             };
 
             DrawChart.prototype.redraw = function (value) {
                 this.data.push(value);
                 this.data.shift();
-                return this.draw();
+                this.draw();
             };
 
             return DrawChart;
@@ -73,12 +71,12 @@ ipcApp.controller('SystemInfoController', [
         net_chart = new DrawChart($('#net_cvs'), '#4433ab', '#4433ab', 'rgba(184, 177, 227, 0.5)', '#bbb5e4');
         get_timeout = function () {
             $timeout.cancel(info_timeout);
-            return info_timeout = $timeout(function () {
-                return get_system_info();
+            info_timeout = $timeout(function () {
+                get_system_info();
             }, 5000);
         };
         get_system_info = function () {
-            return $http.get("" + window.apiUrl + "/sysinfo.json", {
+            $http.get("" + window.apiUrl + "/sysinfo.json", {
                 params: {
                     v: new Date().getTime()
                 }
@@ -93,20 +91,20 @@ ipcApp.controller('SystemInfoController', [
                 cpu_chart.redraw(data.sysinfo.cpu.usage);
                 memory_chart.redraw(data.sysinfo.memory.usage);
                 net_chart.redraw(data.sysinfo.net.tx_speed);
-                return get_timeout();
+                get_timeout();
             }).error(function (response, status, headers, config) {
                 if (status === 401) {
                     delCookie('username');
                     delCookie('userrole');
                     delCookie('token');
-                    return setTimeout(function () {
-                        return location.href = '/login';
+                    setTimeout(function () {
+                        location.href = '/login';
                     }, 200);
                 } else if (status === 403) {
-                    return location.href = '/login';
+                    location.href = '/login';
                 }
             });
         };
-        return get_system_info();
+        get_system_info();
     }
 ]);

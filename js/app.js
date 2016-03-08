@@ -1,29 +1,22 @@
-<% if Rails.env.development? %>
-window.uploadUrl = 'http://192.168.6.4'
-window.apiUrl = 'http://192.168.6.4/api/1.0'
-<% else %>
-window.uploadUrl = ''
-window.apiUrl = '/api/1.0'
-<% end %>
-
-
+window.uploadUrl = '';
+window.apiUrl = '/api/1.0';
 var token;
 
-window.getVlc = function() {
-    var vlc;
-    vlc = null;
-    if (window.document['vlc']) {
-        vlc = window.document['vlc'];
+window.getVlc = function () {
+    var vlc = null;
+    if (window.document.vlc) {
+        vlc = window.document.vlc;
     }
-    if (navigator.appName.indexOf('Microsoft Internet') === -1 && document.embeds && document.embeds['vlc']) {
-        vlc = document.embeds['vlc'];
+    if (navigator.appName.indexOf('Microsoft Internet') === -1 &&
+        document.embeds && document.embeds.vlc) {
+        vlc = document.embeds.vlc;
     } else {
         vlc = document.getElementById('vlc');
     }
     return vlc;
 };
 
-window.playVlc = function(stream_url) {
+window.playVlc = function (stream_url) {
     var ip, port, rtsp_auth, stream_path, vlc;
     stream_url = stream_url || 'main_profile';
     stream_url = stream_url === 'main_profile' ? 'main_stream_url' : 'sub_stream_url';
@@ -35,7 +28,7 @@ window.playVlc = function(stream_url) {
         stream_path = 'main_stream';
         return $.ajax({
             cache: false,
-            url: "" + window.apiUrl + "/misc.json",
+            url: window.apiUrl + '/misc.json',
             data: {
                 'items[]': [stream_url]
             },
@@ -43,7 +36,7 @@ window.playVlc = function(stream_url) {
                 'Set-Cookie': 'token=' + getCookie('token')
             },
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 var mrl;
                 rtsp_auth = data.items.rtsp_auth;
                 port = data.items.port;
@@ -59,46 +52,50 @@ window.playVlc = function(stream_url) {
                 mrl += '/' + stream_path;
                 vlc.MRL = mrl;
                 vlc.Stop();
-                return setTimeout(function() {
-                    return vlc.Play();
+                setTimeout(function () {
+                    vlc.Play();
                 }, 500);
             }
         });
     }
 };
 
-window.stopVlc = function() {
+window.stopVlc = function () {
     var vlc;
     vlc = getVlc();
     if (vlc) {
-        return vlc.Stop();
+        vlc.Stop();
     }
 };
 
-window.setCookie = function(name, value) {
+// 写入cookie
+window.setCookie = function (name, value) {
     var exp;
     exp = new Date();
     exp.setTime(exp.getTime() + 1 * 24 * 60 * 60 * 1000);
-    return document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString() + ";path=/";
+    document.cookie = name + '=' + escape(value) + ';expires=' + exp.toGMTString() + ';path=/';
 };
 
-window.getCookie = function(name) {
+// 读取cookie
+window.getCookie = function (name) {
     var arr, reg;
-    reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-    if (arr = document.cookie.match(reg)) {
+    reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)');
+    arr = document.cookie.match(reg);
+    if (arr) {
         return unescape(arr[2]);
     } else {
         return null;
     }
 };
 
-window.delCookie = function(name) {
+// 删除cookie
+window.delCookie = function (name) {
     var cval, exp;
     exp = new Date();
     exp.setTime(exp.getTime() - 1);
     cval = getCookie(name);
     if (cval !== null) {
-        return document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+        document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString();
     }
 };
 
@@ -106,18 +103,18 @@ if (location.href.indexOf('login') === -1) {
     token = getCookie('token');
     if (token) {
         $.ajax({
-            url: "" + window.apiUrl + "/login.json",
+            url: window.apiUrl + '/login.json',
             type: 'POST',
             data: JSON.stringify({
                 token: token
             }),
-            success: function(data) {
+            success: function (data) {
                 if (data.success === false) {
                     delCookie('username');
                     delCookie('userrole');
                     delCookie('token');
-                    return setTimeout(function() {
-                        return location.href = '/login';
+                    setTimeout(function () {
+                        location.href = '/login';
                     }, 200);
                 }
             }
@@ -127,7 +124,7 @@ if (location.href.indexOf('login') === -1) {
     }
 }
 
-window.dateFormat = function(str, format) {
+window.dateFormat = function (str, format) {
     var d, k, n, o;
     if (!str) {
         return '';
@@ -163,8 +160,8 @@ window.dateFormat = function(str, format) {
     return format;
 };
 
-$(function() {
-    return $(document).scroll(function(e) {
+$(function () {
+    $(document).scroll(function (e) {
         var left;
         left = $(this).scrollLeft();
         $('.sidebar-mask').css('left', '-' + left + 'px');
@@ -175,15 +172,16 @@ window.ipcApp = angular.module('ipcApp', []);
 
 ipcApp.config([
     '$sceProvider', '$httpProvider',
-    function($sceProvider, $httpProvider) {
+    function ($sceProvider, $httpProvider) {
         $sceProvider.enabled(false);
-        return $httpProvider.defaults.headers.common['Set-Cookie'] = 'token=' + getCookie('token');
+        // 设置默认cookie传输
+        $httpProvider.defaults.headers.common['Set-Cookie'] = 'token=' + getCookie('token');
     }
 ]);
 
 ipcApp.controller('navbarController', [
     '$scope', '$http',
-    function($scope, $http) {
+    function ($scope, $http) {
         var roleObj;
         roleObj = {
             administrator: '管理员',
@@ -193,23 +191,23 @@ ipcApp.controller('navbarController', [
         $scope.role = getCookie('userrole');
         $scope.username = getCookie('username') || '';
         $scope.userrole = roleObj[$scope.role] || '';
-        return $scope.logout = function() {
-            $http.get("" + window.apiUrl + "/logout.json");
+        $scope.logout = function () {
+            $http.get(window.apiUrl + '/logout.json');
             delCookie('username');
             delCookie('userrole');
             delCookie('token');
-            return setTimeout(function() {
-                return location.href = '/login';
+            setTimeout(function () {
+                location.href = '/login';
             }, 200);
         };
     }
 ]);
 
-ipcApp.directive('ngIcheck', function($compile) {
+ipcApp.directive('ngIcheck', function ($compile) {
     return {
         restrict: 'A',
         require: '?ngModel',
-        link: function($scope, $element, $attrs, $ngModel) {
+        link: function ($scope, $element, $attrs, $ngModel) {
             if (!$ngModel) {
                 return;
             }
@@ -217,60 +215,58 @@ ipcApp.directive('ngIcheck', function($compile) {
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue',
                 increaseArea: '20%'
-            }).on('ifClicked', function(event) {
+            }).on('ifClicked', function (event) {
                 if ($attrs.type === 'checkbox') {
-                    return $scope.$apply(function() {
-                        var _ref;
-                        return $ngModel.$setViewValue(!((_ref = $ngModel.$modelValue === void 0) != null ? _ref : {
-                            "false": $ngModel.$modelValue
-                        }));
+                    $scope.$apply(function () {
+                        var val = !($ngModel.$modelValue === undefined ? false : $ngModel.$modelValue);
+                        $ngModel.$setViewValue(val);
                     });
                 } else {
-                    return $scope.$apply(function() {
-                        return $ngModel.$setViewValue($attrs.value);
+                    $scope.$apply(function () {
+                        $ngModel.$setViewValue($attrs.value);
                     });
                 }
             });
-            return $scope.$watch($attrs.ngModel, function(newValue) {
+            $scope.$watch($attrs.ngModel, function (newValue) {
                 if (newValue === true && $attrs.type === 'checkbox') {
-                    return $element.iCheck('check').iCheck('update');
+                    $element.iCheck('check').iCheck('update');
                 }
             });
         }
     };
 });
 
-ipcApp.directive('ngBswitch', function($compile) {
+ipcApp.directive('ngBswitch', function ($compile) {
     return {
         restrict: 'A',
         require: '?ngModel',
-        link: function($scope, $element, $attrs, $ngModel) {
+        link: function ($scope, $element, $attrs, $ngModel) {
             if (!$ngModel) {
                 return;
             }
             $element.bootstrapSwitch({
                 onText: $element.attr('ontext') || '开',
                 offText: $element.attr('offtext') || '关'
-            }).on('switchChange.bootstrapSwitch', function(e, state) {
-                return $scope.$apply(function() {
-                    return $ngModel.$setViewValue(state);
+            }).on('switchChange.bootstrapSwitch', function (e, state) {
+                $scope.$apply(function () {
+                    $ngModel.$setViewValue(state);
                 });
             });
             if ($scope[$attrs.ngModel]) {
                 $element.bootstrapSwitch('state', true, true);
             }
-            return $scope.$watch($attrs.ngModel, function(newValue) {
-                return $element.bootstrapSwitch('state', newValue || false, true);
+            $scope.$watch($attrs.ngModel, function (newValue) {
+                $element.bootstrapSwitch('state', newValue || false, true);
             });
         }
     };
 });
 
-ipcApp.directive('ngSlider', function($compile) {
+ipcApp.directive('ngSlider', function ($compile) {
     return {
         restrict: 'A',
         require: '?ngModel',
-        link: function($scope, $element, $attrs, $ngModel) {
+        link: function ($scope, $element, $attrs, $ngModel) {
             if (!$ngModel) {
                 return;
             }
@@ -282,28 +278,28 @@ ipcApp.directive('ngSlider', function($compile) {
                     'min': [parseInt($attrs.min, 10) || 0],
                     'max': [parseInt($attrs.max, 10) || 100]
                 }
-            }).on('slide', function(e, val) {
-                return $scope.$apply(function() {
-                    return $ngModel.$setViewValue(parseInt(val));
+            }).on('slide', function (e, val) {
+                $scope.$apply(function () {
+                    $ngModel.$setViewValue(parseInt(val));
                 });
             });
         }
     };
 });
 
-ipcApp.directive('ngColor', function($compile) {
+ipcApp.directive('ngColor', function ($compile) {
     return {
         restrict: 'A',
         require: '?ngModel',
-        link: function($scope, $element, $attrs, $ngModel) {
+        link: function ($scope, $element, $attrs, $ngModel) {
             if (!$ngModel) {
                 return;
             }
-            $element.colorpicker().on('changeColor', function(e) {
+            $element.colorpicker().on('changeColor', function (e) {
                 var rgb;
                 rgb = e.color.toRGB();
-                return $scope.$apply(function() {
-                    return $ngModel.$setViewValue({
+                $scope.$apply(function () {
+                    $ngModel.$setViewValue({
                         red: rgb.r,
                         green: rgb.g,
                         blue: rgb.b,
@@ -311,25 +307,25 @@ ipcApp.directive('ngColor', function($compile) {
                     });
                 });
             });
-            return $scope.$watch($attrs.ngModel, function(newValue) {
+            $scope.$watch($attrs.ngModel, function (newValue) {
                 var hex;
                 if (newValue) {
                     hex = '#' + ((1 << 24) | (parseInt(newValue.red) << 16) | (parseInt(newValue.green) << 8) | parseInt(newValue.blue)).toString(16).substr(1);
                     hex.toUpperCase();
                     $element.colorpicker('setValue', hex, true);
                     $element.find('.color-block').css('background', hex);
-                    return $element.parent().find('.color-text').val(hex);
+                    $element.parent().find('.color-text').val(hex);
                 }
             });
         }
     };
 });
 
-ipcApp.directive('ngShelter', function($compile) {
+ipcApp.directive('ngShelter', function ($compile) {
     return {
         restrict: 'A',
         require: '?ngModel',
-        link: function($scope, $element, $attrs, $ngModel) {
+        link: function ($scope, $element, $attrs, $ngModel) {
             var $parent, parent_size, rect;
             if (!$ngModel) {
                 return;
@@ -356,7 +352,7 @@ ipcApp.directive('ngShelter', function($compile) {
             }).draggable({
                 containment: $parent,
                 iframeFix: true,
-                stop: function(e, ui) {
+                stop: function (e, ui) {
                     if (ui.position.left + rect.width > parent_size.width) {
                         rect.left = parent_size.width - rect.width;
                         $(this).css('left', rect.left);
@@ -369,26 +365,26 @@ ipcApp.directive('ngShelter', function($compile) {
                     } else {
                         rect.top = ui.position.top;
                     }
-                    return $scope.$apply(function() {
-                        return $ngModel.$setViewValue(rect);
+                    $scope.$apply(function () {
+                        $ngModel.$setViewValue(rect);
                     });
                 }
             }).resizable({
                 containment: $parent,
                 minWidth: parseInt($attrs.minwidth, 10) || 50,
                 minHeight: parseInt($attrs.minheight, 10) || 50,
-                stop: function(e, ui) {
+                stop: function (e, ui) {
                     rect.width = ui.size.width;
                     rect.height = ui.size.height;
-                    return $scope.$apply(function() {
-                        return $ngModel.$setViewValue(rect);
+                    $scope.$apply(function () {
+                        $ngModel.$setViewValue(rect);
                     });
                 }
             });
-            return $scope.$watch($attrs.ngModel, function(newValue) {
+            $scope.$watch($attrs.ngModel, function (newValue) {
                 if (newValue) {
                     rect = newValue;
-                    return $element.css({
+                    $element.css({
                         left: newValue.left,
                         top: newValue.top,
                         width: newValue.width,
@@ -400,32 +396,32 @@ ipcApp.directive('ngShelter', function($compile) {
     };
 });
 
-ipcApp.directive('ngDatetime', function($compile) {
+ipcApp.directive('ngDatetime', function ($compile) {
     return {
         restrict: 'A',
         require: '?ngModel',
-        link: function($scope, $element, $attrs, $ngModel) {
+        link: function ($scope, $element, $attrs, $ngModel) {
             if (!$ngModel) {
                 return;
             }
-            return $element.datetimepicker();
+            $element.datetimepicker();
         }
     };
 });
 
-ipcApp.directive('ngTimegantt', function($compile) {
+ipcApp.directive('ngTimegantt', function ($compile) {
     return {
         restrict: 'A',
         require: '?ngModel',
-        link: function($scope, $element, $attrs, $ngModel) {
+        link: function ($scope, $element, $attrs, $ngModel) {
             if (!$ngModel) {
                 return;
             }
-            return $element.timegantt({
+            $element.timegantt({
                 width: 782
-            }).on('changeSelected', function(e, data) {
-                return $scope.$apply(function() {
-                    return $ngModel.$setViewValue(data);
+            }).on('changeSelected', function (e, data) {
+                $scope.$apply(function () {
+                    $ngModel.$setViewValue(data);
                 });
             });
         }

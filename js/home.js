@@ -1,7 +1,9 @@
 ipcApp.controller('HomeController', [
     '$scope', '$timeout', '$http',
-    function($scope, $timeout, $http) {
+    function ($scope, $timeout, $http) {
         var direction_status, getVideo, resizeVideo, resolution_mapping, restore_interval;
+
+        // 设置默认cookie传输
         $http.defaults.headers.common['Set-Cookie'] = 'token=' + getCookie('token');
         $scope.speed = 50;
         $scope.aperture_val = 0;
@@ -25,25 +27,27 @@ ipcApp.controller('HomeController', [
                 'items[]': ['force_night_mode'],
                 v: new Date().getTime()
             }
-        }).success(function(data) {
-            return $scope.light = data.items.force_night_mode;
-        }).error(function(response, status, headers, config) {
+        }).success(function (data) {
+            $scope.light = data.items.force_night_mode;
+        }).error(function (response, status, headers, config) {
             if (status === 401) {
-                return location.href = '/login';
+                location.href = '/login';
             }
         });
-        $scope.$watch('light', function(newValue, oldValue) {
+        $scope.$watch('light', function (newValue, oldValue) {
             if (newValue !== oldValue) {
-                return $http.put("" + window.apiUrl + "/day_night_mode.json", {
+                $http.put("" + window.apiUrl + "/day_night_mode.json", {
                     items: {
                         force_night_mode: $scope.light
                     }
                 });
             }
         });
-        $('#home_content').on('slide', '.special', function() {
+
+        // 复位光圈、焦距、变焦
+        $('#home_content').on('slide', '.special', function () {
             clearInterval(restore_interval);
-            return restore_interval = setInterval(function() {
+            restore_interval = setInterval(function () {
                 if ($scope.aperture_val > 0) {
                     return console.log('++++++');
                 } else {
@@ -51,26 +55,28 @@ ipcApp.controller('HomeController', [
                 }
             }, 500);
         });
-        $('#home_content').on('change', '.special', function() {
+        $('#home_content').on('change', '.special', function () {
             $scope.aperture_val = 0;
             $(this).val(0);
             return clearInterval(restore_interval);
         });
         direction_status = false;
-        $scope.start_direction = function(direction) {
+        $scope.start_direction = function (direction) {
             direction_status = true;
             return console.log(direction);
         };
-        $scope.stop_direction = function() {
+        $scope.stop_direction = function () {
             direction_status = false;
             return console.log('stop direction');
         };
-        $(document).on('mouseup', function() {
+
+        // 鼠标移开后释放需清楚interval
+        $(document).on('mouseup', function () {
             if (direction_status === true) {
                 return $scope.stop_direction();
             }
         });
-        $scope.toggle_device_control = function() {
+        $scope.toggle_device_control = function () {
             var screen_params, sidebar_params;
             if ($scope.ptz_status === 'show') {
                 $scope.ptz_status = 'hide';
@@ -111,32 +117,32 @@ ipcApp.controller('HomeController', [
             $('#screen_wrap').animate(screen_params, 500);
             $('#collapse_block').animate(screen_params, 500);
         };
-        $scope.change_stream = function(stream) {
+        $scope.change_stream = function (stream) {
             $scope.current_stream = stream;
-            return getVideo();
+            getVideo();
         };
-        $scope.toggle_microphone = function() {
-            return $scope.off_microphone = !$scope.off_microphone;
+        $scope.toggle_microphone = function () {
+            $scope.off_microphone = !$scope.off_microphone;
         };
-        $scope.toggle_volume = function() {
-            return $scope.mute = !$scope.mute;
+        $scope.toggle_volume = function () {
+            $scope.mute = !$scope.mute;
         };
-        $scope.play_or_pause = function() {
+        $scope.play_or_pause = function () {
             if ($scope.play_status === 'play') {
                 $scope.play_status = 'stop';
-                return stopVlc();
+                stopVlc();
             } else {
                 $scope.play_status = 'play';
-                return playVlc();
+                playVlc();
             }
         };
-        $scope.change_ptz_position = function() {
+        $scope.change_ptz_position = function () {
             $('#collapse_block, #home_sidebar, #screen_wrap').removeAttr('style');
             $scope.ptz_status = 'show';
             if ($scope.ptz_position === 'left') {
-                return $scope.ptz_position = 'right';
+                $scope.ptz_position = 'right';
             } else {
-                return $scope.ptz_position = 'left';
+                $scope.ptz_position = 'left';
             }
         };
         resolution_mapping = {
@@ -165,24 +171,24 @@ ipcApp.controller('HomeController', [
                 height: 288
             }
         };
-        getVideo = function() {
-            return $http.get("" + window.apiUrl + "/video.json", {
+        getVideo = function () {
+            $http.get("" + window.apiUrl + "/video.json", {
                 params: {
                     'items[]': [$scope.current_stream],
                     v: new Date().getTime()
                 }
-            }).success(function(data) {
+            }).success(function (data) {
                 $scope.current_size = resolution_mapping[data.items[$scope.current_stream].resolution];
                 resizeVideo();
-                return playVlc($scope.current_stream);
-            }).error(function(response, status, headers, config) {
+                playVlc($scope.current_stream);
+            }).error(function (response, status, headers, config) {
                 if (status === 401) {
-                    return location.href = '/login';
+                    location.href = '/login';
                 }
             });
         };
         getVideo();
-        resizeVideo = function() {
+        resizeVideo = function () {
             var $screen_wrap, actual_size, height_ratio, margin_top, ratio, width_ratio, _height, _width;
             $screen_wrap = $('#screen_wrap');
             actual_size = {
@@ -204,13 +210,13 @@ ipcApp.controller('HomeController', [
             $('#vlc').width(_width).height(_height);
             if (_height < actual_size.height) {
                 margin_top = (actual_size.height - _height) / 2;
-                return $('#vlc').css('margin-top', margin_top + 'px');
+                $('#vlc').css('margin-top', margin_top + 'px');
             } else {
-                return $('#vlc').css('margin-top', '0px');
+                $('#vlc').css('margin-top', '0px');
             }
         };
-        return $(window).on('resize', function(e) {
-            return resizeVideo();
+        $(window).on('resize', function (e) {
+            resizeVideo();
         });
     }
 ]);
