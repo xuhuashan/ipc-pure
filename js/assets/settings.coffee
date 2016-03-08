@@ -1488,21 +1488,3 @@ ipcApp.controller 'EventProcessController', [
         $btn.button('reset')
         $scope.$parent.error(response, status, headers, config)
 ]
-
-
-
-ipcApp.controller 'RecorderSettingController', [
-  '$scope'
-  '$http'
-  ($scope, $http) ->
-    $scope.schedules = {}
-    $scope.limit_normal = 'size'
-    $scope.limit_event = 15
-    $scope.no_enough_space = 'stop'
-]
-
-ipcApp.controller 'RecorderStatusController', [
-  '$scope'
-  '$http'
-  ($scope, $http) ->
-]
