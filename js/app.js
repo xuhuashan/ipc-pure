@@ -204,7 +204,7 @@ ipcApp.controller('navbarController', [
     }
 ]);
 
-ipcApp.directive('ngIcheck', function ($compile) {
+ipcApp.directive('ngIcheck', ['$compile', function ($compile) {
     return {
         restrict: 'A',
         require: '?ngModel',
@@ -235,9 +235,9 @@ ipcApp.directive('ngIcheck', function ($compile) {
             });
         }
     };
-});
+}]);
 
-ipcApp.directive('ngBswitch', function ($compile) {
+ipcApp.directive('ngBswitch', ['$compile', function ($compile) {
     return {
         restrict: 'A',
         require: '?ngModel',
@@ -261,9 +261,9 @@ ipcApp.directive('ngBswitch', function ($compile) {
             });
         }
     };
-});
+}]);
 
-ipcApp.directive('ngSlider', function ($compile) {
+ipcApp.directive('ngSlider', ['$compile', function ($compile) {
     return {
         restrict: 'A',
         require: '?ngModel',
@@ -286,9 +286,9 @@ ipcApp.directive('ngSlider', function ($compile) {
             });
         }
     };
-});
+}]);
 
-ipcApp.directive('ngColor', function ($compile) {
+ipcApp.directive('ngColor', ['$compile', function ($compile) {
     return {
         restrict: 'A',
         require: '?ngModel',
@@ -320,9 +320,9 @@ ipcApp.directive('ngColor', function ($compile) {
             });
         }
     };
-});
+}]);
 
-ipcApp.directive('ngShelter', function ($compile) {
+ipcApp.directive('ngShelter', ['$compile', function ($compile) {
     return {
         restrict: 'A',
         require: '?ngModel',
@@ -395,9 +395,9 @@ ipcApp.directive('ngShelter', function ($compile) {
             });
         }
     };
-});
+}]);
 
-ipcApp.directive('ngDatetime', function ($compile) {
+ipcApp.directive('ngDatetime', ['$compile', function ($compile) {
     return {
         restrict: 'A',
         require: '?ngModel',
@@ -408,9 +408,9 @@ ipcApp.directive('ngDatetime', function ($compile) {
             $element.datetimepicker();
         }
     };
-});
+}]);
 
-ipcApp.directive('ngTimegantt', function ($compile) {
+ipcApp.directive('ngTimegantt', ['$compile', function ($compile) {
     return {
         restrict: 'A',
         require: '?ngModel',
@@ -427,4 +427,4 @@ ipcApp.directive('ngTimegantt', function ($compile) {
             });
         }
     };
-});
+}]);
