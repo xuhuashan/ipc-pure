@@ -41,8 +41,7 @@ ipcApp.controller('SystemInfoController', [
             };
 
             DrawChart.prototype.getLineChartData = function () {
-                var lineChartData;
-                lineChartData = {
+                var lineChartData = {
                     labels: this.labels,
                     datasets: [{
                         label: 'Chart',
@@ -51,6 +50,7 @@ ipcApp.controller('SystemInfoController', [
                         data: this.data
                     }]
                 };
+                return lineChartData;
             };
 
             DrawChart.prototype.draw = function () {
