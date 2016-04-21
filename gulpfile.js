@@ -16,38 +16,38 @@ gulp.task('default', function () {
 gulp.task('clean', function () {
     gulp.src('dist')
         .pipe(clean());
-    gulp.src('rev')
+    return gulp.src('rev')
         .pipe(clean());
 });
 
 // 打包编译Less
 gulp.task('less', function () {
-    gulp.src('css/*.less')
+    return gulp.src('css/*.less')
         .pipe(less())
         .pipe(gulp.dest('css'))
         .pipe(csso())
         .pipe(rev())
         .pipe(gulp.dest('dist/css'))
         .pipe(rev.manifest({
-            merge: true
+            path: 'rev-css.json'
         }))
         .pipe(gulp.dest('rev'));
 });
 
 // 打包资源js
 gulp.task('js', function () {
-    gulp.src('js/*.js')
+    return gulp.src('js/*.js')
         .pipe(uglify())
         .pipe(rev())
         .pipe(gulp.dest('dist/js'))
         .pipe(rev.manifest({
-            merge: true
+            path: 'rev-js.json'
         }))
         .pipe(gulp.dest('rev'));
 });
 
 // 打包组件js、css、fonts、images
-gulp.task('components', function () {
+gulp.task('components', ['js'], function () {
     gulp.src('images/*')
         .pipe(gulp.dest('dist/images'));
 
@@ -65,17 +65,17 @@ gulp.task('components', function () {
     gulp.src('js/components/bootstrap-colorpicker/images/*')
         .pipe(gulp.dest('dist/js/components/bootstrap-colorpicker/images'));
 
-    gulp.src('js/components/jquery-icheck/images/*')
+    return gulp.src('js/components/jquery-icheck/images/*')
         .pipe(gulp.dest('dist/js/components/jquery-icheck/images'));
 });
 
 // 文件增量更新重命名
-gulp.task('collector', function () {
-    gulp.src(['rev/*.json', 'views/**/*.html'])
+gulp.task('collector', ['less', 'js', 'components'], function () {
+    return gulp.src(['rev/*.json', 'views/**/*.html'])
         .pipe(collector())
-        .pipe(gulp.dest('dist/views'));
+        .pipe(gulp.dest('dist'));
 });
 
-gulp.task('dist', ['clean', 'less', 'js', 'components', 'collector'], function () {
+gulp.task('dist', ['less', 'js', 'components', 'collector'], function () {
 
 });

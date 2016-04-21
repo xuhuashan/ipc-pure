@@ -108,6 +108,7 @@ if (location.href.indexOf('login') === -1) {
             data: JSON.stringify({
                 token: token
             }),
+            contentType: 'application/json',
             success: function (data) {
                 if (data.success === false) {
                     delCookie('username');
