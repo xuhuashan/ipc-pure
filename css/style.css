@@ -711,7 +711,7 @@ select.form-control {
 .home-wrap .home-footer .play-control .volume-wrap .microphone-slider,
 .home-wrap .home-footer .play-control .microphone-wrap .volume-slider,
 .home-wrap .home-footer .play-control .volume-wrap .volume-slider {
-  width: 195px;
+  width: 190px;
   margin-bottom: 6px;
   display: inline-block;
   *display: inline;
