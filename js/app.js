@@ -51,9 +51,12 @@ window.playVlc = function (stream_url) {
                 }
                 mrl += '/' + stream_path;
                 vlc.MRL = mrl;
-                vlc.Stop();
+                vlc.playlist.stop();
                 setTimeout(function () {
-                    vlc.Play();
+                    var options = new Array(":network-caching=300",
+                                            "--rtsp-tcp");
+                    var id = vlc.playlist.add(mrl, "0", options);
+                    vlc.playlist.playItem(id);
                 }, 500);
             }
         });
@@ -64,7 +67,7 @@ window.stopVlc = function () {
     var vlc;
     vlc = getVlc();
     if (vlc) {
-        vlc.Stop();
+        vlc.playlist.stop();
     }
 };
 
