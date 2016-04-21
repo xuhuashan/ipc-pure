@@ -871,21 +871,21 @@ ipcApp.controller('StreamController', [
             }
         };
         add_watch = function () {
-            $scope.$watch('main_profile.frame_rate', function (newValue) {
+            $scope.$watch('main_profile.framerate', function (newValue) {
                 valid('主码流帧率', newValue, 1, 30);
             });
-            $scope.$watch('main_profile.bit_rate_value', function (newValue) {
+            $scope.$watch('main_profile.bitrate', function (newValue) {
                 valid('主码流码率', newValue, 128, 10240);
             });
-            $scope.$watch('sub_profile.frame_rate', function (newValue) {
+            $scope.$watch('sub_profile.framerate', function (newValue) {
                 valid('次码流帧率', newValue, 1, 30);
             });
-            $scope.$watch('sub_profile.bit_rate_value', function (newValue) {
+            $scope.$watch('sub_profile.bitrate', function (newValue) {
                 valid('次码流码率', newValue, 128, 10240);
             });
         };
         isValid = function () {
-            if (valid('主码流帧率', $scope.main_profile.frame_rate, 1, 30) && valid('主码流码率', $scope.main_profile.bit_rate_value, 128, 10240) && valid('次码流帧率', $scope.sub_profile.frame_rate, 1, 30) && valid('次码流码率', $scope.sub_profile.bit_rate_value, 128, 10240)) {
+            if (valid('主码流帧率', $scope.main_profile.framerate, 1, 30) && valid('主码流码率', $scope.main_profile.bitrate, 128, 10240) && valid('次码流帧率', $scope.sub_profile.framerate, 1, 30) && valid('次码流码率', $scope.sub_profile.bitrate, 128, 10240)) {
                 return true;
             } else {
                 return false;
@@ -905,15 +905,15 @@ ipcApp.controller('StreamController', [
                     mirror: $scope.mirror,
                     main_profile: {
                         resolution: $scope.main_profile.resolution,
-                        frame_rate: $scope.main_profile.frame_rate,
-                        bit_rate: $scope.main_profile.bit_rate,
-                        bit_rate_value: $scope.main_profile.bit_rate_value
+                        frame_rate: $scope.main_profile.framerate,
+                        mode: $scope.main_profile.mode,
+                        bitrate: $scope.main_profile.bitrate
                     },
                     sub_profile: {
                         resolution: $scope.sub_profile.resolution,
-                        frame_rate: $scope.sub_profile.frame_rate,
-                        bit_rate: $scope.sub_profile.bit_rate,
-                        bit_rate_value: $scope.sub_profile.bit_rate_value
+                        frame_rate: $scope.sub_profile.framerate,
+                        mode: $scope.sub_profile.mode,
+                        bitrate: $scope.sub_profile.bitrate
                     }
                 }
             }).success(function () {

@@ -42,7 +42,7 @@
                     <label class="col-sm-3 control-label" for="master_frame_rate">帧率</label>
                     <div class="col-sm-8">
                         <div class="input-group">
-                            <input class="form-control" id="master_frame_rate" max="30" min="1" ng-model="main_profile.frame_rate" type="number" />
+                            <input class="form-control" id="master_frame_rate" max="30" min="1" ng-model="main_profile.framerate" type="number" />
                             <span class="input-group-addon">(1-30) fps</span>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="master_bit_rate_ctrl">码率控制</label>
                     <div class="col-sm-8">
-                        <select class="form-control" id="master_bit_rate_ctrl" ng-model="main_profile.bit_rate">
+                        <select class="form-control" id="master_bit_rate_ctrl" ng-model="main_profile.mode">
                             <option value="CBR">CBR</option>
                             <option value="VBR">VBR</option>
                         </select>
@@ -60,7 +60,7 @@
                     <label class="col-sm-3 control-label" for="master_bit_rate">码率</label>
                     <div class="col-sm-8">
                         <div class="input-group">
-                            <input class="form-control" id="master_bit_rate" ng-model="main_profile.bit_rate_value" type="number" />
+                            <input class="form-control" id="master_bit_rate" ng-model="main_profile.bitrate" type="number" />
                             <span class="input-group-addon">(128 - 10240) Kbps</span>
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                     <label class="col-sm-3 control-label" for="slave_frame_rate">帧率</label>
                     <div class="col-sm-8">
                         <div class="input-group">
-                            <input class="form-control" id="slave_frame_rate" max="30" min="1" ng-model="sub_profile.frame_rate" type="number" />
+                            <input class="form-control" id="slave_frame_rate" max="30" min="1" ng-model="sub_profile.framerate" type="number" />
                             <span class="input-group-addon">(1-30) fps</span>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="slave_bit_rate_ctrl">码率控制</label>
                     <div class="col-sm-8">
-                        <select class="form-control" id="slave_bit_rate_ctrl" ng-model="sub_profile.bit_rate">
+                        <select class="form-control" id="slave_bit_rate_ctrl" ng-model="sub_profile.mode">
                             <option value="CBR">CBR</option>
                             <option value="VBR">VBR</option>
                         </select>
@@ -105,7 +105,7 @@
                     <label class="col-sm-3 control-label" for="slave_bit_rate">码率</label>
                     <div class="col-sm-8">
                         <div class="input-group">
-                            <input class="form-control" id="slave_bit_rate" ng-model="sub_profile.bit_rate_value" type="number" />
+                            <input class="form-control" id="slave_bit_rate" ng-model="sub_profile.bitrate" type="number" />
                             <span class="input-group-addon">(128 - 10240) Kbps</span>
                         </div>
                     </div>
