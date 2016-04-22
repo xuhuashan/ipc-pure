@@ -315,7 +315,6 @@ ipcApp.controller('DateTimeController', [
                 v: new Date().getTime()
             }
         }).success(function (data) {
-            var d, local_date;
             $scope.timezone_list = [{
                 value: "DatelineStandardTime12",
                 text: "(UTC-12:00)国际日期变更线西"
@@ -613,9 +612,7 @@ ipcApp.controller('DateTimeController', [
             }];
             $scope.timezone = data.items.timezone;
             $scope.datetime_type = data.items.use_ntp ? '2' : '1';
-            d = new Date(data.items.datetime.replace(/-/g, '/'));
-            local_date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds()));
-            $scope.datetime = dateFormat(local_date, 'yyyy-MM-dd hh:mm:ss');
+            $scope.datetime = data.items.datetime;
             $scope.ntp_server = data.items.ntp_server;
             $('[name=datetime_type][value=' + $scope.datetime_type + ']').iCheck('check');
             add_watch();
@@ -655,7 +652,7 @@ ipcApp.controller('DateTimeController', [
             });
         };
         $scope.save = function (e) {
-            var $btn, d, date, hours, minutes, month, postData, seconds, use_ntp, year;
+            var $btn, postData, use_ntp;
             if ($scope.datetime_msg || $scope.ntp_server_msg) {
                 return;
             }
@@ -667,19 +664,7 @@ ipcApp.controller('DateTimeController', [
             if (use_ntp) {
                 postData.ntp_server = $scope.ntp_server;
             } else {
-                d = new Date($scope.datetime);
-                year = d.getUTCFullYear();
-                month = d.getUTCMonth() + 1;
-                month = month < 10 ? '0' + month : month;
-                date = d.getUTCDate();
-                date = date < 10 ? '0' + date : date;
-                hours = d.getUTCHours();
-                hours = hours < 10 ? '0' + hours : hours;
-                minutes = d.getUTCMinutes();
-                minutes = minutes < 10 ? '0' + minutes : minutes;
-                seconds = d.getUTCSeconds();
-                seconds = seconds < 10 ? '0' + seconds : seconds;
-                postData.datetime = year + '-' + month + '-' + date + ' ' + hours + ':' + minutes + ':' + seconds;
+                postData.datetime = $scope.datetime;
             }
             $btn = $(e.target);
             $btn.button('loading');

@@ -408,7 +408,11 @@ ipcApp.directive('ngDatetime', ['$compile', function ($compile) {
             if (!$ngModel) {
                 return;
             }
-            $element.datetimepicker();
+            return $element.datetimepicker().on('dp.change', function (e) {
+                $scope.$apply(function () {
+                    $ngModel.$setViewValue(e.date.format('YYYY-MM-DD HH:mm:ss'));
+                });
+            });
         }
     };
 }]);
