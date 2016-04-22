@@ -1,7 +1,7 @@
 # IP HD network camera
 高清网络摄像机
 
-打包流程：
+## 打包流程：
 
 1、安装node环境
 
