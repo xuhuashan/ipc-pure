@@ -890,13 +890,13 @@ ipcApp.controller('StreamController', [
                     mirror: $scope.mirror,
                     main_profile: {
                         resolution: $scope.main_profile.resolution,
-                        frame_rate: $scope.main_profile.framerate,
+                        framerate: $scope.main_profile.framerate,
                         mode: $scope.main_profile.mode,
                         bitrate: $scope.main_profile.bitrate
                     },
                     sub_profile: {
                         resolution: $scope.sub_profile.resolution,
-                        frame_rate: $scope.sub_profile.framerate,
+                        framerate: $scope.sub_profile.framerate,
                         mode: $scope.sub_profile.mode,
                         bitrate: $scope.sub_profile.bitrate
                     }
