@@ -1147,9 +1147,9 @@ ipcApp.controller('OsdController', [
                     $scope.comment = data.items[name].comment;
                     $scope.comment.left = ($scope.comment.left / 10).toFixed(1);
                     $scope.comment.top = ($scope.comment.top / 10).toFixed(1);
-                    $scope.frame_rate = data.items[name].frame_rate;
-                    $scope.frame_rate.left = ($scope.frame_rate.left / 10).toFixed(1);
-                    $scope.frame_rate.top = ($scope.frame_rate.top / 10).toFixed(1);
+                    $scope.framerate = data.items[name].framerate;
+                    $scope.framerate.left = ($scope.framerate.left / 10).toFixed(1);
+                    $scope.framerate.top = ($scope.framerate.top / 10).toFixed(1);
                     $scope.bit_rate = data.items[name].bit_rate;
                     $scope.bit_rate.left = ($scope.bit_rate.left / 10).toFixed(1);
                     $scope.bit_rate.top = ($scope.bit_rate.top / 10).toFixed(1);
@@ -1162,10 +1162,10 @@ ipcApp.controller('OsdController', [
             });
         };
         master_params = {
-            master: ['datetime', 'device_name', 'comment', 'frame_rate', 'bit_rate']
+            master: ['datetime', 'device_name', 'comment', 'framerate', 'bit_rate']
         };
         slave_params = {
-            slave: ['datetime', 'device_name', 'comment', 'frame_rate', 'bit_rate']
+            slave: ['datetime', 'device_name', 'comment', 'framerate', 'bit_rate']
         };
         getOsdInfo('master', master_params);
         $scope.osd_type = 0;
@@ -1181,7 +1181,7 @@ ipcApp.controller('OsdController', [
         obj = {
             'device_name': '【设备名称】',
             'comment': '【设备说明】',
-            'frame_rate': '【帧率】',
+            'framerate': '【帧率】',
             'bit_rate': '【码率】',
             'datetime': '【日期时间】'
         };
@@ -1250,7 +1250,7 @@ ipcApp.controller('OsdController', [
             postData = {
                 device_name: $.extend({}, $scope.device_name),
                 comment: $.extend({}, $scope.comment),
-                frame_rate: $.extend({}, $scope.frame_rate),
+                framerate: $.extend({}, $scope.framerate),
                 bit_rate: $.extend({}, $scope.bit_rate),
                 datetime: $.extend({}, $scope.datetime)
             };
@@ -1258,8 +1258,8 @@ ipcApp.controller('OsdController', [
             postData.device_name.top = parseFloat($scope.device_name.top) * 10;
             postData.comment.left = parseFloat($scope.comment.left) * 10;
             postData.comment.top = parseFloat($scope.comment.top) * 10;
-            postData.frame_rate.left = parseFloat($scope.frame_rate.left) * 10;
-            postData.frame_rate.top = parseFloat($scope.frame_rate.top) * 10;
+            postData.framerate.left = parseFloat($scope.framerate.left) * 10;
+            postData.framerate.top = parseFloat($scope.framerate.top) * 10;
             postData.bit_rate.left = parseFloat($scope.bit_rate.left) * 10;
             postData.bit_rate.top = parseFloat($scope.bit_rate.top) * 10;
             postData.datetime.left = parseFloat($scope.datetime.left) * 10;
