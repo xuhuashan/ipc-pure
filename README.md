@@ -1,4 +1,4 @@
-## IP HD network camera
+## IP high definition network camera
 高清网络摄像机
 
 ## 打包流程
