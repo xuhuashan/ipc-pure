@@ -155,7 +155,12 @@
             </div>
         </div>
         <div class="screen-wrap" id="screen_wrap" ng-style="{left: (role=='user'?'0px':'300px')}">
-            <object classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159928" codebase="/Project1.cab#version=1,0,0,0" events="True" height="100%" id="vlc" ng-error="playVlc()" width="100%"></object>
+            <object classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" codebase="http://download.videolan.org/pub/videolan/vlc/last/win32/axvlc.cab" events="True" height="100%" id="vlc" ng-error="playVlc()" width="100%">
+                <param name="branding" value="false" />
+                <param name="toolbar" value="false" />
+                <param name="allowfullscreen" value="false" />
+                <embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org" text="Waiting for Video" branding="false" windowless="true" allowfullscreen="false" toolbar="false" name="vlc" width="100%" height="100%" />
+            </object>
         </div>
     </div>
     <div class="home-footer">
