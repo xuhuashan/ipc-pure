@@ -102,31 +102,31 @@ window.delCookie = function (name) {
     }
 };
 
-if (location.href.indexOf('login') === -1) {
-    token = getCookie('token');
-    if (token) {
-        $.ajax({
-            url: window.apiUrl + '/login.json',
-            type: 'POST',
-            data: JSON.stringify({
-                token: token
-            }),
-            contentType: 'application/json',
-            success: function (data) {
-                if (data.success === false) {
-                    delCookie('username');
-                    delCookie('userrole');
-                    delCookie('token');
-                    setTimeout(function () {
-                        location.href = '/login';
-                    }, 200);
-                }
-            }
-        });
-    } else {
-        location.href = '/login';
-    }
-}
+// if (location.href.indexOf('login') === -1) {
+//     token = getCookie('token');
+//     if (token) {
+//         $.ajax({
+//             url: window.apiUrl + '/login.json',
+//             type: 'POST',
+//             data: JSON.stringify({
+//                 token: token
+//             }),
+//             contentType: 'application/json',
+//             success: function (data) {
+//                 if (data.success === false) {
+//                     delCookie('username');
+//                     delCookie('userrole');
+//                     delCookie('token');
+//                     setTimeout(function () {
+//                         location.href = '/login';
+//                     }, 200);
+//                 }
+//             }
+//         });
+//     } else {
+//         location.href = '/login';
+//     }
+// }
 
 window.dateFormat = function (str, format) {
     var d, k, n, o;

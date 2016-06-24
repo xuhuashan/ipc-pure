@@ -4,8 +4,7 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     rev = require('gulp-rev'),
     collector = require('gulp-rev-collector'),
-    clean = require('gulp-clean'),
-    watch = require('gulp-watch');
+    clean = require('gulp-clean');
 
 // 默认监听
 gulp.task('default', function () {
