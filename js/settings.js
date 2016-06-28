@@ -1122,159 +1122,345 @@ ipcApp.controller('DayNightModeController', [
 ipcApp.controller('OsdController', [
     '$scope', '$http',
     function ($scope, $http) {
-        var add_watch, getOsdInfo, isValid, master_params, obj, slave_params, valid_font_size, valid_left_or_top;
-        getOsdInfo = function (name, params) {
-            $.ajax({
-                url: "" + $scope.$parent.url + "/osd.json",
-                data: {
-                    items: params
+        $http.get($scope.$parent.url + "/font.json", {
+            params: {
+                v: new Date().getTime()
+            }
+        }).success(function (data) {
+            // var data = {
+            //     items: [{
+            //       "family": "Sans",
+            //       "style": "Regular"
+            //     }, {
+            //       "family": "Bitstream Vera Sans",
+            //       "style": "Roman"
+            //     }, {
+            //       "family": "Bitstream Vera Sans",
+            //       "style": "Bold"
+            //     }, {
+            //       "family": "Bitstream Vera Sans",
+            //       "style": "Oblique"
+            //     }, {
+            //       "family": "Bitstream Vera Sans",
+            //       "style": "Bold Oblique"
+            //     }]
+            // };
+            $scope.font_list = data.items
+        }).error(function (response, status, headers, config) {
+            $scope.$parent.get_error(response, status, headers, config);
+        });
+
+        var get_osd_list = function () {
+            $http.get($scope.$parent.url + "/osd.json", {
+                params: {
+                    'items[]': '',
+                    v: new Date().getTime()
+                }
+            }).success(function (data) {
+                // var data = {
+                //     items: [{
+                //         "ID": 0,
+                //         "Type": "DATE",
+                //         "Position": {
+                //             "x": 128,
+                //             "y": 64
+                //         },
+                //         "BgColor": {
+                //             red: 25,
+                //             green: 213,
+                //             blue: 0,
+                //             alpha: 1
+                //         },
+                //         "FgAlpha": 128,
+                //         "BgAlpha": 16,
+                //         "InvertColor": false,
+                //         "Text": "%D %T",
+                //         "FontName": "Sans-48:Regular",
+                //         "FontColor": {
+                //             red: 0,
+                //             green: 0,
+                //             blue: 0,
+                //             alpha: 1
+                //         }
+                //     }, {
+                //         "ID": 1,
+                //         "Type": "TEXT",
+                //         "Position": {
+                //             "x": 128,
+                //             "y": 200
+                //         },
+                //         "BgColor": {
+                //             red: 0,
+                //             green: 0,
+                //             blue: 0,
+                //             alpha: 1
+                //         },
+                //         "FgAlpha": 128,
+                //         "BgAlpha": 16,
+                //         "InvertColor": false,
+                //         "Text": "高清网络摄像机",
+                //         "FontName": "Sans-48",
+                //         "FontColor": {
+                //             red: 0,
+                //             green: 0,
+                //             blue: 0,
+                //             alpha: 1
+                //         }
+                //     }, {
+                //         "ID": 2,
+                //         "Type": "IMAGE",
+                //         "Position": {
+                //             "x": 128,
+                //             "y": 200
+                //         },
+                //         "BgColor": {
+                //             red: 0,
+                //             green: 0,
+                //             blue: 0,
+                //             alpha: 1
+                //         },
+                //         "FgAlpha": 128,
+                //         "BgAlpha": 16,
+                //         "InvertColor": false,
+                //         "ImagePath": "logo.png"
+                //     }]
+                // };
+                $scope.items = data.items;
+            }).error(function (response, status, headers, config) {
+                $scope.$parent.get_error(response, status, headers, config);
+            });
+        };
+        get_osd_list();
+
+        $scope.typeMap = {
+            DATE: '日期',
+            TEXT: '文本',
+            IMAGE: '图像'
+        };
+
+        $scope.form_data = {
+            Stream: '',
+            Type: 'DATE',
+            Position: {
+                x: 0,
+                y: 0
+            },
+            BgColor: {
+                red: 0,
+                green: 0,
+                blue: 0,
+                alpha: 1
+            },
+            FgAlpha: 0,
+            BgAlpha: 0,
+            InvertColor: false,
+            Text: '',
+            FontName: '',
+            FontFamily: '',
+            FontSize: 24,
+            FontStyle: '',
+            FontColor: {
+                red: 0,
+                green: 0,
+                blue: 0,
+                alpha: 1
+            },
+            ImagePath: ''
+        };
+
+        $scope.show_add_modal = function (stream) {
+            $scope.operate_type = 'add';
+            $scope.form_data = {
+                Stream: stream,
+                Type: 'DATE',
+                Position: {
+                    x: 0,
+                    y: 0
                 },
+                BgColor: {
+                    red: 0,
+                    green: 0,
+                    blue: 0,
+                    alpha: 1
+                },
+                FgAlpha: 0,
+                BgAlpha: 0,
+                InvertColor: false,
+                Text: '',
+                FontName: '',
+                FontFamily: '',
+                FontSize: 24,
+                FontStyle: '',
+                FontColor: {
+                    red: 0,
+                    green: 0,
+                    blue: 0,
+                    alpha: 1
+                },
+                ImagePath: ''
+            };
+            $scope.form_valid_msg = '';
+            $scope.add_title = '添加' + (stream == 'main' ? '主码流' : '次码流') + 'OSD';
+            $('#osd_modal').modal();
+        };
+        $scope.show_edit_modal = function (item) {
+            $scope.operate_type = 'edit';
+            $scope.form_data.ID = item.ID;
+            $scope.form_data.Stream = item.Stream;
+            $scope.form_data.Type = item.Type;
+            $scope.form_data.Position = item.Position;
+            $scope.form_data.BgColor = item.BgColor;
+            $scope.form_data.FgAlpha = item.FgAlpha;
+            $scope.form_data.BgAlpha = item.BgAlpha;
+            $scope.form_data.InvertColor = item.InvertColor;
+            $scope.form_data.Text = item.Text;
+            $scope.form_data.FontName = item.FontName;
+            $scope.form_data.FontFamily = item.FontName.split('-')[0];
+            $scope.form_data.FontSize = parseInt(item.FontName.split('-')[1].split(':')[0]);
+            $scope.form_data.FontStyle = item.FontName.split('-')[1].split(':')[1];
+            $scope.form_data.FontColor = item.FontColor;
+            $scope.form_data.ImagePath = item.ImagePath;
+            $('#fg_alpha_slider').val(item.FgAlpha);
+            $('#bg_alpha_slider').val(item.BgAlpha);
+            $scope.form_valid_msg = '';
+            $scope.add_title = '编辑' + (item.Stream == 'main' ? '主码流' : '次码流') + 'OSD';
+            $('#osd_modal').modal();
+        };
+        $scope.show_delete_modal = function (item) {
+            $scope.operate_type = 'delete';
+            $scope.current_osd = item.ID;
+            $('#osd_confirm_modal').modal();
+        };
+        $scope.add_or_edit_osd = function (e) {
+            var $btn, http_type, postData;
+            if ($scope.form_data.Type === '') {
+                $scope.form_valid_msg = '请选择类型';
+                return;
+            }
+            if ($scope.form_data.Type === 'DATE' || $scope.form_data.Type === 'TEXT') {
+                if ($scope.form_data.Text === '' && $scope.form_data.Type === 'DATE') {
+                    $scope.form_valid_msg = '请输入日期格式';
+                    return;
+                }
+                if ($scope.form_data.Text === '' && $scope.form_data.Type === 'TEXT') {
+                    $scope.form_valid_msg = '请输入文本内容';
+                    return;
+                }
+                if ($scope.form_data.FontFamily === '') {
+                    $scope.form_valid_msg = '请选择字体';
+                    return;
+                }
+                if ($scope.form_data.FontSize === '') {
+                    $scope.form_valid_msg = '请输入字号';
+                    return;
+                }
+                if ($scope.form_data.FontStyle === '') {
+                    $scope.form_valid_msg = '请选择字体样式';
+                    return;
+                }
+            }
+            if ($scope.form_data.Type === 'IMAGE') {
+                debugger
+                if ($scope.form_data.ImagePath === '') {
+                    $scope.form_valid_msg = '请选择图片';
+                    return;
+                }
+            }
+            $scope.form_valid_msg = '';
+            postData = {
+                Stream: $scope.form_data.Stream,
+                Type: $scope.form_data.Type,
+                Position: $scope.form_data.Position,
+                BgColor: $scope.form_data.BgColor,
+                FgAlpha: $scope.form_data.FgAlpha,
+                BgAlpha: $scope.form_data.BgAlpha,
+                InvertColor: $scope.form_data.InvertColor,
+                Text: $scope.form_data.Text
+            };
+            if ($scope.form_data.Type == 'DATE' || $scope.form_data.Type == 'TEXT') {
+                postData.FontName = $scope.form_data.FontFamily + '-' + $scope.form_data.FontSize + ':' + $scope.form_data.FontStyle;
+                postData.FontColor = $scope.form_data.FontColor;
+            }
+            if ($scope.operate_type === 'add') {
+                http_type = 'post';
+            } else {
+                http_type = 'put';
+                postData.ID = $scope.form_data.ID;
+            }
+            $btn = $(e.target);
+            $btn.button('loading');
+            if ($scope.form_data.Type == 'IMAGE') {
+                $.ajaxFileUpload({
+                    url: window.uploadUrl + "/upload.fcgi",
+                    secureuri: false,
+                    fileElementId: 'image_path',
+                    success: function (data, status) {
+                        postData.ImagePath = data;
+                        save($btn, http_type, postData);
+                    },
+                    error: function (data, status, e) {
+                        $scope.$parent.show_msg('alert-success', data);
+                    }
+                });
+            } else {
+                save($btn, http_type, postData);
+            }
+        };
+
+        var save = function ($btn, http_type, postData) {
+            $http[http_type]($scope.$parent.url + "/osd.json", {
+                items: [postData]
+            }).success(function (result) {
+                $btn.button('reset');
+                if (result.items && result.items.length !== 0) {
+                    $('#osd_modal').modal('hide');
+                    $scope.$parent.show_msg('alert-success', '操作成功');
+                    get_osd_list();
+                } else {
+                    $('#osd_modal').modal('hide');
+                    $scope.$parent.show_msg('alert-danger', '操作失败');
+                }
+            }).error(function (response, status, headers, config) {
+                $btn.button('reset');
+                if (status === 401) {
+                    location.href = '/login';
+                } else {
+                    $('#osd_modal').modal('hide');
+                    $scope.$parent.show_msg('alert-danger', '操作失败');
+                }
+            });
+        };
+
+        $scope.delete_osd = function (e) {
+            var $btn;
+            $btn = $(e.target);
+            $btn.button('loading');
+            $.ajax({
+                url: $scope.$parent.url + "/osd.json",
+                type: 'DELETE',
+                data: JSON.stringify({
+                    items: [{
+                        Id: $scope.current_osd
+                    }]
+                }),
                 headers: {
                     'Set-Cookie': 'token=' + getCookie('token')
                 },
                 success: function (data) {
-                    $scope.device_name = data.items[name].device_name;
-                    $scope.device_name.left = ($scope.device_name.left / 10).toFixed(1);
-                    $scope.device_name.top = ($scope.device_name.top / 10).toFixed(1);
-                    $scope.comment = data.items[name].comment;
-                    $scope.comment.left = ($scope.comment.left / 10).toFixed(1);
-                    $scope.comment.top = ($scope.comment.top / 10).toFixed(1);
-                    $scope.framerate = data.items[name].framerate;
-                    $scope.framerate.left = ($scope.framerate.left / 10).toFixed(1);
-                    $scope.framerate.top = ($scope.framerate.top / 10).toFixed(1);
-                    $scope.bit_rate = data.items[name].bit_rate;
-                    $scope.bit_rate.left = ($scope.bit_rate.left / 10).toFixed(1);
-                    $scope.bit_rate.top = ($scope.bit_rate.top / 10).toFixed(1);
-                    $scope.datetime = data.items[name].datetime;
-                    $scope.datetime.left = ($scope.datetime.left / 10).toFixed(1);
-                    $scope.datetime.top = ($scope.datetime.top / 10).toFixed(1);
-                    add_watch();
-                    $scope.$apply();
+                    $btn.button('reset');
+                    $('#osd_confirm_modal').modal('hide');
+                    $scope.$parent.show_msg('alert-success', '删除成功');
+                    get_osd_list();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $btn.button('reset');
+                    if (jqXHR.status === 401) {
+                        location.href = '/login';
+                    } else {
+                        $('#osd_confirm_modal').modal('hide');
+                        $scope.$parent.show_msg('alert-danger', '删除失败');
+                    }
                 }
-            });
-        };
-        master_params = {
-            master: ['datetime', 'device_name', 'comment', 'framerate', 'bit_rate']
-        };
-        slave_params = {
-            slave: ['datetime', 'device_name', 'comment', 'framerate', 'bit_rate']
-        };
-        getOsdInfo('master', master_params);
-        $scope.osd_type = 0;
-        $scope.valid_msg = '';
-        $scope.changeOsd = function (type) {
-            $scope.osd_type = type;
-            if (type === 0) {
-                getOsdInfo('master', master_params);
-            } else {
-                getOsdInfo('slave', slave_params);
-            }
-        };
-        obj = {
-            'device_name': '【设备名称】',
-            'comment': '【设备说明】',
-            'framerate': '【帧率】',
-            'bit_rate': '【码率】',
-            'datetime': '【日期时间】'
-        };
-        add_watch = function () {
-            var name;
-            for (name in obj) {
-                $scope.$watch("" + name + ".size", function (newValue) {
-                    valid_font_size(obj[this.exp.split('.size')[0]], '字号', newValue);
-                });
-                $scope.$watch("" + name + ".left", function (newValue) {
-                    valid_left_or_top(obj[this.exp.split('.left')[0]], '左边距', newValue);
-                });
-                $scope.$watch("" + name + ".top", function (newValue) {
-                    valid_left_or_top(obj[this.exp.split('.top')[0]], '上边距', newValue);
-                });
-            }
-        };
-        valid_font_size = function (name, field, value) {
-            if (value === null) {
-                $scope.valid_msg = name + field + '不能为空';
-                return false;
-            } else if (value === void 0) {
-                $scope.valid_msg = name + field + '必须为数字';
-                return false;
-            } else if (value < 1 || value > 100) {
-                $scope.valid_msg = name + field + '的范围为1 - 100';
-                return false;
-            } else {
-                $scope.valid_msg = '';
-                return true;
-            }
-        };
-        valid_left_or_top = function (name, field, value) {
-            if (!value) {
-                $scope.valid_msg = name + field + '不能为空';
-                return false;
-            } else if (isNaN(value)) {
-                $scope.valid_msg = name + field + '必须为数字';
-                return false;
-            } else if (parseFloat(value) < 1 || parseFloat(value) > 100) {
-                $scope.valid_msg = name + field + '的范围为 1.0% - 100.0%';
-                return false;
-            } else {
-                $scope.valid_msg = '';
-                return true;
-            }
-        };
-        isValid = function () {
-            var name;
-            for (name in obj) {
-                if (!valid_font_size(obj[name], '字号', $scope[name].size)) {
-                    return false;
-                } else if (!valid_left_or_top(obj[name], '左边距', $scope[name].left)) {
-                    return false;
-                } else if (!valid_left_or_top(obj[name], '上边距', $scope[name].top)) {
-                    return false;
-                }
-            }
-            return true;
-        };
-        $scope.save = function (e) {
-            var $btn, data, postData;
-            if (!isValid()) {
-                return;
-            }
-            postData = {
-                device_name: $.extend({}, $scope.device_name),
-                comment: $.extend({}, $scope.comment),
-                framerate: $.extend({}, $scope.framerate),
-                bit_rate: $.extend({}, $scope.bit_rate),
-                datetime: $.extend({}, $scope.datetime)
-            };
-            postData.device_name.left = parseFloat($scope.device_name.left) * 10;
-            postData.device_name.top = parseFloat($scope.device_name.top) * 10;
-            postData.comment.left = parseFloat($scope.comment.left) * 10;
-            postData.comment.top = parseFloat($scope.comment.top) * 10;
-            postData.framerate.left = parseFloat($scope.framerate.left) * 10;
-            postData.framerate.top = parseFloat($scope.framerate.top) * 10;
-            postData.bit_rate.left = parseFloat($scope.bit_rate.left) * 10;
-            postData.bit_rate.top = parseFloat($scope.bit_rate.top) * 10;
-            postData.datetime.left = parseFloat($scope.datetime.left) * 10;
-            postData.datetime.top = parseFloat($scope.datetime.top) * 10;
-            if ($scope.osd_type === 0) {
-                data = {
-                    master: postData
-                };
-            } else {
-                data = {
-                    slave: postData
-                };
-            }
-            $btn = $(e.target);
-            $btn.button('loading');
-            $http.put("" + $scope.$parent.url + "/osd.json", {
-                items: data
-            }).success(function () {
-                $btn.button('reset');
-                $scope.$parent.success('保存成功');
-            }).error(function (response, status, headers, config) {
-                $btn.button('reset');
-                $scope.$parent.error(response, status, headers, config);
             });
         };
     }

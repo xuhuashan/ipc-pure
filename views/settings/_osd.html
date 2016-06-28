@@ -9,11 +9,11 @@
 <form class="form-horizontal" role="form">
     <div class="form-group">
         <div class="col-sm-12">
-            <button class="btn btn-sm btn-success" ng-click="show_add_modal()">
-                <i class="fa fa-plus"></i> 添加主码流项
+            <button class="btn btn-sm btn-success" ng-click="show_add_modal('main')">
+                <i class="fa fa-plus"></i> 添加主码流OSD
             </button>
-            <button class="btn btn-sm btn-success" ng-click="show_add_modal()">
-                <i class="fa fa-plus"></i> 添加子码流项
+            <button class="btn btn-sm btn-success" ng-click="show_add_modal('sub')">
+                <i class="fa fa-plus"></i> 添加次码流OSD
             </button>
         </div>
     </div>
@@ -35,16 +35,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                        <tr ng-repeat="item in items">
+                            <td ng-bind="typeMap[item.Type]"></td>
+                            <td ng-bind="'x: ' + item.Position.x + ', y: ' + item.Position.y"></td>
                             <td>
+                                <div class="color-box" style="background-color: rgba({{item.BgColor.red}}, {{item.BgColor.green}}, {{item.BgColor.blue}}, {{item.BgColor.alpha}});"></div>
+                                rgba({{item.BgColor.red}}, {{item.BgColor.green}}, {{item.BgColor.blue}}, {{item.BgColor.alpha}})
+                            </td>
+                            <td ng-bind="item.FgAlpha"></td>
+                            <td ng-bind="item.BgAlpha"></td>
+                            <td ng-bind="item.InvertColor ? '开' : '关'"></td>
+                            <td ng-bind="item.Text"></td>
+                            <td ng-bind="item.FontName"></td>
+                            <td class="operation">
                                 <a class="fa fa-edit fa-lg" href="javascript:;" ng-click="show_edit_modal(item)" title="修改"></a>
                                 <a class="fa fa-trash-o fa-lg" href="javascript:;" ng-click="show_delete_modal(item)" title="删除"></a>
                             </td>
@@ -52,296 +55,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-    </div>
-</form>
-<!-- <ul class="nav nav-tabs" role="tablist">
-    <li ng-class="{active: osd_type == 0}">
-        <a href="javascript:;" ng-click="changeOsd(0)">主码流</a>
-    </li>
-    <li ng-class="{active: osd_type == 1}">
-        <a href="javascript:;" ng-click="changeOsd(1)">次码流</a>
-    </li>
-</ul>
-<form class="form-horizontal form-ipc clearfix" role="form">
-    <div class="col-sm-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <strong>设备名称</strong>
-            </div>
-            <div class="panel-body">
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="device_name_isshow">显示</label>
-                    <div class="col-sm-6">
-                        <input id="device_name_isshow" ng-bswitch="" ng-model="device_name.isshow" type="checkbox" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="device_name_size">字号</label>
-                    <div class="col-sm-6">
-                        <input class="form-control input-sm" id="device_name_size" max="100" min="1" ng-model="device_name.size" type="number" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="device_name_left">左边距</label>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <input class="form-control input-sm" id="device_name_left" max="100" min="0" ng-model="device_name.left" type="text" />
-                            <div class="input-group-addon">
-                                %
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="device_name_top">上边距</label>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <input class="form-control input-sm" id="device_name_top" max="100" min="0" ng-model="device_name.top" type="text" />
-                            <div class="input-group-addon">
-                                %
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">颜色</label>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <input class="form-control input-sm color-text" readonly="readonly" type="text" />
-                            <div class="input-group-addon" ng-color="" ng-model="device_name.color">
-                                <div class="color-block"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <strong>设备说明</strong>
-            </div>
-            <div class="panel-body">
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="comment_isshow">显示</label>
-                    <div class="col-sm-6">
-                        <input id="comment_isshow" ng-bswitch="" ng-model="comment.isshow" type="checkbox" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="comment_size">字号</label>
-                    <div class="col-sm-6">
-                        <input class="form-control input-sm" id="comment_size" max="100" min="1" ng-model="comment.size" type="number" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="comment_left">左边距</label>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <input class="form-control input-sm" id="comment_left" max="100" min="0" ng-model="comment.left" type="text" />
-                            <div class="input-group-addon">
-                                %
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="comment_top">上边距</label>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <input class="form-control input-sm" id="comment_top" max="100" min="0" ng-model="comment.top" type="text" />
-                            <div class="input-group-addon">
-                                %
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">颜色</label>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <input class="form-control input-sm color-text" readonly="readonly" type="text" />
-                            <div class="input-group-addon" ng-color="" ng-model="comment.color">
-                                <div class="color-block"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <strong>帧率</strong>
-            </div>
-            <div class="panel-body">
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="frame_rate_isshow">显示</label>
-                    <div class="col-sm-6">
-                        <input id="frame_rate_isshow" ng-bswitch="" ng-model="frame_rate.isshow" type="checkbox" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="frame_rate_size">字号</label>
-                    <div class="col-sm-6">
-                        <input class="form-control input-sm" id="frame_rate_size" max="100" min="1" ng-model="frame_rate.size" type="number" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="frame_rate_left">左边距</label>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <input class="form-control input-sm" id="frame_rate_left" max="100" min="0" ng-model="frame_rate.left" type="text" />
-                            <div class="input-group-addon">
-                                %
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="frame_rate_top">上边距</label>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <input class="form-control input-sm" id="frame_rate_top" max="100" min="0" ng-model="frame_rate.top" type="text" />
-                            <div class="input-group-addon">
-                                %
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">颜色</label>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <input class="form-control input-sm color-text" readonly="readonly" type="text" />
-                            <div class="input-group-addon" ng-color="" ng-model="frame_rate.color">
-                                <div class="color-block"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <strong>码率</strong>
-            </div>
-            <div class="panel-body">
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="bit_rate_isshow">显示</label>
-                    <div class="col-sm-6">
-                        <input id="bit_rate_isshow" ng-bswitch="" ng-model="bit_rate.isshow" type="checkbox" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="bit_rate_size">字号</label>
-                    <div class="col-sm-6">
-                        <input class="form-control input-sm" id="bit_rate_size" max="100" min="1" ng-model="bit_rate.size" type="number" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="bit_rate_left">左边距</label>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <input class="form-control input-sm" id="bit_rate_left" max="100" min="0" ng-model="bit_rate.left" type="text" />
-                            <div class="input-group-addon">
-                                %
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="bit_rate_top">上边距</label>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <input class="form-control input-sm" id="bit_rate_top" max="100" min="0" ng-model="bit_rate.top" type="text" />
-                            <div class="input-group-addon">
-                                %
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">颜色</label>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <input class="form-control input-sm color-text" readonly="readonly" type="text" />
-                            <div class="input-group-addon" ng-color="" ng-model="bit_rate.color">
-                                <div class="color-block"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <strong>日期时间</strong>
-            </div>
-            <div class="panel-body">
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="datetime_isshow">显示</label>
-                    <div class="col-sm-6">
-                        <input id="datetime_isshow" ng-bswitch="" ng-model="datetime.isshow" type="checkbox" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="datetime_size">字号</label>
-                    <div class="col-sm-6">
-                        <input class="form-control input-sm" id="datetime_size" max="100" min="1" ng-model="datetime.size" type="number" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="datetime_left">左边距</label>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <input class="form-control input-sm" id="datetime_left" max="100" min="0" ng-model="datetime.left" type="text" />
-                            <div class="input-group-addon">
-                                %
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="datetime_top">上边距</label>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <input class="form-control input-sm" id="datetime_top" max="100" min="0" ng-model="datetime.top" type="text" />
-                            <div class="input-group-addon">
-                                %
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">颜色</label>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <input class="form-control input-sm color-text" readonly="readonly" type="text" />
-                            <div class="input-group-addon" ng-color="" ng-model="datetime.color">
-                                <div class="color-block"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-12">
-        <p class="text-danger" ng-bind="valid_msg"></p>
-    </div>
-</form> -->
-<form class="form-horizontal form-ipc-footer" role="form">
-    <div class="form-group clearfix">
-        <div class="col-sm-offset-3 col-sm-9">
-            <button class="btn btn-primary" data-loading-text="保存中..." ng-click="save($event)" type="button">保 存</button>
         </div>
     </div>
 </form>
@@ -359,33 +72,118 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="control-label col-sm-3" for="user_name">用户名</label>
+                        <label class="control-label col-sm-3">类型</label>
                         <div class="col-sm-8">
-                            <input class="form-control" id="user_name" ng-disabled="operate_type == &quot;edit&quot;" ng-model="add_user_name" type="text" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-3" for="password">密 码</label>
-                        <div class="col-sm-8">
-                            <input class="form-control" id="password" ng-model="add_password" type="password" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-3" for="role">角 色</label>
-                        <div class="col-sm-8">
-                            <select class="form-control" id="role" ng-model="add_role">
-                                <option value="administrator">administrator</option>
-                                <option value="operator">operator</option>
-                                <option value="user">user</option>
+                            <select class="form-control" ng-model="form_data.Type">
+                                <option value="DATE">日期</option>
+                                <option value="TEXT">文本</option>
+                                <option value="IMAGE">图像</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">位置</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <span class="input-group-addon">X</span>
+                                <input type="number" class="form-control" ng-model="form_data.Position.x">
+                                <span class="input-group-addon">Y</span>
+                                <input type="number" class="form-control" ng-model="form_data.Position.y">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">背景色</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input class="form-control color-text" readonly="readonly" type="text" />
+                                <div class="input-group-addon" ng-color="" ng-model="form_data.BgColor">
+                                    <div class="color-block"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">背景色透明度</label>
+                        <div class="col-sm-6">
+                            <div id="bg_alpha_slider" min="0" max="128" ng-model="form_data.BgAlpha" ng-slider=""></div>
+                        </div>
+                        <div class="col-sm-3">
+                            <p class="form-control-static">
+                                <span ng-bind="form_data.BgAlpha"></span>&nbsp;(0 - 128)
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">前景色透明度</label>
+                        <div class="col-sm-6">
+                            <div id="fg_alpha_slider" min="0" max="128" ng-model="form_data.FgAlpha" ng-slider=""></div>
+                        </div>
+                        <div class="col-sm-3">
+                            <p class="form-control-static">
+                                <span ng-bind="form_data.FgAlpha"></span>&nbsp;(0 - 128)
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">反色开关</label>
+                        <div class="col-sm-8">
+                            <input type="checkbox" ng-bswitch="" ng-model="form_data.InvertColor" />
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="form_data.Type == 'DATE'">
+                        <label class="control-label col-sm-3">日期格式</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" ng-show="form_data.Type == 'DATE'">
+                                <input type="text" class="form-control" ng-model="form_data.Text" />
+                                <div class="input-group-addon">例如：%D %T</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="form_data.Type == 'TEXT'">
+                        <label class="control-label col-sm-3">文本</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" ng-model="form_data.Text" />
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="form_data.Type == 'DATE' || form_data.Type == 'TEXT'">
+                        <label class="control-label col-sm-3">字体</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" ng-model="form_data.FontFamily" ng-options="item.family as item.family for item in font_list"></select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="form_data.Type == 'DATE' || form_data.Type == 'TEXT'">
+                        <label class="control-label col-sm-3">字号/样式</label>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" ng-model="form_data.FontSize" />
+                        </div>
+                        <div class="col-sm-4">
+                            <select class="form-control" ng-model="form_data.FontStyle" ng-options="item.style as item.style for item in font_list"></select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="form_data.Type == 'DATE' || form_data.Type == 'TEXT'">
+                        <label class="control-label col-sm-3">字体颜色</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input class="form-control color-text" readonly="readonly" type="text" />
+                                <div class="input-group-addon" ng-color="" ng-model="form_data.FontColor">
+                                    <div class="color-block"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="form_data.Type == 'IMAGE'">
+                        <label class="control-label col-sm-3">图片</label>
+                        <div class="col-sm-8">
+                            <input id="image_path" type="file" accept="image/bmp, image/png" class="form-control" ng-fileread ng-model="form_data.ImagePath" />
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <span class="text-danger pull-left" ng-bind="add_user_msg"></span>
+                <span class="text-danger pull-left" ng-bind="form_valid_msg"></span>
                 <button class="btn btn-default" data-dismiss="modal" type="button">取 消</button>
-                <button class="btn btn-primary" data-loading-text="操作中..." ng-click="add_or_edit_user($event)" type="button">确 定</button>
+                <button class="btn btn-primary" data-loading-text="操作中..." ng-click="add_or_edit_osd($event)" type="button">确 定</button>
             </div>
         </div>
     </div>
@@ -400,10 +198,10 @@
                 </button>
                 <h4 class="modal-title">确认</h4>
             </div>
-            <div class="modal-body">确定要删除该用户吗？</div>
+            <div class="modal-body">确定要删除该OSD项吗？</div>
             <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal" type="button">取 消</button>
-                <button class="btn btn-primary" data-loading-text="删除中..." ng-click="delete_user($event)" type="button">确 定</button>
+                <button class="btn btn-primary" data-loading-text="删除中..." ng-click="delete_osd($event)" type="button">确 定</button>
             </div>
         </div>
     </div>

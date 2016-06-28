@@ -1061,6 +1061,12 @@ select.form-control {
 .osd .btn-color {
   width: 100%;
 }
+.osd .color-box {
+  display: inline-block;
+  width: 19px;
+  height: 19px;
+  vertical-align: middle;
+}
 .input .form-ipc {
   padding-bottom: 20px;
 }

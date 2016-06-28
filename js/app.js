@@ -102,31 +102,31 @@ window.delCookie = function (name) {
     }
 };
 
-// if (location.href.indexOf('login') === -1) {
-//     token = getCookie('token');
-//     if (token) {
-//         $.ajax({
-//             url: window.apiUrl + '/login.json',
-//             type: 'POST',
-//             data: JSON.stringify({
-//                 token: token
-//             }),
-//             contentType: 'application/json',
-//             success: function (data) {
-//                 if (data.success === false) {
-//                     delCookie('username');
-//                     delCookie('userrole');
-//                     delCookie('token');
-//                     setTimeout(function () {
-//                         location.href = '/login';
-//                     }, 200);
-//                 }
-//             }
-//         });
-//     } else {
-//         location.href = '/login';
-//     }
-// }
+if (location.href.indexOf('login') === -1) {
+    token = getCookie('token');
+    if (token) {
+        $.ajax({
+            url: window.apiUrl + '/login.json',
+            type: 'POST',
+            data: JSON.stringify({
+                token: token
+            }),
+            contentType: 'application/json',
+            success: function (data) {
+                if (data.success === false) {
+                    delCookie('username');
+                    delCookie('userrole');
+                    delCookie('token');
+                    setTimeout(function () {
+                        location.href = '/login';
+                    }, 200);
+                }
+            }
+        });
+    } else {
+        location.href = '/login';
+    }
+}
 
 window.dateFormat = function (str, format) {
     var d, k, n, o;
@@ -302,23 +302,27 @@ ipcApp.directive('ngColor', ['$compile', function ($compile) {
             $element.colorpicker().on('changeColor', function (e) {
                 var rgb;
                 rgb = e.color.toRGB();
-                $scope.$apply(function () {
-                    $ngModel.$setViewValue({
-                        red: rgb.r,
-                        green: rgb.g,
-                        blue: rgb.b,
-                        alpha: rgb.a
+                if(!$scope.$$phase) {
+                    $scope.$apply(function () {
+                        $ngModel.$setViewValue({
+                            red: rgb.r,
+                            green: rgb.g,
+                            blue: rgb.b,
+                            alpha: rgb.a
+                        });
+                        // $ngModel.$setViewValue(rgb);
                     });
-                });
+                }
             });
             $scope.$watch($attrs.ngModel, function (newValue) {
-                var hex;
+                // var hex;
                 if (newValue) {
-                    hex = '#' + ((1 << 24) | (parseInt(newValue.red) << 16) | (parseInt(newValue.green) << 8) | parseInt(newValue.blue)).toString(16).substr(1);
-                    hex.toUpperCase();
-                    $element.colorpicker('setValue', hex, true);
-                    $element.find('.color-block').css('background', hex);
-                    $element.parent().find('.color-text').val(hex);
+                    // hex = '#' + ((1 << 24) | (parseInt(newValue.red) << 16) | (parseInt(newValue.green) << 8) | parseInt(newValue.blue)).toString(16).substr(1);
+                    // hex.toUpperCase();
+                    var rgba = 'rgba(' + newValue.red + ', ' + newValue.green + ', ' + newValue.blue + ', ' + newValue.alpha + ')';
+                    $element.colorpicker('setValue', rgba);
+                    $element.find('.color-block').css('background', rgba);
+                    $element.parent().find('.color-text').val(rgba);
                 }
             });
         }
@@ -434,4 +438,26 @@ ipcApp.directive('ngTimegantt', ['$compile', function ($compile) {
             });
         }
     };
+}]);
+
+ipcApp.directive('ngFileread', ['$compile', function ($compile) {
+    return {
+        restrict: 'A',
+        require: '?ngModel',
+        link: function ($scope, $element, $attrs, $ngModel) {
+            if (!$ngModel) {
+                return;
+            }
+            $element.on('change', function (e) {
+                $scope.$apply(function () {
+                    $ngModel.$setViewValue(e.target.value);
+                });
+            });
+            $scope.$watch($attrs.ngModel, function (newValue) {
+                if (newValue === '') {
+                    $element.val(newValue);
+                }
+            });
+        }
+    }
 }]);
