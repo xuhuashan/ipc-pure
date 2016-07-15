@@ -676,7 +676,7 @@ ipcApp.controller('DateTimeController', [
 ipcApp.controller('MaintenanceController', [
     '$scope', '$http', '$timeout',
     function ($scope, $http, $timeout) {
-        var anim_timeout, get_upgrade, hide_confirm, reboot_animation, reboot_timeout, show_confirm, upgrade_animation, upgrade_timeout;
+        var anim_timeout, do_upload, filename, do_verify, do_upgrade, wait_reboot, hide_confirm, reboot_animation, reboot_timeout, show_confirm, upgrade_animation, upgrade_timeout;
         $scope.operate_type = '';
         $scope.confirm_content = '';
         $scope.is_reboot = false;
@@ -757,33 +757,108 @@ ipcApp.controller('MaintenanceController', [
                 upgrade_animation();
             }, 1000);
         };
-        get_upgrade = function () {
-            $timeout.cancel(upgrade_timeout);
-            upgrade_timeout = $timeout(function () {
-                $http.get("" + $scope.$parent.url + "/upgrade.json", {
-                    params: {
-                        v: new Date().getTime()
-                    }
-                }).success(function (data) {
-                    if (data.status === 0) {
-                        $scope.step = 1;
-                        $scope.upgrading = false;
-                        $scope.$parent.show_msg('alert-danger', '文件错误');
-                        window.onbeforeunload = null;
-                        $timeout.cancel(anim_timeout);
+        do_upload = function () {
+            $.ajaxFileUpload({
+                url: "" + window.uploadUrl + "/cgi-bin/upload.cgi",
+                secureuri: false,
+                fileElementId: 'file_path',
+                dataType: 'json',
+                success: function (data, status) {
+                    if (status == "success") {
+                        filename = data.filename;
+                        do_verify();
                         return;
                     }
-                    $scope.step = data.status;
-                    get_upgrade();
-                }).error(function (response, status, headers, config) {
-                    window.onbeforeunload = null;
-                    $scope.step = 4;
-                    $timeout(function () {
+                    $scope.step = 0;
+                    $scope.upgrading = false;
+                    $scope.$parent.show_msg('alert-danger', '上传文件失败');
+                    $timeout.cancel(anim_timeout);
+                },
+                error: function (data, status, e) {
+                    $scope.step = 0;
+                    $scope.upgrading = false;
+                    $scope.$parent.show_msg('alert-danger', '上传文件失败');
+                    $timeout.cancel(anim_timeout);
+                }
+            });
+        }
+        do_verify = function () {
+            $scope.step = 2;
+            $http.post("/cgi-bin/upgrade.cgi",
+                "action=verify&filename=" + encodeURIComponent(filename), {
+                transformRequest: function (data) {
+                    return data;
+                }
+            }).success(function (data) {
+                if (data.status == "OK") {
+                    do_upgrade();
+                    return;
+                }
+                $scope.step = 0;
+                $scope.upgrading = false;
+                $scope.$parent.show_msg('alert-danger', '文件检验错误');
+                window.onbeforeunload = null;
+                $timeout.cancel(anim_timeout);
+            }).error(function (response, status, headers, config) {
+                $scope.step = 0;
+                $scope.upgrading = false;
+                $scope.$parent.show_msg('alert-danger', '文件校验失败');
+                window.onbeforeunload = null;
+                $timeout.cancel(anim_timeout);
+            });
+        }
+        do_upgrade = function () {
+            $scope.step = 3;
+            $http.post("/cgi-bin/upgrade.cgi",
+                "action=upgrade&filename=" + encodeURIComponent(filename), {
+                transformRequest: function (data) {
+                    return data;
+                }
+            }).success(function (data) {
+                if (data.status == "OK") {
+                    wait_reboot();
+                    return;
+                }
+                $scope.step = 0;
+                $scope.upgrading = false;
+                $scope.$parent.show_msg('alert-danger', '升级失败');
+                window.onbeforeunload = null;
+                $timeout.cancel(anim_timeout);
+            }).error(function (response, status, headers, config) {
+                $scope.step = 0;
+                $scope.upgrading = false;
+                $scope.$parent.show_msg('alert-danger', '升级失败');
+                window.onbeforeunload = null;
+                $timeout.cancel(anim_timeout);
+            });
+        }
+        wait_reboot = function () {
+            $scope.step = 4;
+            $timeout.cancel(upgrade_timeout);
+            upgrade_timeout = $timeout(function () {
+                $http.post("/cgi-bin/upgrade.cgi",
+                    "action=checkstatus", {
+                    timeout: 1000,
+                    transformRequest: function (data) {
+                        return data;
+                    }
+                }).then(function successCallback(response) {
+                    if (response.data.status == "OK") {
                         $scope.step = 5;
-                        location.href = '/login';
-                    }, 30000);
+                        $scope.upgrading = false;
+                        window.onbeforeunload = null;
+                        $timeout.cancel(anim_timeout);
+                        $scope.$parent.show_msg('alert-success', '升级完成');
+                        $timeout(function () {
+                            location.href = '/login';
+                        }, 2000);
+                        return;
+                    }
+                    wait_reboot();
+                }, function errorCallback(response) {
+                    wait_reboot();
                 });
-            }, 1000);
+            }, 2000);
         };
         $scope.upload_file = function () {
             $scope.upload_msg = '';
@@ -796,17 +871,29 @@ ipcApp.controller('MaintenanceController', [
             window.onbeforeunload = function () {
                 var returnValue;
                 returnValue = '系统正在进行升级，请等待升级完成后再进行操作！';
+                return returnValue;
             };
-            $.ajaxFileUpload({
-                url: "" + window.uploadUrl + "/upload.fcgi",
-                secureuri: false,
-                fileElementId: 'file_path',
-                success: function (data, status) {
-                    get_upgrade();
-                },
-                error: function (data, status, e) {
-                    alert(e);
+            $http.post("" + window.uploadUrl + "/cgi-bin/upgrade.cgi",
+                "action=switchmode", {
+                transformRequest: function(data) {
+                    return data;
                 }
+            }).success(function (response) {
+                if (response.status == "OK") {
+                    do_upload();
+                    return;
+                }
+                $scope.step = 0;
+                $scope.upgrading = false;
+                $scope.$parent.show_msg('alert-danger', '无法进入升级模式');
+                window.onbeforeunload = null;
+                $timeout.cancel(anim_timeout);
+            }).error(function (response, status, headers, config) {
+                $scope.step = 0;
+                $scope.upgrading = false;
+                $scope.$parent.show_msg('alert-danger', '无法进入升级模式');
+                window.onbeforeunload = null;
+                $timeout.cancel(anim_timeout);
             });
         };
     }

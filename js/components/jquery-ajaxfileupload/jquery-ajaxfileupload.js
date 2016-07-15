@@ -1,4 +1,10 @@
 jQuery.extend({
+    handleError: function(s, xhr, status, e) {
+        if (s.error)
+            s.error(xhr, status, e);
+        else if(xhr.responseText)
+            console.log(xhr.responseText);
+    },
     createUploadIframe: function(id, uri) {
         var frameId = 'jUploadFrame' + id;
         var iframeHtml = '<iframe id="' + frameId + '" name="' + frameId + '" style="position:absolute; top:-9999px; left:-9999px"';
@@ -143,7 +149,7 @@ jQuery.extend({
         if (type == "script")
             jQuery.globalEval(data);
         if (type == "json")
-            eval("data = " + data);
+            data = jQuery.parseJSON(jQuery(data).text());
         if (type == "html")
             jQuery("<div>").html(data).evalScripts();
         return data;
